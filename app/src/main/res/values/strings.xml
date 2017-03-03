@@ -16,4 +16,8 @@
     </string>
     <string name="app_name_login">Listen To Me</string>
     <string name="listen_to_me_icon">ListenToMeIcon</string>
+    <string name="bottom_nav_listen">听力</string>
+    <string name="bottom_nav_speech">口语</string>
+    <string name="bottom_nav_social">社区</string>
+    <string name="bottom_nav_profile">我的</string>
 </resources>
