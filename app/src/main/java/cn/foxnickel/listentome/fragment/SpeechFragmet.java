@@ -14,9 +14,13 @@ import cn.foxnickel.listentome.R;
  */
 
 public class SpeechFragmet extends Fragment {
+
+    private View mRootView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_speech,container,false);
+        mRootView = inflater.inflate(R.layout.fragment_speech, container, false);
+        ;
+        return mRootView;
     }
 }

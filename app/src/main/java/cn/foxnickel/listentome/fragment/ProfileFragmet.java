@@ -14,9 +14,12 @@ import cn.foxnickel.listentome.R;
  */
 
 public class ProfileFragmet extends Fragment {
+
+    private View mRootView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_profile,container,false);
+        mRootView = inflater.inflate(R.layout.fragment_profile, container, false);
+        return mRootView;
     }
 }

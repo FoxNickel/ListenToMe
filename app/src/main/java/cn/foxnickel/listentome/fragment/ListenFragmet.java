@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import cn.bingoogolapple.bgabanner.BGABanner;
 import cn.foxnickel.listentome.R;
 
 /**
@@ -14,9 +15,15 @@ import cn.foxnickel.listentome.R;
  */
 
 public class ListenFragmet extends Fragment {
+    private View mRootView;
+    private BGABanner mBanneer;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_listen,container,false);
+        mRootView = inflater.inflate(R.layout.fragment_listen, container, false);
+        mBanneer = (BGABanner) mRootView.findViewById(R.id.pic_banner);
+        mBanneer.setData(R.drawable.pic1, R.drawable.pic2, R.drawable.pic3);
+        return mRootView;
     }
+
 }
