@@ -19,13 +19,13 @@ import static android.view.View.GONE;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener{
 
-    private BottomNavigationBar bottomNavigationBar;
-    private ListenFragmet listenFragmet;
-    private SpeechFragmet speechFragmet;
-    private SocialFragmet socialFragmet;
-    private ProfileFragmet profileFragmet;
-    private Toolbar toolbar;
-    private SearchView searchView;
+    private BottomNavigationBar mBottomNavigationBar;
+    private ListenFragmet mListenFragmet;
+    private SpeechFragmet mSpeechFragmet;
+    private SocialFragmet mSocialFragmet;
+    private ProfileFragmet mProfileFragmet;
+    private Toolbar mToolbar;
+    private SearchView mSearchView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,25 +33,25 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         initToolBar();
         initBottomNavBar();
         initTab();
-        bottomNavigationBar.setTabSelectedListener(this);
+        mBottomNavigationBar.setTabSelectedListener(this);
     }
 
     /*初始化ToolBar*/
     private void initToolBar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        searchView = (SearchView) findViewById(R.id.search);
-        toolbar.setTitle("听力频道");//进入app时标题显示听力频道
-        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-        setSupportActionBar(toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mSearchView = (SearchView) findViewById(R.id.search);
+        mToolbar.setTitle("听力频道");//进入app时标题显示听力频道
+        mToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        setSupportActionBar(mToolbar);
     }
 
     /*初始化底部导航栏*/
     private void initBottomNavBar(){
-        bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_nav_bar);
-        bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
-        bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);//适应大小
-        bottomNavigationBar.setBarBackgroundColor(R.color.colorPrimary);
-        bottomNavigationBar.addItem(new BottomNavigationItem(
+        mBottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_nav_bar);
+        mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
+        mBottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);//适应大小
+        mBottomNavigationBar.setBarBackgroundColor(R.color.colorPrimary);
+        mBottomNavigationBar.addItem(new BottomNavigationItem(
                 R.drawable.listen_fill,R.string.bottom_nav_listen)//点击之后的图标
                 .setInactiveIconResource(R.drawable.listen)//未点击的图标
                 .setActiveColorResource(R.color.appNameColor))//点击之后的字体颜色
@@ -73,9 +73,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
     /*初始化底部导航栏的默认选中Tab*/
     private void initTab(){
-        listenFragmet = new ListenFragmet();
+        mListenFragmet = new ListenFragmet();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.content_main,listenFragmet);
+        transaction.replace(R.id.content_main, mListenFragmet);
         transaction.commit();
     }
 
@@ -85,39 +85,39 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         switch (position){
             case 0:
-                toolbar.setVisibility(View.VISIBLE);
-                toolbar.setTitle("听力频道");//点击听力模块时标题显示听力频道
-                searchView.setVisibility(GONE);
-                if(listenFragmet == null){
-                    listenFragmet = new ListenFragmet();
+                mToolbar.setVisibility(View.VISIBLE);
+                mToolbar.setTitle("听力频道");//点击听力模块时标题显示听力频道
+                mSearchView.setVisibility(GONE);
+                if(mListenFragmet == null){
+                    mListenFragmet = new ListenFragmet();
                 }
-                transaction.replace(R.id.content_main,listenFragmet);
+                transaction.replace(R.id.content_main, mListenFragmet);
                 break;
             case 1:
-                toolbar.setVisibility(View.VISIBLE);
-                toolbar.setTitle("口语天地");//点击口语模块时标题显示口语天地
-                searchView.setVisibility(GONE);
-                if(speechFragmet == null){
-                    speechFragmet = new SpeechFragmet();
+                mToolbar.setVisibility(View.VISIBLE);
+                mToolbar.setTitle("口语天地");//点击口语模块时标题显示口语天地
+                mSearchView.setVisibility(GONE);
+                if(mSpeechFragmet == null){
+                    mSpeechFragmet = new SpeechFragmet();
                 }
-                transaction.replace(R.id.content_main,speechFragmet);
+                transaction.replace(R.id.content_main, mSpeechFragmet);
                 break;
             case 2:
-                toolbar.setVisibility(GONE);
-                searchView.setVisibility(View.VISIBLE);
-                if(socialFragmet == null){
-                    socialFragmet = new SocialFragmet();
+                mToolbar.setVisibility(GONE);
+                mSearchView.setVisibility(View.VISIBLE);
+                if(mSocialFragmet == null){
+                    mSocialFragmet = new SocialFragmet();
                 }
-                transaction.replace(R.id.content_main,socialFragmet);
+                transaction.replace(R.id.content_main, mSocialFragmet);
                 break;
             case 3:
-                toolbar.setVisibility(View.VISIBLE);
-                toolbar.setTitle("个人中心");//点击我的时标题显示个人中心
-                searchView.setVisibility(GONE);
-                if(profileFragmet == null){
-                    profileFragmet = new ProfileFragmet();
+                mToolbar.setVisibility(View.VISIBLE);
+                mToolbar.setTitle("个人中心");//点击我的时标题显示个人中心
+                mSearchView.setVisibility(GONE);
+                if(mProfileFragmet == null){
+                    mProfileFragmet = new ProfileFragmet();
                 }
-                transaction.replace(R.id.content_main,profileFragmet);
+                transaction.replace(R.id.content_main, mProfileFragmet);
                 break;
         }
         transaction.commit();
