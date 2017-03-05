@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <android.support.v7.widget.Toolbar
+    <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -18,8 +18,7 @@
     <cn.bingoogolapple.bgabanner.BGABanner
         android:id="@+id/pic_banner"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="128dp"
         app:banner_transitionEffect="accordion" />
 
     <android.support.design.widget.TabLayout
@@ -33,8 +32,6 @@
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3">
-
-    </android.support.v4.view.ViewPager>
+        android:layout_weight="3" />
 
 </LinearLayout>

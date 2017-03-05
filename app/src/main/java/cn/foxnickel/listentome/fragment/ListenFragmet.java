@@ -31,9 +31,19 @@ public class ListenFragmet extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_listen, container, false);
+        initPicBanner();
+        initViewPager(inflater, container);
+        return mRootView;
+    }
+
+    /*初始化图片Banner*/
+    private void initPicBanner() {
         mBanneer = (BGABanner) mRootView.findViewById(R.id.pic_banner);
         mBanneer.setData(R.drawable.pic4, R.drawable.pic4, R.drawable.pic4);
+    }
 
+    /*初始化试题选择ViewPager*/
+    private void initViewPager(LayoutInflater inflater, @Nullable ViewGroup container) {
         mViewList = new ArrayList<>();
         mExerciseView = inflater.inflate(R.layout.exercise, container, false);
         mExamView = inflater.inflate(R.layout.exam, container, false);
@@ -48,8 +58,5 @@ public class ListenFragmet extends Fragment {
 
         mTabLayout = (TabLayout) mRootView.findViewById(R.id.tabLayout);
         mTabLayout.setupWithViewPager(mViewPager);
-
-        return mRootView;
     }
-
 }
