@@ -1,4 +1,4 @@
-package cn.foxnickel.listentome.fragment.adapter;
+package cn.foxnickel.listentome.adapter;
 
 import android.support.v4.view.PagerAdapter;
 import android.view.View;

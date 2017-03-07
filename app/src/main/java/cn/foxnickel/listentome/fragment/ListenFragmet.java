@@ -14,7 +14,7 @@ import java.util.List;
 
 import cn.bingoogolapple.bgabanner.BGABanner;
 import cn.foxnickel.listentome.R;
-import cn.foxnickel.listentome.fragment.adapter.ListenPagerAdapter;
+import cn.foxnickel.listentome.adapter.ListenPagerAdapter;
 
 /**
  * Created by Administrator on 2017/3/3.
