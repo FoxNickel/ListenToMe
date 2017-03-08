@@ -1,8 +1,11 @@
 package cn.foxnickel.listentome.adapter;
 
-import android.support.v4.view.PagerAdapter;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v4.app.FragmentPagerAdapter;
+
+import android.content.Context;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.List;
 
@@ -10,14 +13,23 @@ import java.util.List;
  * Created by Administrator on 2017/3/5.
  */
 
-public class ListenPagerAdapter extends PagerAdapter {
+
+public class ListenPagerAdapter extends FragmentPagerAdapter {
 
     private final int PAGER_COUNT = 2;
-    private List<View> mViewList;
-    private String[] mPageTitles = {"练习", "考试"};
+    private Context mContext;
+    private List<Fragment> mFragmentList;
+    private String[] mPagerTitles = {"练习", "考试"};
 
-    public ListenPagerAdapter(List<View> viewList) {
-        mViewList = viewList;
+    public ListenPagerAdapter(FragmentManager fm, Context context, List<Fragment> fragmentList) {
+        super(fm);
+        mContext = context;
+        mFragmentList = fragmentList;
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        return mFragmentList.get(position);
     }
 
     @Override
@@ -26,18 +38,7 @@ public class ListenPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public boolean isViewFromObject(View view, Object object) {
-        return view == object;
-    }
-
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        container.addView(mViewList.get(position));
-        return mViewList.get(position);
-    }
-
-    @Override
     public CharSequence getPageTitle(int position) {
-        return mPageTitles[position];
+        return mPagerTitles[position];
     }
 }
