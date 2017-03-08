@@ -40,7 +40,7 @@ public class ListenFragmet extends Fragment {
     /*初始化图片Banner*/
     private void initPicBanner() {
         mBanneer = (BGABanner) mRootView.findViewById(R.id.pic_banner);
-        mBanneer.setData(R.drawable.pic4, R.drawable.pic4, R.drawable.pic4);
+        mBanneer.setData(R.drawable.pic4, R.drawable.pic4, R.drawable.pic6);
     }
 
     private void initViewPager() {
