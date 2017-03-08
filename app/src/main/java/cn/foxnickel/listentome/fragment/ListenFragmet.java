@@ -41,7 +41,7 @@ public class ListenFragmet extends Fragment {
         mFragmentList.add(new ExerciseFragment());
         mFragmentList.add(new ExamFragment());
 
-        ListenPagerAdapter listenPagerAdapter = new ListenPagerAdapter(getFragmentManager(), getContext(), mFragmentList);
+        ListenPagerAdapter listenPagerAdapter = new ListenPagerAdapter(getChildFragmentManager(), getContext(), mFragmentList);
         mTabLayout = (TabLayout) mRootView.findViewById(R.id.tab_layout);
         mViewPager = (ViewPager) mRootView.findViewById(R.id.view_pager);
         mViewPager.setAdapter(listenPagerAdapter);

@@ -18,8 +18,7 @@
     <cn.bingoogolapple.bgabanner.BGABanner
         android:id="@+id/pic_banner"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="128dp"
         app:banner_transitionEffect="accordion" />
 
     <android.support.design.widget.TabLayout
