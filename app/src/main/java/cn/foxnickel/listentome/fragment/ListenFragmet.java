@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import java.util.List;
 import cn.bingoogolapple.bgabanner.BGABanner;
 import cn.foxnickel.listentome.R;
 import cn.foxnickel.listentome.adapter.ListenPagerAdapter;
+import cn.foxnickel.listentome.adapter.RecyclerAdapter;
 
 /**
  * Created by Administrator on 2017/3/3.
@@ -27,12 +30,16 @@ public class ListenFragmet extends Fragment {
     private List<View> mViewList;
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
+    private RecyclerView mRecyclerView;
+    private RecyclerAdapter mRecyclerAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_listen, container, false);
         initPicBanner();
         initViewPager(inflater, container);
+        initRecyclerView();
         return mRootView;
     }
 
@@ -58,5 +65,14 @@ public class ListenFragmet extends Fragment {
 
         mTabLayout = (TabLayout) mRootView.findViewById(R.id.tabLayout);
         mTabLayout.setupWithViewPager(mViewPager);
+    }
+
+    /*初始化试题界面*/
+    private void initRecyclerView() {
+        mRecyclerView = (RecyclerView) mExamView.findViewById(R.id.exam_recycler);
+        mRecyclerAdapter = new RecyclerAdapter(getContext());
+        mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setAdapter(mRecyclerAdapter);
+        mRecyclerView.setLayoutManager(mLayoutManager);
     }
 }

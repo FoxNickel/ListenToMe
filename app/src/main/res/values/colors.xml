@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="appNameColor">#FAF703</color>
     <color name="loginButtion">#105F8A</color>
+    <color name="transparent">#00000000</color>
 </resources>
