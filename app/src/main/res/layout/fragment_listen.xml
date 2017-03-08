@@ -5,28 +5,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:title="@string/listen_toobar_title"
-            app:titleTextColor="@android:color/white">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:title="@string/listen_toobar_title"
+        app:titleTextColor="@android:color/white">
 
-        </android.support.v7.widget.Toolbar>
+    </android.support.v7.widget.Toolbar>
 
     <cn.bingoogolapple.bgabanner.BGABanner
         android:id="@+id/pic_banner"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        app:banner_transitionEffect="accordion"></cn.bingoogolapple.bgabanner.BGABanner>
+        android:layout_height="128dp"
+        app:banner_transitionEffect="accordion" />
 
-    <TextView
-        android:text="Listen"
+    <android.support.design.widget.TabLayout
+        app:tabMode="fixed"
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabIndicatorColor="@color/colorPrimary" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
-        android:id="@+id/textView"
-        android:textSize="48sp"/>
+        android:layout_weight="3" />
+
 </LinearLayout>
