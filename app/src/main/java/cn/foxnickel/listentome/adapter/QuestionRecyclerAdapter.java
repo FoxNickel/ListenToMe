@@ -15,11 +15,11 @@ import cn.foxnickel.listentome.R;
  * Created by Administrator on 2017/3/8.
  */
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecyclerAdapter.ViewHolder> {
 
     private Context mContext;
 
-    public RecyclerAdapter(Context context) {
+    public QuestionRecyclerAdapter(Context context) {
         mContext = context;
     }
 

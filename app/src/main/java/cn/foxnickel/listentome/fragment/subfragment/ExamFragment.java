@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import cn.foxnickel.listentome.R;
-import cn.foxnickel.listentome.adapter.RecyclerAdapter;
+import cn.foxnickel.listentome.adapter.QuestionRecyclerAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,7 +19,7 @@ public class ExamFragment extends Fragment {
 
     private View mRootView;
     private RecyclerView mRecyclerView;
-    private RecyclerAdapter mRecyclerAdapter;
+    private QuestionRecyclerAdapter mRecyclerAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
@@ -28,7 +28,7 @@ public class ExamFragment extends Fragment {
         mRootView = inflater.inflate(R.layout.fragment_exam, container, false);
 
         mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.exam_recycler);
-        mRecyclerAdapter = new RecyclerAdapter(getContext());
+        mRecyclerAdapter = new QuestionRecyclerAdapter(getContext());
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setAdapter(mRecyclerAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
