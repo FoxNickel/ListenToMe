@@ -6,4 +6,5 @@
     <color name="appNameColor">#FAF703</color>
     <color name="loginButtion">#105F8A</color>
     <color name="transparent">#00000000</color>
+    <color name="red">#E81F1F</color>
 </resources>
