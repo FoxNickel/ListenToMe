@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -56,6 +57,16 @@ public class ProfileFragmet extends Fragment implements View.OnClickListener {
         mWord.setOnClickListener(this);
         mData.setOnClickListener(this);
         mAboutUs.setOnClickListener(this);
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+                if (id == R.id.action_setting) {
+                    Toast.makeText(getActivity(), "Settings Button", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+        });
     }
 
     @Override
