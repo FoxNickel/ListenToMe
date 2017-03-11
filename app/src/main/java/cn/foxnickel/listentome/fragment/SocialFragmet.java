@@ -33,7 +33,7 @@ public class SocialFragmet extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
-    
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
