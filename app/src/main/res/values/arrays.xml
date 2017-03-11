@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="developer_list">
+        <item>"小陈----Code"</item>
+        <item>"小樊----Code"</item>
+        <item>"小肖----Code"</item>
+        <item>"小莫----UI"</item>
+        <item>"小黄----PM"</item>
+    </string-array>
+</resources>

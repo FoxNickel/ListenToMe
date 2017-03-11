@@ -1,5 +1,7 @@
 package cn.foxnickel.listentome.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -94,7 +96,22 @@ public class ProfileFragmet extends Fragment implements View.OnClickListener {
                 Toast.makeText(getActivity(), "Mydata", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.about_us:
-                Toast.makeText(getActivity(), "Aboutus", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle(R.string.developers);
+                builder.setItems(R.array.developer_list, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
                 break;
         }
     }
