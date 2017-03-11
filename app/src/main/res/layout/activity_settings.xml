@@ -12,8 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        app:title="设置"
-        app:titleTextColor="@android:color/white"/>
+        app:theme="@style/toolbar_theme">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"/>
+
+    </android.support.v7.widget.Toolbar>
 
     <TextView
         android:layout_below="@id/toolbar"
