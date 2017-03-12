@@ -1,15 +1,21 @@
 package cn.foxnickel.listentome.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.blankj.utilcode.utils.ImageUtils;
 
 import java.util.ArrayList;
 
@@ -64,7 +70,10 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.ViewHolder
         holder.contents.setText(socialBean.getContents());
         holder.applaud.setText(socialBean.getApplaud());
         holder.terrible.setText(socialBean.getTerrible());
-        holder.avator.setImageURI(Uri.parse(socialBean.getImagePath()));
+        Bitmap bmp = ImageUtils.getBitmap(socialBean.getImagePath());
+        bmp=ImageUtils.toRound(bmp);
+         holder.avator.setImageBitmap(bmp);
+
     }
 
     @Override
@@ -89,7 +98,10 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.ViewHolder
             this.terrible = terrible;
             collection.setTag(false);
             clickEvents();
+
         }
+
+
 
         private void clickEvents() {
             collection.setOnClickListener(new View.OnClickListener() {
@@ -123,6 +135,7 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.ViewHolder
         public void onClick(View view) {
             SocialBean socialBean = mSocialBeanArrayList.get(getAdapterPosition());
             itemClickListener.onItemClick(view, getAdapterPosition());
+
         }
     }
 
