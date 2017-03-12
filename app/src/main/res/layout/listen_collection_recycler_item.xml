@@ -1,52 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/ripple">
+    app:cardCornerRadius="4dp"
+    app:cardElevation="4dp"
+    android:layout_margin="8dp">
 
-    <ImageView
-        android:id="@+id/question_image"
-        android:layout_width="160dp"
-        android:layout_height="216dp"
-        android:layout_marginBottom="24dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/pic5"
-        android:contentDescription="这是试卷"/>
-
-    <TextView
-        android:id="@+id/question_name"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_toEndOf="@id/question_image"
-        android:layout_toRightOf="@id/question_image"
-        android:text="《该套试题的名字》"/>
+        android:background="@drawable/ripple">
 
-    <TextView
-        android:id="@+id/question_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/question_name"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="72dp"
-        android:layout_toEndOf="@id/question_image"
-        android:layout_toRightOf="@id/question_image"
-        android:text="描述：*******************
+        <ImageView
+            android:id="@+id/question_image"
+            android:layout_width="160dp"
+            android:layout_height="216dp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription="这是试卷"
+            android:scaleType="centerCrop"
+            android:src="@drawable/pic5"/>
+
+        <TextView
+            android:id="@+id/question_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_toEndOf="@id/question_image"
+            android:layout_toRightOf="@id/question_image"
+            android:text="《该套试题的名字》"/>
+
+        <TextView
+            android:id="@+id/question_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/question_name"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="72dp"
+            android:layout_toEndOf="@id/question_image"
+            android:layout_toRightOf="@id/question_image"
+            android:text="描述：*******************
         **********************"/>
 
-    <TextView
-        android:id="@+id/queston_grade"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/question_description"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="72dp"
-        android:layout_toEndOf="@id/question_image"
-        android:layout_toRightOf="@id/question_image"
-        android:text="成绩：96分"/>
+        <TextView
+            android:id="@+id/queston_grade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/question_description"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="72dp"
+            android:layout_toEndOf="@id/question_image"
+            android:layout_toRightOf="@id/question_image"
+            android:text="成绩：96分"/>
 
-</RelativeLayout>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
