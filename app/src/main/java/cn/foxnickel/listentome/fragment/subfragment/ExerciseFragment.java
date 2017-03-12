@@ -51,12 +51,21 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
         switch (id) {
             case R.id.exercise_easy:
                 mModeImage.setImageResource(R.drawable.exercise_easy);
+                mEasy.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                mMiddle.setBackgroundColor(getResources().getColor(android.R.color.white));
+                mHard.setBackgroundColor(getResources().getColor(android.R.color.white));
                 break;
             case R.id.exercise_middle:
                 mModeImage.setImageResource(R.drawable.exercise_middle);
+                mMiddle.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                mEasy.setBackgroundColor(getResources().getColor(android.R.color.white));
+                mHard.setBackgroundColor(getResources().getColor(android.R.color.white));
                 break;
             case R.id.exercise_hard:
                 mModeImage.setImageResource(R.drawable.exercise_hard);
+                mHard.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                mMiddle.setBackgroundColor(getResources().getColor(android.R.color.white));
+                mEasy.setBackgroundColor(getResources().getColor(android.R.color.white));
                 break;
             case R.id.start_exercise:
                 Toast.makeText(getActivity(), "开始练习", Toast.LENGTH_SHORT).show();
