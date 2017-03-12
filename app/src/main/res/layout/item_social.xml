@@ -9,7 +9,7 @@
     android:layout_marginRight="10dp"
     android:layout_marginTop="16dp"
     app:cardBackgroundColor="#ffffff"
-    app:cardCornerRadius="10dp" app:cardElevation="8dp"
+    app:cardCornerRadius="10dp" app:cardElevation="10dp"
     app:contentPadding="16dp">
 
     <RelativeLayout
@@ -36,6 +36,7 @@
             android:layout_marginRight="13dp"
             android:onClick="click"
             android:src="@drawable/collection_style"/>
+
         <TextView
             android:id="@+id/tv_username"
             android:layout_width="wrap_content"
@@ -50,7 +51,7 @@
                   android:layout_height="wrap_content"
                   android:layout_below="@id/iv_avatar"
                   android:maxEms="18"
-                 android:maxLines="8"
+                  android:maxLines="8"
                   android:ellipsize="end"
                   android:layout_marginTop="40dp"
                   android:layout_marginBottom="16dp"

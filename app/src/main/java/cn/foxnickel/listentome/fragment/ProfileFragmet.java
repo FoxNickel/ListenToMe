@@ -1,5 +1,6 @@
 package cn.foxnickel.listentome.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import cn.foxnickel.listentome.R;
+import cn.foxnickel.listentome.SettingsActivity;
 
 /**
  * Created by Administrator on 2017/3/3.
@@ -62,7 +64,7 @@ public class ProfileFragmet extends Fragment implements View.OnClickListener {
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
                 if (id == R.id.action_setting) {
-                    Toast.makeText(getActivity(), "Settings Button", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getActivity(), SettingsActivity.class));
                 }
                 return true;
             }
