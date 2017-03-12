@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import cn.foxnickel.listentome.ListenCollectionActivity;
 import cn.foxnickel.listentome.R;
 import cn.foxnickel.listentome.SettingsActivity;
 
@@ -78,7 +79,7 @@ public class ProfileFragmet extends Fragment implements View.OnClickListener {
         int id = v.getId();
         switch (id) {
             case R.id.my_listen:
-                Toast.makeText(getActivity(), "Mylisten", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), ListenCollectionActivity.class));
                 break;
             case R.id.my_speech:
                 Toast.makeText(getActivity(), "Myspeech", Toast.LENGTH_SHORT).show();
