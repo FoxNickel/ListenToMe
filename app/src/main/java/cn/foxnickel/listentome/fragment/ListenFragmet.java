@@ -1,6 +1,5 @@
 package cn.foxnickel.listentome.fragment;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -45,7 +44,7 @@ public class ListenFragmet extends Fragment {
             @Override
             public void run() {
                 mBanneer = (BGABanner) mRootView.findViewById(R.id.pic_banner);
-                mBanneer.setData(R.drawable.pic4, R.drawable.pic4, R.drawable.pic6);
+                mBanneer.setData(R.drawable.pic1, R.drawable.pic2, R.drawable.pic3);
             }
         }.run();
 
