@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import cn.foxnickel.listentome.R;
-import cn.foxnickel.listentome.bean.ShijuanBean;
+import cn.foxnickel.listentome.bean.ListenExamBean;
 
 /**
  * Created by Administrator on 2017/3/12.
@@ -19,7 +19,7 @@ import cn.foxnickel.listentome.bean.ShijuanBean;
 
 public class ListenCollectionRecyclerAdapter extends RecyclerView.Adapter<ListenCollectionRecyclerAdapter.ViewHolder> {
     private Context mContext;
-    private List<ShijuanBean> mShijuanBeanList;
+    private List<ListenExamBean> mListenExamBeanList;
     private OnItemClickListener mItemClickListener;
 
     public interface OnItemClickListener {
@@ -30,9 +30,9 @@ public class ListenCollectionRecyclerAdapter extends RecyclerView.Adapter<Listen
         mItemClickListener = itemClickListener;
     }
 
-    public ListenCollectionRecyclerAdapter(Context context, List<ShijuanBean> shijuanBeanList) {
+    public ListenCollectionRecyclerAdapter(Context context, List<ListenExamBean> ListenExamBeanList) {
         mContext = context;
-        mShijuanBeanList = shijuanBeanList;
+        mListenExamBeanList = ListenExamBeanList;
     }
 
     @Override
@@ -44,15 +44,15 @@ public class ListenCollectionRecyclerAdapter extends RecyclerView.Adapter<Listen
 
     @Override
     public void onBindViewHolder(ListenCollectionRecyclerAdapter.ViewHolder holder, int position) {
-        ShijuanBean shijuanBean = mShijuanBeanList.get(position);
-        holder.mQuestionName.setText(shijuanBean.getQuestionName());
-        holder.mQuestionDescription.setText(shijuanBean.getQuestionDescription());
-        holder.mQuestionGrade.setText(shijuanBean.getGrade());
+        ListenExamBean ListenExamBean = mListenExamBeanList.get(position);
+        holder.mQuestionName.setText(ListenExamBean.getQuestionName());
+        holder.mQuestionDescription.setText(ListenExamBean.getQuestionDescription());
+        holder.mQuestionGrade.setText(ListenExamBean.getGrade());
     }
 
     @Override
     public int getItemCount() {
-        return mShijuanBeanList.size();
+        return mListenExamBeanList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

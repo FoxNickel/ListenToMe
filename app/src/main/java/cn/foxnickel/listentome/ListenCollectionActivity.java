@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.foxnickel.listentome.adapter.ListenCollectionRecyclerAdapter;
-import cn.foxnickel.listentome.bean.ShijuanBean;
+import cn.foxnickel.listentome.bean.ListenExamBean;
 import cn.foxnickel.listentome.utils.Constants;
 
 public class ListenCollectionActivity extends AppCompatActivity {
@@ -45,13 +45,13 @@ public class ListenCollectionActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        List<ShijuanBean> shijuanBeanList = new ArrayList<>();
-        shijuanBeanList.add(new ShijuanBean(Constants.QUESTION_IMAGE_PATH, "试卷名称", "试卷描述", "成绩 96 分"));
-        shijuanBeanList.add(new ShijuanBean(Constants.QUESTION_IMAGE_PATH, "试卷名称2", "试卷描述2", "成绩 97 分"));
-        shijuanBeanList.add(new ShijuanBean(Constants.QUESTION_IMAGE_PATH, "试卷名称3", "试卷描述3", "成绩 98 分"));
+        List<ListenExamBean> ListenExamBeanList = new ArrayList<>();
+        ListenExamBeanList.add(new ListenExamBean(Constants.QUESTION_IMAGE_PATH, "试卷名称", "试卷描述", "成绩 96 分"));
+        ListenExamBeanList.add(new ListenExamBean(Constants.QUESTION_IMAGE_PATH, "试卷名称2", "试卷描述2", "成绩 97 分"));
+        ListenExamBeanList.add(new ListenExamBean(Constants.QUESTION_IMAGE_PATH, "试卷名称3", "试卷描述3", "成绩 98 分"));
         mRecyclerView = (RecyclerView) findViewById(R.id.listen_collection_recycler);
         mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        mListenCollectionRecyclerAdapter = new ListenCollectionRecyclerAdapter(this, shijuanBeanList);
+        mListenCollectionRecyclerAdapter = new ListenCollectionRecyclerAdapter(this, ListenExamBeanList);
         mRecyclerView.setAdapter(mListenCollectionRecyclerAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mListenCollectionRecyclerAdapter.setOnItemClickListener(new ListenCollectionRecyclerAdapter.OnItemClickListener() {
