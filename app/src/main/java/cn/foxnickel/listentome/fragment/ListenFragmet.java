@@ -1,5 +1,7 @@
 package cn.foxnickel.listentome.fragment;
 
+import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -39,22 +41,44 @@ public class ListenFragmet extends Fragment {
 
     /*初始化图片Banner*/
     private void initPicBanner() {
-        mBanneer = (BGABanner) mRootView.findViewById(R.id.pic_banner);
-        mBanneer.setData(R.drawable.pic4, R.drawable.pic4, R.drawable.pic6);
+        new Runnable() {
+            @Override
+            public void run() {
+                mBanneer = (BGABanner) mRootView.findViewById(R.id.pic_banner);
+                mBanneer.setData(R.drawable.pic4, R.drawable.pic4, R.drawable.pic6);
+            }
+        }.run();
+
     }
 
     private void initViewPager() {
-        mFragmentList = new ArrayList<>();
+        new Asy().execute();
 
-        mFragmentList.add(new ExerciseFragment());
-        mFragmentList.add(new ExamFragment());
+    }
+    class Asy extends AsyncTask<Void,Void,Void>{
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mFragmentList = new ArrayList<>();
+            mViewPager = (ViewPager) mRootView.findViewById(R.id.viewPager);
+            mTabLayout = (TabLayout) mRootView.findViewById(R.id.tab_layout);
+            mTabLayout.setupWithViewPager(mViewPager);
+        }
 
-        ListenPagerAdapter listenPagerAdapter = new ListenPagerAdapter(getChildFragmentManager(), getContext(), mFragmentList);
+        @Override
+        protected void onPostExecute(Void Void) {
+            super.onPostExecute(Void);
+            ListenPagerAdapter listenPagerAdapter = new ListenPagerAdapter(getChildFragmentManager(), getContext(), mFragmentList);
+            mViewPager.setAdapter(listenPagerAdapter);
+        }
 
-        mViewPager = (ViewPager) mRootView.findViewById(R.id.viewPager);
-        mViewPager.setAdapter(listenPagerAdapter);
-
-        mTabLayout = (TabLayout) mRootView.findViewById(R.id.tab_layout);
-        mTabLayout.setupWithViewPager(mViewPager);
+        @Override
+        protected Void doInBackground(Void... voids) {
+            mFragmentList.add(new ExerciseFragment());
+            mFragmentList.add(new ExamFragment());
+            return null;
+        }
     }
 }
+
+

@@ -9,8 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
 import cn.foxnickel.listentome.R;
 import cn.foxnickel.listentome.adapter.QuestionRecyclerAdapter;
+import cn.foxnickel.listentome.bean.ListenExamBean;
+import cn.foxnickel.listentome.utils.Constants;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,7 +32,13 @@ public class ExamFragment extends Fragment {
         mRootView = inflater.inflate(R.layout.fragment_exam, container, false);
 
         mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.exam_recycler);
-        mRecyclerAdapter = new QuestionRecyclerAdapter(getContext());
+        ArrayList<ListenExamBean> list = new ArrayList<>();
+        list.add(new ListenExamBean(Constants.PATH,"sdgfsdfsdfsdfsdf","sgsdfsdfsdfsdf","78"));
+        list.add(new ListenExamBean(Constants.PATH,"sdgfsdfsdfsdfsdf","sgsdfsdfsdfsdf","78"));
+        list.add(new ListenExamBean(Constants.PATH,"sdgfsdfsdfsdfsdf","sgsdfsdfsdfsdf","78"));
+        list.add(new ListenExamBean(Constants.PATH,"sdgfsdfsdfsdfsdf","sgsdfsdfsdfsdf","78"));
+        list.add(new ListenExamBean(Constants.PATH,"sdgfsdfsdfsdfsdf","sgsdfsdfsdfsdf","78"));
+        mRecyclerAdapter = new QuestionRecyclerAdapter(getContext(),list);
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setAdapter(mRecyclerAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);

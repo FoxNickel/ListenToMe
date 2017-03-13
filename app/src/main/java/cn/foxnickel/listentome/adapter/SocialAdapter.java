@@ -71,8 +71,8 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.ViewHolder
         holder.applaud.setText(socialBean.getApplaud());
         holder.terrible.setText(socialBean.getTerrible());
         Bitmap bmp = ImageUtils.getBitmap(socialBean.getImagePath());
-        bmp=ImageUtils.toRound(bmp);
-         holder.avator.setImageBitmap(bmp);
+        bmp = ImageUtils.toRound(bmp);
+        holder.avator.setImageBitmap(bmp);
 
     }
 
@@ -100,7 +100,6 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.ViewHolder
             clickEvents();
 
         }
-
 
 
         private void clickEvents() {

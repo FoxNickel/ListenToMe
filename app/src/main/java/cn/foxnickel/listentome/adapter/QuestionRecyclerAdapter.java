@@ -1,6 +1,7 @@
 package cn.foxnickel.listentome.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import cn.foxnickel.listentome.R;
+import cn.foxnickel.listentome.bean.ListenExamBean;
 
 /**
  * Created by Administrator on 2017/3/8.
@@ -18,26 +22,45 @@ import cn.foxnickel.listentome.R;
 public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecyclerAdapter.ViewHolder> {
 
     private Context mContext;
+    private ArrayList<ListenExamBean> mListenExamList;
+    private LayoutInflater mInflater;
+    public OnItemClickListener itemClickListener;
 
-    public QuestionRecyclerAdapter(Context context) {
+
+
+    public QuestionRecyclerAdapter(Context context, ArrayList<ListenExamBean> listenExamList) {
         mContext = context;
+        mListenExamList = listenExamList;
+        mInflater = LayoutInflater.from(mContext);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.exam_recycler_item, parent, false);
+        View v = mInflater.inflate(R.layout.exam_recycler_item, parent, false);
         ViewHolder holder = new ViewHolder(v);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
+        ListenExamBean listenExamBean = mListenExamList.get(position);
+        holder.mQuestionImage.setImageURI(Uri.parse(listenExamBean.getImagePath()));
+        holder.mQuestionName.setText(listenExamBean.getQuestionName());
+        holder.mQuestionDescription.setText(listenExamBean.getQuestionDescription());
+        holder.mQuestionGrade.setText(listenExamBean.getGrade());
     }
 
     @Override
     public int getItemCount() {
-        return 20;
+        return mListenExamList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
