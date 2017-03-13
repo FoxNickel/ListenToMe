@@ -1,5 +1,7 @@
 package cn.foxnickel.listentome.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import cn.foxnickel.listentome.ListenCollectionActivity;
 import cn.foxnickel.listentome.R;
 import cn.foxnickel.listentome.SettingsActivity;
 
@@ -76,7 +79,7 @@ public class ProfileFragmet extends Fragment implements View.OnClickListener {
         int id = v.getId();
         switch (id) {
             case R.id.my_listen:
-                Toast.makeText(getActivity(), "Mylisten", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), ListenCollectionActivity.class));
                 break;
             case R.id.my_speech:
                 Toast.makeText(getActivity(), "Myspeech", Toast.LENGTH_SHORT).show();
@@ -94,7 +97,22 @@ public class ProfileFragmet extends Fragment implements View.OnClickListener {
                 Toast.makeText(getActivity(), "Mydata", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.about_us:
-                Toast.makeText(getActivity(), "Aboutus", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle(R.string.developers);
+                builder.setItems(R.array.developer_list, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
                 break;
         }
     }

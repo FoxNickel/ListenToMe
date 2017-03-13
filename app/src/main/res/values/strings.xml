@@ -25,4 +25,6 @@
     <string name="social_toobar_title">我的社区</string>
     <string name="profile_toobar_title">个人中心</string>
     <string name="action_settings">设置</string>
+    <string name="developers">团队人猿名单</string>
+    <string name="title_activity_listen_collection">我的听力</string>
 </resources>

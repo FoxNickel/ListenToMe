@@ -1,9 +1,5 @@
 package cn.foxnickel.listentome.bean;
 
-import android.support.v7.widget.RecyclerView;
-
-import cn.foxnickel.listentome.adapter.SocialAdapter;
-
 /**
  * Created by Night on 2017/3/10.
  * Desc:

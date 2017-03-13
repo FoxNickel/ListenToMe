@@ -29,6 +29,15 @@
         </activity>
         <activity android:name=".SettingsActivity">
         </activity>
+        <activity
+            android:name=".ListenCollectionActivity"
+            android:label="@string/title_activity_listen_collection"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cn.foxnickel.listentome.MainActivity"/>
+        </activity>
     </application>
 
 </manifest>
