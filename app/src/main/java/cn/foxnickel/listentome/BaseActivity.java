@@ -7,9 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
-import android.widget.Toast;
 
+import cn.foxnickel.listentome.utils.AESUtils;
 import cn.foxnickel.listentome.utils.Constants;
 
 /**
@@ -22,8 +21,8 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!hasPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            requestPermissions(Constants.WRITE_EXTERNAL_CODE,Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (!hasPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_CONTACTS)) {
+            requestPermissions(Constants.WRITE_EXTERNAL_CODE,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_CONTACTS);
         }
     }
 
@@ -55,7 +54,7 @@ public class BaseActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case Constants.WRITE_EXTERNAL_CODE:
-                doSDCard();
+                dosomething();
                 break;
             default:
                 break;
@@ -65,7 +64,7 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * 对SDCard进行操作
      */
-    private void doSDCard() {
+    public void dosomething() {
     }
 
 

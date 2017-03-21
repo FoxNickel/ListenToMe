@@ -372,7 +372,9 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
                     }
 
                 } else {
-                    mEditor.clear();
+                    mEditor.remove("UserPhone");
+                    mEditor.remove("UserPwd");
+                    mEditor.putBoolean("remember_pwd",false);
                 }
                 mEditor.commit();
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));

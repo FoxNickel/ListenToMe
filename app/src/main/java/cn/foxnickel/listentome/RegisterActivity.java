@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.blankj.utilcode.utils.ToastUtils;
 import com.blankj.utilcode.utils.Utils;
 
 import cn.bmob.newsmssdk.BmobSMS;
@@ -23,7 +22,7 @@ import cn.bmob.newsmssdk.listener.SMSCodeListener;
  * Created by Night on 2017/3/18.
  * Desc:
  */
-
+//欠缺判断手机号是否已在数据库存在
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
     private Button mVerifyButton;//发送验证码Button
     private Button mRegisterButton;//注册Button
@@ -65,6 +64,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
             }
             break;
+            case R.id.bt_phone_register:{
+
+            }
+
             default:
                 break;
         }
@@ -107,14 +110,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public boolean isMobileNO(String mobiles) {
-        //欠缺判断手机号是否已在数据库存在
         String telRegex = "[1][358]\\d{9}";//"[1]"代表第1位为数字1，"[358]"代表第二位可以为3、5、8中的一个，"\\d{9}"代表后面是可以是0～9的数字，有9位。
         if (TextUtils.isEmpty(mobiles)) {
             mPhone.setError("手机号为空");
+            mPhone.requestFocus();
             return false;
         } else {
             if (!mobiles.matches(telRegex)) {
                 mPhone.setError("您输入的手机号有误，请重新输入");
+                mPhone.requestFocus();
                 mPhone.setText("");
                 return false;
             } else return true;
@@ -125,15 +129,18 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$";
         if (TextUtils.isEmpty(password) && TextUtils.isEmpty(repassword)) {
             mPassWord.setError("密码为空");
+            mPassWord.requestFocus();
             return false;
         } else if (!mPassWord.getText().toString().trim().equals(mRePassword.getText().toString().trim())) {
             mPassWord.setError("两次输入的密码不一致");
+            mPassWord.requestFocus();
             mPassWord.setText("");
             mRePassword.setText("");
             return false;
         } else {
             if (!password.matches(regex)) {
                 mPassWord.setError("密码应在8-16位之间，必须包含至少一位大写字母、小写字母，数字");
+                mPassWord.requestFocus();
                 mPassWord.setText("");
                 mRePassword.setText("");
                 return false;

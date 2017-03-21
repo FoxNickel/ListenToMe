@@ -6,13 +6,29 @@ package cn.foxnickel.listentome.bean;
  */
 
 public class ListenExamBean {
-    String mImagePath,mQuestionName,mQuestionDescription,mGrade;
+    String mImagePath,mQuestionName,mQuestionDescription,mGrade,mResourcesPath;
 
     public ListenExamBean(String imagePath, String questionName, String questionDescription, String grade) {
         mImagePath = imagePath;
         mQuestionName = questionName;
         mQuestionDescription = questionDescription;
         mGrade = grade;
+    }
+
+    public ListenExamBean(String imagePath, String questionName, String questionDescription, String grade, String resourcesPath) {
+        mImagePath = imagePath;
+        mQuestionName = questionName;
+        mQuestionDescription = questionDescription;
+        mGrade = grade;
+        mResourcesPath = resourcesPath;
+    }
+
+    public String getResourcesPath() {
+        return mResourcesPath;
+    }
+
+    public void setResourcesPath(String resourcesPath) {
+        mResourcesPath = resourcesPath;
     }
 
     public String getImagePath() {
