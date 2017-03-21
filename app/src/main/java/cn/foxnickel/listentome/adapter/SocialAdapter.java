@@ -1,5 +1,6 @@
 package cn.foxnickel.listentome.adapter;
 
+import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -14,13 +15,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blankj.utilcode.utils.ImageUtils;
+import com.blankj.utilcode.utils.ToastUtils;
 
 import java.util.ArrayList;
 
 import cn.foxnickel.listentome.R;
 import cn.foxnickel.listentome.bean.SocialBean;
+import cn.foxnickel.listentome.utils.MyApplication;
 
 /**
  * Created by Night on 2017/3/9.
@@ -113,7 +117,12 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.ViewHolder
                     }
                 }
             });
-
+            contents.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(MyApplication.getContext(), contents.getText(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         private void closeTransition() {
