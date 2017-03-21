@@ -62,7 +62,10 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.ViewHolder
                 (TextView) wrapper.findViewById(R.id.tv_contents),
                 (TextView) wrapper.findViewById(R.id.tv_comments),
                 (TextView) wrapper.findViewById(R.id.tv_applaud),
-                (TextView) wrapper.findViewById(R.id.tv_terrible)
+                (TextView) wrapper.findViewById(R.id.tv_terrible),
+                (ImageView) wrapper.findViewById(R.id.iv_applaud),
+                (ImageView) wrapper.findViewById(R.id.iv_terrible)
+
         );
     }
 
@@ -88,9 +91,9 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public CardView cardView;
         private TextView userName, contents, comments, applaud, terrible;
-        private ImageView avator, collection;
+        private ImageView avator, collection, iv_applaud, iv_terrible;
 
-        public ViewHolder(View itemView, ImageView avator, TextView userName, ImageView collection, TextView contents, TextView comments, TextView applaud, TextView terrible) {
+        public ViewHolder(View itemView, ImageView avator, TextView userName, ImageView collection, TextView contents, TextView comments, TextView applaud, TextView terrible, ImageView iv_applaud, ImageView iv_terrible) {
             super(itemView);
             cardView = (CardView) itemView;
             this.userName = userName;
@@ -100,6 +103,8 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.ViewHolder
             this.comments = comments;
             this.applaud = applaud;
             this.terrible = terrible;
+            this.iv_applaud = iv_applaud;
+            this.iv_terrible = iv_terrible;
             collection.setTag(false);
             clickEvents();
 
@@ -121,6 +126,23 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.ViewHolder
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(MyApplication.getContext(), contents.getText(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            iv_applaud.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int a = Integer.parseInt(applaud.getText().toString());
+                    a++;
+                    applaud.setText(a + "");
+
+                }
+            });
+            iv_terrible.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int a = Integer.parseInt(terrible.getText().toString());
+                    a++;
+                    terrible.setText(a + "");
                 }
             });
         }
