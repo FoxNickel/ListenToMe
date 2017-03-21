@@ -34,8 +34,11 @@ import android.widget.Toast;
 
 import com.blankj.utilcode.utils.ToastUtils;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.foxnickel.listentome.utils.AESUtils;
 
 import static android.Manifest.permission.READ_CONTACTS;
 import static android.os.Build.VERSION_CODES.M;
@@ -43,7 +46,7 @@ import static android.os.Build.VERSION_CODES.M;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends BaseActivity implements LoaderCallbacks<Cursor> {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -72,6 +75,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
     private Button mRegister;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,49 +126,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void populateAutoComplete() {
-        if (!mayRequestContacts()) {
-            return;
-        }
-
         getLoaderManager().initLoader(0, null, this);
     }
 
-    /*通讯录权限请求*/
-    private boolean mayRequestContacts() {
-        if (Build.VERSION.SDK_INT < M) {
-            return true;
-        }
-        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-        if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(android.R.string.ok, new View.OnClickListener() {
-                        @Override
-                        @TargetApi(M)
-                        public void onClick(View v) {
-                            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-                        }
-                    });
-        } else {
-            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-        }
-        return false;
-    }
 
     /**
      * Callback received when a permissions request has been completed.
      */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_READ_CONTACTS) {
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                populateAutoComplete();
-            }
-        }
-    }
 
+    @Override
+    public void dosomething() {//申请权限成功后的回调
+        super.dosomething();
+        populateAutoComplete();
+    }
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -199,7 +173,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!isEmailValid(email) || isMobileNO(email)) {
+        } else if (!isEmailValid(email) && !isMobileNO(email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
@@ -224,8 +198,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
+        String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$";
+        return password.matches(regex);
     }
 
     public boolean isMobileNO(String mobiles) {
@@ -239,6 +213,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             } else return true;
         }
     }
+
     /**
      * Shows the progress UI and hides the login form.
      */
@@ -274,7 +249,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
-    
+
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(this,
@@ -377,7 +352,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 if (mCheckBox.isChecked()) {
                     mEditor.putBoolean("remember_pwd", true);
                     mEditor.putString("UserPhone", mEmail);
-                    mEditor.putString("UserPwd", mPassword);
+                    byte[] byBuffer = new byte[200];
+                    if (!mPreferences.contains("key")) {
+                        byte[] aes = AESUtils.initKey256();//加密的密匙
+                        try {
+                            mEditor.putString("key", new String(aes, "ISO-8859-1"));
+                            mEditor.apply();
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    try {
+                        byBuffer = AESUtils.encrypt(mPassword.getBytes(), mPreferences.getString("key", "").getBytes("ISO-8859-1"));
+                        String s = new String(byBuffer, "ISO-8859-1");//byte数组转换为String,默认是UTF-8,
+                        // UTF-8是可变长度的编码，原来的字节数组就被改变了.而ISO-8859-1不会导致数组长度变化。
+                        mEditor.putString("UserPwd", s);
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+
                 } else {
                     mEditor.clear();
                 }
