@@ -8,7 +8,6 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -16,9 +15,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -32,16 +28,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.blankj.utilcode.utils.ToastUtils;
-
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.foxnickel.listentome.dao.UserDataBaseHelper;
 import cn.foxnickel.listentome.utils.AESUtils;
-
-import static android.Manifest.permission.READ_CONTACTS;
-import static android.os.Build.VERSION_CODES.M;
 
 /**
  * A login screen that offers login via email/password.
@@ -75,12 +67,14 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
     private Button mRegister;
-
+    private UserDataBaseHelper mDataBaseHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         init();
+        mDataBaseHelper = new UserDataBaseHelper(this, "User.db", null, 1);
+        mDataBaseHelper.getWritableDatabase();
         boolean isRemember = mPreferences.getBoolean("remember_pwd", false);
         if (isRemember) {
             startActivity(new Intent(this, MainActivity.class));
