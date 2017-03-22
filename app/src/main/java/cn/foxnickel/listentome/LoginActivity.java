@@ -192,7 +192,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
     }
 
     private boolean isPasswordValid(String password) {
-        String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$";
+        String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$";
         return password.matches(regex);
     }
 

@@ -8,7 +8,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
-import cn.foxnickel.listentome.utils.AESUtils;
 import cn.foxnickel.listentome.utils.Constants;
 
 /**
@@ -66,8 +65,4 @@ public class BaseActivity extends AppCompatActivity {
      */
     public void dosomething() {
     }
-
-
-
-
 }
