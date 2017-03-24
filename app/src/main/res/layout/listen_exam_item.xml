@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content" android:background="@color/white"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="17.0dip">
+        <TextView android:id="@id/tv_question_num" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" android:lineSpacingExtra="5.0dip"
+                  android:text="1. " android:textColor="@color/black"
+                  android:textSize="@dimen/ts_15" android:textStyle="bold"/>
+        <LinearLayout android:id="@id/lv_option" android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_toRightOf="@id/tv_question_num"
+                      android:orientation="vertical"/>
+        <TextView android:id="@id/tv_answer_tip" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" android:layout_alignLeft="@id/lv_option"
+                  android:layout_below="@id/lv_option" android:lineSpacingExtra="5.0dip"
+                  android:text="请选择：" android:textColor="@color/text_gray"
+                  android:textSize="@dimen/ts_15"/>
+    </RelativeLayout>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="70.0dip"
+                  android:layout_marginBottom="@dimen/cet_space_common"
+                  android:orientation="horizontal">
+        <RelativeLayout android:id="@id/lv_answer_a" android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" android:layout_weight="1.0">
+            <ImageView android:id="@id/im_answer_bg_a" android:layout_width="56dp"
+                       android:layout_height="56dp" android:layout_centerInParent="true"
+                       android:background="@drawable/bg_checked" android:visibility="visible"/>
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content" android:layout_centerInParent="true"
+                       android:background="@drawable/ic_answer_a"/>
+        </RelativeLayout>
+        <RelativeLayout android:id="@id/lv_answer_b" android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" android:layout_weight="1.0">
+            <ImageView android:id="@id/im_answer_bg_b" android:layout_width="56dp"
+                       android:layout_height="56dp" android:layout_centerInParent="true"
+                       android:background="@drawable/bg_checked" android:visibility="visible"/>
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content" android:layout_centerInParent="true"
+                       android:background="@drawable/ic_answer_b"/>
+        </RelativeLayout>
+        <RelativeLayout android:id="@id/lv_answer_c" android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" android:layout_weight="1.0">
+            <ImageView android:id="@id/im_answer_bg_c" android:layout_width="56dp"
+                       android:layout_height="56dp" android:layout_centerInParent="true"
+                       android:background="@drawable/bg_checked" android:visibility="visible"/>
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content" android:layout_centerInParent="true"
+                       android:background="@drawable/ic_answer_c"/>
+        </RelativeLayout>
+        <RelativeLayout android:id="@id/lv_answer_d" android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" android:layout_weight="1.0">
+            <ImageView android:id="@id/im_answer_bg_d" android:layout_width="56dp"
+                       android:layout_height="56dp" android:layout_centerInParent="true"
+                       android:background="@drawable/bg_checked" android:visibility="visible"/>
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content" android:layout_centerInParent="true"
+                       android:background="@drawable/ic_answer_d"/>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
