@@ -34,6 +34,9 @@ public class ListenExamActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         ArrayList<HearingIssueBean> list = new ArrayList<>();
         list.add(new HearingIssueBean(0, 0, 0, "sdfsdfsdf", "sdsdfsdf", "sdfsdfsdfsdf", 0, 0, 0));
+        list.add(new HearingIssueBean(0, 0, 0, "sdfsdfsdf", "sdsdfsdf", "sdfsdfsdfsdf", 0, 0, 0));
+        list.add(new HearingIssueBean(0, 0, 0, "sdfsdfsdf", "sdsdfsdf", "sdfsdfsdfsdf", 0, 0, 0));
+        list.add(new HearingIssueBean(0, 0, 0, "sdfsdfsdf", "sdsdfsdf", "sdfsdfsdfsdf", 0, 0, 0));
         mExamAdater = new ListenExamAdater(list, this);
         mRecyclerView.setAdapter(mExamAdater);
     }
