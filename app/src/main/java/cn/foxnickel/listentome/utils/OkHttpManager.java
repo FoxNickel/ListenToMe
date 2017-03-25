@@ -3,6 +3,7 @@ package cn.foxnickel.listentome.utils;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,8 +13,10 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -22,6 +25,7 @@ import okhttp3.Response;
  */
 
 public class OkHttpManager {
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final OkHttpClient mOkHttpClient = new OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS).readTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS).build();
@@ -193,4 +197,30 @@ public class OkHttpManager {
         });
     }
 
+    public static Response postJson(String url, String json) {
+        //申明给服务端传递一个json串
+        //创建一个OkHttpClient对象
+        OkHttpClient okHttpClient = new OkHttpClient();
+        //创建一个RequestBody(参数1：数据类型 参数2传递的json串)
+        RequestBody requestBody = RequestBody.create(JSON, json);
+        //创建一个请求对象
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+        Response response = null;
+        //发送请求获取响应
+        try {
+            response = okHttpClient.newCall(request).execute();
+            //判断请求是否成功
+            if (response.isSuccessful()) {
+                //打印服务端返回结果
+                Log.i("TAG", response.body().string());
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
 }

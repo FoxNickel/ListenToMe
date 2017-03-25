@@ -11,12 +11,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.blankj.utilcode.utils.ToastUtils;
 import com.blankj.utilcode.utils.Utils;
+import com.google.gson.Gson;
 
 import cn.bmob.newsmssdk.BmobSMS;
 import cn.bmob.newsmssdk.exception.BmobException;
 import cn.bmob.newsmssdk.listener.RequestSMSCodeListener;
 import cn.bmob.newsmssdk.listener.SMSCodeListener;
+import cn.bmob.newsmssdk.listener.VerifySMSCodeListener;
+import cn.foxnickel.listentome.utils.OkHttpManager;
+import okhttp3.Response;
 
 /**
  * Created by Night on 2017/3/18.
@@ -34,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        BmobSMS.initialize(this, "923c10662e1261d9064581fa57ef7166", new MySMSCodeListener());
+        BmobSMS.initialize(this, "cb24fd9939e4b0cd5e9368f375a47302", new MySMSCodeListener());
         init();
         //短信验证api初始化
     }
@@ -59,13 +64,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 if (isMobileNO(mPhone.getText().toString().trim()) &&
                         isPassword(mPassWord.getText().toString().trim(), mRePassword.getText().toString().trim())) {
                     mTime.start();
-                    //submit();
+                    submit();
                 }
 
             }
             break;
-            case R.id.bt_phone_register:{
+            case R.id.bt_phone_register: {
 
+                verifySmsCode();
             }
 
             default:
@@ -156,6 +162,35 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             if (mVerifyText != null) {
                 mVerifyText.setText(content);
             }
+        }
+    }
+
+    private void verifySmsCode() {
+        String number = mPhone.getText().toString();
+        String code = mVerifyText.getText().toString();
+        if (!TextUtils.isEmpty(number) && !TextUtils.isEmpty(code)) {
+            BmobSMS.verifySmsCode(RegisterActivity.this, number, code, new VerifySMSCodeListener() {
+                @Override
+                public void done(BmobException e) {
+                    if (e == null) {
+                        ToastUtils.showShortToast("验证成功");
+                        String s = "User：{" + "UserName:" + mPhone.getText().toString().trim() + " mPassword:" +
+                                mPassWord.getText().toString().trim() + " UserPhone:" + mPhone.getText().toString().trim() + "}";
+                        String s1 = new Gson().toJson(s);
+                        Response r = OkHttpManager.postJson("http://115.159.152.192", s1);
+                        if (r.isSuccessful()) {
+                            ToastUtils.showShortToast("注册成功");
+                        } else {
+                            ToastUtils.showShortToast("注册失败");
+                        }
+                    } else {
+                        ToastUtils.showShortToast("验证码有误");
+                    }
+                }
+            });
+
+        } else {
+            ToastUtils.showShortToast("请输入手机号和验证码");
         }
     }
 }

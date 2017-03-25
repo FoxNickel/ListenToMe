@@ -66,6 +66,8 @@
         </activity>
         <activity android:name=".SpeechTest">
         </activity>
+        <activity android:name=".ListenExamActivity">
+        </activity>
     </application>
 
 </manifest>

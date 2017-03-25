@@ -14,12 +14,76 @@
         app:titleTextColor="@android:color/white">
 
     </android.support.v7.widget.Toolbar>
-
+    <RelativeLayout
+        android:id="@+id/rl_pop_inner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#c1bcbc"
+        android:paddingBottom="2dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="2dp"
+    >
+        <TextView android:id="@+id/tv_answered"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="12dp"
+                  android:text="已作答:"
+                  android:textSize="14sp"/>
+        <TextView android:id="@+id/tv_answered_num"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="4dp"
+                  android:layout_toRightOf="@id/tv_answered"
+                  android:text="0/30"
+                  android:textSize="14sp"/>
+        <TextView android:id="@+id/tv_timed"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="56dp"
+                  android:layout_toRightOf="@id/tv_answered_num"
+                  android:text="已用时:"
+                  android:textSize="14sp"/>
+        <TextView android:id="@+id/tv_now_timed"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_toRightOf="@id/tv_timed"
+                  android:text="00:00:00"
+                  android:textSize="14sp"/>
+        <ImageView android:layout_width="16dp"
+                   android:layout_height="16dp"
+                   android:layout_marginLeft="48dp"
+                   android:id="@+id/iv_listen_exam_volume"
+                   android:layout_toRightOf="@id/tv_now_timed"
+                   android:src="@drawable/ic_volume_up_white_24dp"/>
+    </RelativeLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_question"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9"
         android:descendantFocusability="afterDescendants">
 
     </android.support.v7.widget.RecyclerView>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="0dp"
+                  android:layout_weight="1"
+                  android:layout_gravity="bottom"
+                  android:padding="8dp"
+                  android:background="@color/comm_primary_color"
+                  android:orientation="horizontal">
+        <Button android:id="@+id/bt_last_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:layout_marginLeft="32dp"
+                android:text="上一题"
+                android:textSize="16sp"/>
+        <Button android:id="@+id/bt_next_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="128dp"
+                android:background="@color/transparent"
+                android:text="下一题"
+                android:textSize="16sp"/>
+    </LinearLayout>
 </LinearLayout>

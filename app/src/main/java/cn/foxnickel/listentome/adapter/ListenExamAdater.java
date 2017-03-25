@@ -35,14 +35,14 @@ public class ListenExamAdater extends RecyclerView.Adapter<ListenExamAdater.View
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View wrapper = LayoutInflater.from(mContext).inflate(R.layout.listen_exam_item, parent, false);
         return new ViewHolder(wrapper, (TextView) wrapper.findViewById(R.id.tv_question_num),
-                (ImageView) wrapper.findViewById(R.id.lv_answer_a),
                 (ImageView) wrapper.findViewById(R.id.im_answer_bg_a),
-                (ImageView) wrapper.findViewById(R.id.lv_answer_b),
                 (ImageView) wrapper.findViewById(R.id.im_answer_bg_b),
-                (ImageView) wrapper.findViewById(R.id.lv_answer_c),
                 (ImageView) wrapper.findViewById(R.id.im_answer_bg_c),
-                (ImageView) wrapper.findViewById(R.id.lv_answer_d),
-                (ImageView) wrapper.findViewById(R.id.im_answer_bg_d));
+                (ImageView) wrapper.findViewById(R.id.im_answer_bg_d),
+                (ImageView) wrapper.findViewById(R.id.im_a_a),
+                (ImageView) wrapper.findViewById(R.id.im_a_b),
+                (ImageView) wrapper.findViewById(R.id.im_a_c),
+                (ImageView) wrapper.findViewById(R.id.im_a_d));
     }
 
     @Override
@@ -60,42 +60,66 @@ public class ListenExamAdater extends RecyclerView.Adapter<ListenExamAdater.View
         return mList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private ImageView a_a, a_b, a_c, a_d;
         public View rootView;
         private TextView question;
-        private ImageView answer_a, answer_bg_a, answer_b, answer_bg_b, answer_c, answer_bg_c, answer_d, answer_bg_d;
+        private ImageView answer_bg_a, answer_bg_b, answer_bg_c, answer_bg_d;
 
-        public ViewHolder(View rootView, TextView question, ImageView a_a, ImageView a_b_a, ImageView a_b, ImageView a_b_b, ImageView a_c, ImageView a_b_c, ImageView a_d, ImageView a_b_d) {
+        public ViewHolder(View rootView, TextView question, ImageView a_b_a, ImageView a_b_b, ImageView a_b_c, ImageView a_b_d, ImageView a_a, ImageView a_b, ImageView a_c, ImageView a_d) {
             super(rootView);
             this.rootView = rootView;
             this.question = question;
-            answer_a = a_a;
             answer_bg_a = a_b_a;
-            answer_b = a_b;
             answer_bg_b = a_b_b;
-            answer_c = a_c;
             answer_bg_c = a_b_c;
+            answer_bg_d = a_b_d;
+            this.a_a = a_a;
+            this.a_b = a_b;
+            this.a_c = a_c;
+            this.a_d = a_d;
+
+            clilckEvents();
         }
 
-
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.lv_answer_a:
+        private void clilckEvents() {
+            a_a.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                     answer_bg_a.setVisibility(View.VISIBLE);
-                    break;
-                case R.id.lv_answer_b:
+                    answer_bg_c.setVisibility(View.GONE);
+                    answer_bg_b.setVisibility(View.GONE);
+                    answer_bg_d.setVisibility(View.GONE);
+                }
+            });
+            a_b.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                     answer_bg_b.setVisibility(View.VISIBLE);
-                    break;
-                case R.id.lv_answer_c:
+                    answer_bg_c.setVisibility(View.GONE);
+                    answer_bg_a.setVisibility(View.GONE);
+                    answer_bg_d.setVisibility(View.GONE);
+                }
+            });
+            a_c.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                     answer_bg_c.setVisibility(View.VISIBLE);
-                    break;
-                case R.id.lv_answer_d:
+                    answer_bg_b.setVisibility(View.GONE);
+                    answer_bg_a.setVisibility(View.GONE);
+                    answer_bg_d.setVisibility(View.GONE);
+                }
+            });
+            a_d.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                     answer_bg_d.setVisibility(View.VISIBLE);
-                    break;
-                default:
-                    break;
-            }
+                    answer_bg_a.setVisibility(View.GONE);
+                    answer_bg_b.setVisibility(View.GONE);
+                    answer_bg_c.setVisibility(View.GONE);
+                }
+            });
         }
+
     }
 }
