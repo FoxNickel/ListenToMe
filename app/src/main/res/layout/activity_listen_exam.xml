@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        app:title="@string/social_toobar_title"
+        app:title="听力考试"
         app:titleTextColor="@android:color/white">
 
     </android.support.v7.widget.Toolbar>
