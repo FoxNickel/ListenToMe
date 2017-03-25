@@ -64,20 +64,23 @@
                     android:padding="16dp">
 
                     <ImageView
+                        android:id="@+id/speech_easy_chat"
                         android:layout_width="0dp"
                         android:layout_height="150dp"
                         android:layout_weight="1"
-                        android:src="@drawable/pic6"
+                        android:src="@drawable/speech_easy_chat"
                         android:scaleType="fitXY"/>
 
                     <ImageView
+                        android:id="@+id/speech_easy_school_life"
                         android:layout_width="0dp"
                         android:layout_height="150dp"
                         android:layout_marginLeft="16dp"
                         android:layout_marginStart="16dp"
                         android:layout_weight="1"
-                        android:src="@drawable/pic7"
+                        android:src="@drawable/speech_easy_school_life"
                         android:scaleType="fitXY"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -89,7 +92,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="日常生活：基础"
+                        android:text="闲谈：基础"
                         android:textSize="16sp"
                         android:layout_marginBottom="20dp"
                         android:layout_marginLeft="20dp"
@@ -100,7 +103,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="个人喜好：基础"
+                        android:text="校园生活：基础"
                         android:textSize="16sp"
                         android:layout_marginBottom="20dp"
                         android:layout_marginLeft="20dp"
