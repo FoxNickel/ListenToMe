@@ -49,25 +49,12 @@ public class ResultFormatUtil {
                 }
 
                 buffer.append("\n单词[" + ResultTranslateUtil.getContent(word.content) + "] ")
-                        .append("朗读：" + ResultTranslateUtil.getDpMessageInfo(word.dp_message))
-                        .append(" 得分：" + word.total_score);
+                        .append(" 得分：" + String.valueOf((word.total_score / 5) * 100));
                 if (null == word.sylls) {
                     buffer.append("\n");
                     continue;
                 }
 
-                for (Syll syll : word.sylls) {
-                    buffer.append("\n└音节[" + ResultTranslateUtil.getContent(syll.getStdSymbol()) + "] ");
-                    if (null == syll.phones) {
-                        continue;
-                    }
-
-                    for (Phone phone : syll.phones) {
-                        buffer.append("\n\t└音素[" + ResultTranslateUtil.getContent(phone.getStdSymbol()) + "] ")
-                                .append(" 朗读：" + ResultTranslateUtil.getDpMessageInfo(phone.dp_message));
-                    }
-
-                }
                 buffer.append("\n");
             }
         }

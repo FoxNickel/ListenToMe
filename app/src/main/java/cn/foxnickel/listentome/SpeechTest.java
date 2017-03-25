@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,11 +23,13 @@ import cn.foxnickel.listentome.utils.voice.result.xml.XmlResultParser;
 public class SpeechTest extends AppCompatActivity implements View.OnClickListener {
 
     private Toolbar mToolbar;
-    private ImageView mRecord;
+    private ImageView mRecord, mStopRecord, mRawAudio;
     private SpeechEvaluator mSpeechEvaluator;
     private Toast mToast;
-    private TextView mContent, mTranslate, mScore;
+    private TextView mContent, mScore, mShowDetail;
     private String mResult;
+    private EditText mDetailResult;
+    private Result readableResult;
     private final String TAG = getClass().getSimpleName();
 
     @Override
@@ -43,8 +46,10 @@ public class SpeechTest extends AppCompatActivity implements View.OnClickListene
     private void setListener() {
         mRecord.setOnClickListener(this);
         mContent.setOnClickListener(this);
-        mTranslate.setOnClickListener(this);
         mScore.setOnClickListener(this);
+        mStopRecord.setOnClickListener(this);
+        mRawAudio.setOnClickListener(this);
+        mShowDetail.setOnClickListener(this);
     }
 
     private void back() {
@@ -64,9 +69,14 @@ public class SpeechTest extends AppCompatActivity implements View.OnClickListene
     private void initView() {
         mRecord = (ImageView) findViewById(R.id.begin_record);
         mContent = (TextView) findViewById(R.id.text_content);
-        mTranslate = (TextView) findViewById(R.id.text_translate);
         mScore = (TextView) findViewById(R.id.text_score);
         mToast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
+        mStopRecord = (ImageView) findViewById(R.id.stop_record);
+        mRawAudio = (ImageView) findViewById(R.id.raw_radio);
+        mDetailResult = (EditText) findViewById(R.id.text_detail);
+        mShowDetail = (TextView) findViewById(R.id.show_detail);
+        mRawAudio.setScaleX(0.8f);
+        mRawAudio.setScaleY(0.8f);
     }
 
     @Override
@@ -81,8 +91,23 @@ public class SpeechTest extends AppCompatActivity implements View.OnClickListene
         switch (v.getId()) {
             case R.id.begin_record:
                 setParams();//设置参数
+                mDetailResult.setText("");
                 String evaluateString = mContent.getText().toString();//获取要评测的句子
                 mSpeechEvaluator.startEvaluating(evaluateString, null, mEvaluatorListener);//开始评测
+                mStopRecord.setVisibility(View.VISIBLE);
+                break;
+            case R.id.stop_record:
+                if (mSpeechEvaluator.isEvaluating()) {
+                    showTip("评测已停止，等待结果中...");
+                    mSpeechEvaluator.stopEvaluating();
+                }
+                break;
+            case R.id.raw_radio:
+                showTip("原声播放中:");
+                break;
+            case R.id.show_detail:
+                mDetailResult.setText(readableResult.toString());
+                mShowDetail.setVisibility(View.GONE);
                 break;
         }
     }
@@ -100,9 +125,9 @@ public class SpeechTest extends AppCompatActivity implements View.OnClickListene
         // 设置需要评测的类型
         String category = "read_sentence";
         // 设置结果等级（中文仅支持complete）
-        String result_level = "plain";
+        String result_level = "complete";
         // 设置语音前端点:静音超时时间，即用户多长时间不说话则当做超时处理
-        String vad_bos = "5000";
+        String vad_bos = "3000";
         // 设置语音后端点:后端点静音检测时间，即用户停止说话多长时间内即认为不再输入， 自动停止录音
         String vad_eos = "1800";
         // 语音输入超时时间，即用户最多可以连续说多长时间；
@@ -132,7 +157,6 @@ public class SpeechTest extends AppCompatActivity implements View.OnClickListene
                 StringBuilder builder = new StringBuilder();
                 builder.append(result.getResultString());
                 mResult = builder.toString();
-                showTip("评测结束");
                 parseResult();
             }
         }
@@ -141,12 +165,32 @@ public class SpeechTest extends AppCompatActivity implements View.OnClickListene
             /*解析结果*/
             if (!TextUtils.isEmpty(mResult)) {
                 XmlResultParser resultParser = new XmlResultParser();//解析器
-                Result resultStr = resultParser.parse(mResult);//解析结果
-                if (null != resultStr) {
-                    float score = Float.valueOf(resultStr.toString());
+                readableResult = resultParser.parse(mResult);//解析结果
+                if (null != readableResult) {
+                    /*float score = Float.valueOf(readableResult.toString());
                     double grade = (score / 5.0) * 100;
-                    mScore.setText(String.valueOf((int) grade) + " Perfect!!!");
+                    mScore.setText(String.valueOf((int) grade) + " Perfect!!!");*/
+                    //mDetailResult.setText(readableResult.toString());
                     mScore.setVisibility(View.VISIBLE);
+                    mStopRecord.setVisibility(View.INVISIBLE);
+                    mShowDetail.setVisibility(View.VISIBLE);
+                    String totalScore = readableResult.toString().substring(readableResult.toString().indexOf("总分:"),
+                            readableResult.toString().indexOf("单词")).substring(readableResult.toString().indexOf("总分:") + 3).trim();
+                    float score = Float.valueOf(totalScore);
+                    StringBuilder str = new StringBuilder();
+                    str.append((int) (score + 0.5));
+                    if (score >= 90) {
+                        str.append(" Perfect!!!");
+                    } else if (score >= 80) {
+                        str.append(" Good!!");
+                    } else if (score >= 70) {
+                        str.append(" Not Bad!");
+                    } else if (score >= 60) {
+                        str.append(" Not Very Good.");
+                    } else {
+                        str.append(" Bad!!!");
+                    }
+                    mScore.setText(str.toString());
                 } else {
                     showTip("解析结果为空");
                 }
