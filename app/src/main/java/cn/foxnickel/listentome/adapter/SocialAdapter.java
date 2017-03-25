@@ -165,7 +165,7 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.ViewHolder
         public void onClick(View view) {
             SocialBean socialBean = mSocialBeanArrayList.get(getAdapterPosition());
             itemClickListener.onItemClick(view, getAdapterPosition());
-
+            
         }
     }
 

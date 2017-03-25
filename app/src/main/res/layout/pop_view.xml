@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~  Copyright (C) 2015 GuDong <gudong.name@gmail.com>
+  ~
+  ~  This file is part of GdTranslate
+  ~
+  ~  GdTranslate is free software: you can redistribute it and/or modify
+  ~  it under the terms of the GNU General Public License as published by
+  ~  the Free Software Foundation, either version 3 of the License, or
+  ~  (at your option) any later version.
+  ~
+  ~  GdTranslate is distributed in the hope that it will be useful,
+  ~  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~  GNU General Public License for more details.
+  ~
+  ~  You should have received a copy of the GNU General Public License
+  ~  along with GdTranslate.  If not, see <http://www.gnu.org/licenses/>.
+  ~
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/pop_view_content_view"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/rl_pop_inner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_pop_view"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/iv_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/normal_margin"
+            android:layout_toLeftOf="@+id/iv_done"
+            android:clickable="true"
+            android:src="@drawable/ic_favorite_border_white_24dp"/>
+
+        <ImageView
+            android:id="@+id/iv_done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/normal_margin"
+            android:layout_toLeftOf="@+id/iv_sound"
+            android:clickable="true"
+
+            tools:visibility="visible"
+            android:src="@drawable/ic_done_white_24dp"/>
+
+
+        <ImageView
+            android:id="@+id/iv_sound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/view_gd"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:clickable="true"
+            tools:visibility="visible"
+            android:src="@drawable/ic_volume_up_white_24dp"/>
+
+        <View
+            android:id="@+id/view_gd"
+            android:layout_alignParentRight="true"
+            android:layout_width="0dp"
+            android:layout_height="0dp"/>
+        <!-- 单词名称以及音标 -->
+        <LinearLayout
+            android:id="@+id/ll_pop_src"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@id/iv_favorite"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/tv_pop_src"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:includeFontPadding="false"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                tools:text="fuck face "/>
+
+            <TextView
+                android:id="@+id/tv_pop_phonetic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:textColor="@color/pop_phonetic"
+                tools:text="[wɑ:t]"/>
+        </LinearLayout>
+
+        <!-- 单词解释 -->
+        <LinearLayout
+            android:id="@+id/ll_pop_dst"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/ll_pop_src"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            android:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/tv_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:textColor="@color/bg_pop_white"
+            android:visibility="invisible"
+            tools:visibility="visible"
+            tools:text="查词中..."/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@drawable/shadow_below"/>
+</LinearLayout>
+
