@@ -177,7 +177,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         String s = "User：{" + "UserName:" + mPhone.getText().toString().trim() + " mPassword:" +
                                 mPassWord.getText().toString().trim() + " UserPhone:" + mPhone.getText().toString().trim() + "}";
                         String s1 = new Gson().toJson(s);
-                        Response r = OkHttpManager.postJson("http://115.159.152.192", s1);
+                        Response r = OkHttpManager.postJson("http://122.233.74.249:3000/register", s1);
                         if (r.isSuccessful()) {
                             ToastUtils.showShortToast("注册成功");
                         } else {

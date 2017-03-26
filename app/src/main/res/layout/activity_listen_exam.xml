@@ -10,9 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        app:title="听力考试"
         app:titleTextColor="@android:color/white">
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="听力考试"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"/>
     </android.support.v7.widget.Toolbar>
     <RelativeLayout
         android:id="@+id/rl_pop_inner"
@@ -43,17 +48,18 @@
                   android:layout_toRightOf="@id/tv_answered_num"
                   android:text="已用时:"
                   android:textSize="14sp"/>
-        <TextView android:id="@+id/tv_now_timed"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_toRightOf="@id/tv_timed"
-                  android:text="00:00:00"
-                  android:textSize="14sp"/>
-        <ImageView android:layout_width="16dp"
+
+        <Chronometer android:id="@+id/ct_count_time"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_toRightOf="@id/tv_timed"
+                     android:textSize="14sp"
+                     android:format="%s"/>
+        <ImageView android:id="@+id/iv_listen_exam_volume"
+                   android:layout_width="16dp"
                    android:layout_height="16dp"
                    android:layout_marginLeft="48dp"
-                   android:id="@+id/iv_listen_exam_volume"
-                   android:layout_toRightOf="@id/tv_now_timed"
+                   android:layout_toRightOf="@id/ct_count_time"
                    android:src="@drawable/ic_volume_up_white_24dp"/>
     </RelativeLayout>
     <android.support.v7.widget.RecyclerView
@@ -66,16 +72,17 @@
     </android.support.v7.widget.RecyclerView>
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="0dp"
-                  android:layout_weight="1"
                   android:layout_gravity="bottom"
-                  android:padding="8dp"
+                  android:layout_weight="1"
                   android:background="@color/comm_primary_color"
-                  android:orientation="horizontal">
+                  android:orientation="horizontal"
+                  android:padding="8dp">
         <Button android:id="@+id/bt_last_question"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"
                 android:layout_marginLeft="32dp"
+                android:background="@color/transparent"
+                android:visibility="invisible"
                 android:text="上一题"
                 android:textSize="16sp"/>
         <Button android:id="@+id/bt_next_question"

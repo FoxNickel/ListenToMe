@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,12 +29,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.utils.ToastUtils;
+import com.blankj.utilcode.utils.Utils;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.foxnickel.listentome.dao.ListenToMeDataBaseHelper;
 import cn.foxnickel.listentome.utils.AESUtils;
+import cn.foxnickel.listentome.utils.OkHttpManager;
+import okhttp3.Response;
 
 /**
  * A login screen that offers login via email/password.
@@ -68,11 +79,18 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
     private SharedPreferences.Editor mEditor;
     private Button mRegister;
     private ListenToMeDataBaseHelper mDataBaseHelper;
+    private OkHttpManager mOkHttpManager = new OkHttpManager();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         init();
+        mOkHttpManager.asyncJsonObjectByUrl("http://122.233.74.249:3000/login", new OkHttpManager.Fun4() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+
+            }
+        });
         mDataBaseHelper = new ListenToMeDataBaseHelper(this, "ListenToMeDB.db", null, 1);
         mDataBaseHelper.getWritableDatabase();
         boolean isRemember = mPreferences.getBoolean("remember_pwd", false);
@@ -84,6 +102,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 
     private void init() {
         // Set up the login form.
+        Utils.init(this);
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();//自动补全的EditText实现
 
@@ -306,7 +325,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 
         private final String mEmail;
         private final String mPassword;
-
+        int loginStatus;
         UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
@@ -315,24 +334,33 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-
+            String s = "{UserName:" + "'GTX560'," + " UserPwd:" +
+                    mPassword + "}";
+            OTJ o = new OTJ();
+            String s1 = new Gson().toJson(o);
+            Log.e("TAG", "s1:" + s1);
+            Response r = OkHttpManager.postJson("http://122.233.74.249:3000/login", s1);
+            JSONObject jsonObject = null;
+            String respStr = null;
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+                if (r != null && r.isSuccessful()) {
+                    respStr = r.body().string();
+                    Log.i("TAG", "doInBackground: respStr: " + respStr);
+                    jsonObject = new JSONObject(respStr);
+                    loginStatus = jsonObject.getInt("loginStatus");
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
+            ToastUtils.showShortToast("" + loginStatus);
+            if (loginStatus == 1)
+                return true;
+            else
+                return false;
             // TODO: register the new account here.
-            return true;
         }
 
         @Override
@@ -383,6 +411,12 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
+        }
+
+        class OTJ {
+            private String UserName = "GTX560";
+            private String UserPwd = "Nb123456";
+
         }
     }
 }

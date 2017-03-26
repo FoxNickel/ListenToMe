@@ -200,7 +200,6 @@ public class OkHttpManager {
     public static Response postJson(String url, String json) {
         //申明给服务端传递一个json串
         //创建一个OkHttpClient对象
-        OkHttpClient okHttpClient = new OkHttpClient();
         //创建一个RequestBody(参数1：数据类型 参数2传递的json串)
         RequestBody requestBody = RequestBody.create(JSON, json);
         //创建一个请求对象
@@ -211,11 +210,9 @@ public class OkHttpManager {
         Response response = null;
         //发送请求获取响应
         try {
-            response = okHttpClient.newCall(request).execute();
+            response = mOkHttpClient.newCall(request).execute();
             //判断请求是否成功
             if (response.isSuccessful()) {
-                //打印服务端返回结果
-                Log.i("TAG", response.body().string());
 
             }
         } catch (IOException e) {
