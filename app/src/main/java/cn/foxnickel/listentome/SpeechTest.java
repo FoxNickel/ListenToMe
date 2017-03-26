@@ -75,8 +75,6 @@ public class SpeechTest extends AppCompatActivity implements View.OnClickListene
         mRawAudio = (ImageView) findViewById(R.id.raw_radio);
         mDetailResult = (EditText) findViewById(R.id.text_detail);
         mShowDetail = (TextView) findViewById(R.id.show_detail);
-        mRawAudio.setScaleX(0.8f);
-        mRawAudio.setScaleY(0.8f);
     }
 
     @Override
