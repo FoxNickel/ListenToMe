@@ -25,49 +25,49 @@
         <RelativeLayout android:id="@id/lv_answer_a" android:layout_width="fill_parent"
                         android:layout_height="fill_parent" android:layout_weight="1.0">
             <ImageView android:id="@id/im_answer_bg_a"
-                       android:layout_width="56dp"
-                       android:layout_height="56dp"
+                       android:layout_width="48dp"
+                       android:layout_height="48dp"
                        android:layout_centerInParent="true"
-                       android:clickable="true"
-                       android:background="@drawable/bg_checked" android:visibility="invisible"/>
-            <ImageView android:layout_width="wrap_content"
+                       android:background="@drawable/circle"
+                       android:clickable="true" android:visibility="invisible"/>
+            <ImageView android:id="@+id/im_a_a"
+                       android:layout_width="32dp"
                        android:layout_height="32dp"
-                       android:id="@+id/im_a_a"
                        android:layout_centerInParent="true"
-                       android:background="@drawable/ic_answer_a"/>
+                       android:background="@drawable/a"/>
         </RelativeLayout>
         <RelativeLayout android:id="@id/lv_answer_b" android:layout_width="fill_parent"
                         android:layout_height="fill_parent" android:layout_weight="1.0">
-            <ImageView android:id="@id/im_answer_bg_b" android:layout_width="56dp"
-                       android:layout_height="56dp" android:layout_centerInParent="true"
-                       android:background="@drawable/bg_checked" android:visibility="gone"/>
-            <ImageView android:layout_width="wrap_content"
+            <ImageView android:id="@id/im_answer_bg_b" android:layout_width="48dp"
+                       android:layout_height="48dp" android:layout_centerInParent="true"
+                       android:background="@drawable/circle" android:visibility="gone"/>
+            <ImageView android:id="@+id/im_a_b"
+                       android:layout_width="32dp"
                        android:layout_height="32dp"
-                       android:id="@+id/im_a_b"
                        android:layout_centerInParent="true"
-                       android:background="@drawable/ic_answer_b"/>
+                       android:background="@drawable/b"/>
         </RelativeLayout>
         <RelativeLayout android:id="@id/lv_answer_c" android:layout_width="fill_parent"
                         android:layout_height="fill_parent" android:layout_weight="1.0">
-            <ImageView android:id="@id/im_answer_bg_c" android:layout_width="56dp"
-                       android:layout_height="56dp" android:layout_centerInParent="true"
-                       android:background="@drawable/bg_checked" android:visibility="gone"/>
-            <ImageView android:layout_width="wrap_content"
+            <ImageView android:id="@id/im_answer_bg_c" android:layout_width="48dp"
+                       android:layout_height="48dp" android:layout_centerInParent="true"
+                       android:background="@drawable/circle" android:visibility="gone"/>
+            <ImageView android:id="@+id/im_a_c"
+                       android:layout_width="32dp"
                        android:layout_height="32dp"
-                       android:id="@+id/im_a_c"
                        android:layout_centerInParent="true"
-                       android:background="@drawable/ic_answer_c"/>
+                       android:background="@drawable/c"/>
         </RelativeLayout>
         <RelativeLayout android:id="@id/lv_answer_d" android:layout_width="fill_parent"
                         android:layout_height="fill_parent" android:layout_weight="1.0">
-            <ImageView android:id="@id/im_answer_bg_d" android:layout_width="56dp"
-                       android:layout_height="56dp" android:layout_centerInParent="true"
-                       android:background="@drawable/bg_checked" android:visibility="gone"/>
-            <ImageView android:layout_width="wrap_content"
+            <ImageView android:id="@id/im_answer_bg_d" android:layout_width="48dp"
+                       android:layout_height="48dp" android:layout_centerInParent="true"
+                       android:background="@drawable/circle" android:visibility="gone"/>
+            <ImageView android:id="@+id/im_a_d"
+                       android:layout_width="32dp"
                        android:layout_height="32dp"
-                       android:id="@+id/im_a_d"
                        android:layout_centerInParent="true"
-                       android:background="@drawable/ic_answer_d"/>
+                       android:background="@drawable/d"/>
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

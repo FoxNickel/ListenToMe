@@ -132,7 +132,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private boolean isPassword(String password, String repassword) {
-        String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$";
+        String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$";
         if (TextUtils.isEmpty(password) && TextUtils.isEmpty(repassword)) {
             mPassWord.setError("密码为空");
             mPassWord.requestFocus();
