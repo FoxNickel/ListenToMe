@@ -5,10 +5,10 @@ package cn.foxnickel.listentome.utils;
  * Desc:
  */
 
-public class Constraint {
+public class Contract {
     public static final String USER_TABLE_NAME = "User";
     public static final String User_COLUMN_ID = "UserId";
-    public static final String User_COLUMN_Name = "UserName";
+    public static final String USER_COLUMN_NAME = "UserName";
     public static final String User_COLUMN_PHONE = "UserPhone";
     public static final String User_COLUMN_EMAIL = "UserEmail";
     public static final String User_COLUMN_PWD = "UserPwd";

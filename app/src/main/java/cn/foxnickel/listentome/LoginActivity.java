@@ -32,7 +32,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.foxnickel.listentome.dao.UserDataBaseHelper;
+import cn.foxnickel.listentome.dao.ListenToMeDataBaseHelper;
 import cn.foxnickel.listentome.utils.AESUtils;
 
 /**
@@ -67,13 +67,13 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
     private Button mRegister;
-    private UserDataBaseHelper mDataBaseHelper;
+    private ListenToMeDataBaseHelper mDataBaseHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         init();
-        mDataBaseHelper = new UserDataBaseHelper(this, "User.db", null, 1);
+        mDataBaseHelper = new ListenToMeDataBaseHelper(this, "ListenToMeDB.db", null, 1);
         mDataBaseHelper.getWritableDatabase();
         boolean isRemember = mPreferences.getBoolean("remember_pwd", false);
         if (isRemember) {
