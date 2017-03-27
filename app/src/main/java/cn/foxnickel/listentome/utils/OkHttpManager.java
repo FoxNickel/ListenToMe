@@ -3,7 +3,6 @@ package cn.foxnickel.listentome.utils;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -86,32 +85,6 @@ public class OkHttpManager {
 
     private static final String CHARSET_NAME = "UTF-8";
 
-
-    /**
-     * 异步请求,请求返回Json字符串
-     *
-     * @param url
-     * @param callback
-     */
-    public void asyncJsonStringByURL(String url, final Fun1 callback) {
-        final Request request = new Request.Builder().url(url).build();
-        mOkHttpClient.newCall(request).enqueue(new Callback() {
-            //enqueue是调用了一个入队的方法
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response != null && response.isSuccessful()) {
-                    onSuccessJsonStringMethod(response.body().string(), callback);
-                }
-            }
-        });
-
-    }
-
     /**
      * 异步请求，请求返回Json对象
      *
@@ -168,7 +141,7 @@ public class OkHttpManager {
                     try {
                         callBack.onResponse(jsonValue);
                     } catch (Exception e) {
-
+                        e.printStackTrace();
                     }
                 }
             }

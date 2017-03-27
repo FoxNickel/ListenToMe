@@ -1,12 +1,8 @@
 package cn.foxnickel.listentome.adapter;
 
-import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.TransitionDrawable;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,13 +14,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.utils.ImageUtils;
-import com.blankj.utilcode.utils.ToastUtils;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import cn.foxnickel.listentome.R;
-import cn.foxnickel.listentome.bean.SocialBean;
+import cn.foxnickel.listentome.bean.Dynamic;
+import cn.foxnickel.listentome.utils.GetJsonFromServerTask;
 import cn.foxnickel.listentome.utils.MyApplication;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Night on 2017/3/9.
@@ -32,13 +31,13 @@ import cn.foxnickel.listentome.utils.MyApplication;
  */
 
 public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.ViewHolder> {
-    private ArrayList<SocialBean> mSocialBeanArrayList;
+    private List<Dynamic> mDynamicArrayList;
     private LayoutInflater mInflater;
     private Context mContext;
     public OnItemClickListener itemClickListener;
 
-    public SocialAdapter(ArrayList<SocialBean> socialBeanArrayList, Context context) {
-        mSocialBeanArrayList = socialBeanArrayList;
+    public SocialAdapter(List<Dynamic> dynamicList, Context context) {
+        mDynamicArrayList = dynamicList;
         mInflater = LayoutInflater.from(context);
         mContext = context;
     }
@@ -71,27 +70,27 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(SocialAdapter.ViewHolder holder, int position) {
-        SocialBean socialBean = mSocialBeanArrayList.get(position);
-        holder.userName.setText(socialBean.getUserName());
-        holder.comments.setText(socialBean.getComment());
-        holder.contents.setText(socialBean.getContents());
-        holder.applaud.setText(socialBean.getApplaud());
-        holder.terrible.setText(socialBean.getTerrible());
-        Bitmap bmp = ImageUtils.getBitmap(socialBean.getImagePath());
-        bmp = ImageUtils.toRound(bmp);
-        holder.avator.setImageBitmap(bmp);
-
+        Dynamic dynamic = mDynamicArrayList.get(position);
+        holder.contents.setText(dynamic.getDSContent());
+        holder.applaud.setText(String.valueOf(dynamic.getDSLike()));
+        holder.terrible.setText(String.valueOf(dynamic.getDSDislike()));
+        holder.userName.setText(String.valueOf(dynamic.getUserId()));
+        Bitmap bitmap = ImageUtils.getBitmap(mContext.getResources(), R.drawable.pic7);
+        bitmap = ImageUtils.toRound(bitmap);
+        holder.avator.setImageBitmap(bitmap);
+        holder.time.setText(dynamic.getDSDate());
+        Log.i(TAG, "onBindViewHolder: dynamic: " + dynamic.toString());
     }
 
     @Override
     public int getItemCount() {
-        return mSocialBeanArrayList.size();
+        return mDynamicArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public CardView cardView;
-        private TextView userName, contents, comments, applaud, terrible;
-        private ImageView avator, collection, iv_applaud, iv_terrible;
+        private TextView userName, contents, comments, applaud, terrible, time;
+        private ImageView avator, collection, iv_applaud, iv_terrible, iv_comments;
 
         public ViewHolder(View itemView, ImageView avator, TextView userName, ImageView collection, TextView contents, TextView comments, TextView applaud, TextView terrible, ImageView iv_applaud, ImageView iv_terrible) {
             super(itemView);
@@ -105,11 +104,12 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.ViewHolder
             this.terrible = terrible;
             this.iv_applaud = iv_applaud;
             this.iv_terrible = iv_terrible;
+            time = (TextView) itemView.findViewById(R.id.dynamic_time);
+            iv_comments = (ImageView) itemView.findViewById(R.id.iv_comment);
             collection.setTag(false);
             clickEvents();
 
         }
-
 
         private void clickEvents() {
             collection.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +145,23 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.ViewHolder
                     terrible.setText(a + "");
                 }
             });
+            /*获取评论*/
+            iv_comments.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        int dynamicId = getLayoutPosition() + 1;
+                        String url = "http://122.233.5.59:3000/community/" + dynamicId + "/comments";
+                        Log.i(TAG, "onClick: url: " + url);
+                        String jsonStr = new GetJsonFromServerTask().execute(url).get();
+                        Log.i(TAG, "onClick: comments: " + jsonStr);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
 
         private void closeTransition() {
@@ -163,9 +180,7 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.ViewHolder
 
         @Override
         public void onClick(View view) {
-            SocialBean socialBean = mSocialBeanArrayList.get(getAdapterPosition());
             itemClickListener.onItemClick(view, getAdapterPosition());
-            
         }
     }
 
