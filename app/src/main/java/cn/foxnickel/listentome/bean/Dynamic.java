@@ -11,6 +11,15 @@ public class Dynamic {
     private int DSLike;
     private int DSDislike;
     private String DSDate;
+    private String UserName;
+
+    public String getUserName() {
+        return UserName;
+    }
+
+    public void setUserName(String userName) {
+        UserName = userName;
+    }
 
     public int getDSId() {
         return DSId;
@@ -69,6 +78,7 @@ public class Dynamic {
                 ", DSLike=" + DSLike +
                 ", DSDislike=" + DSDislike +
                 ", DSDate='" + DSDate + '\'' +
+                ", UserName='" + UserName + '\'' +
                 '}';
     }
 }

@@ -1,6 +1,7 @@
 package cn.foxnickel.listentome.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.TransitionDrawable;
 import android.support.v7.widget.CardView;
@@ -18,6 +19,7 @@ import com.blankj.utilcode.utils.ImageUtils;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import cn.foxnickel.listentome.CommentActvity;
 import cn.foxnickel.listentome.R;
 import cn.foxnickel.listentome.bean.Dynamic;
 import cn.foxnickel.listentome.utils.GetJsonFromServerTask;
@@ -59,7 +61,6 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.ViewHolder
                 (TextView) wrapper.findViewById(R.id.tv_username),
                 (ImageView) wrapper.findViewById(R.id.iv_collection),
                 (TextView) wrapper.findViewById(R.id.tv_contents),
-                (TextView) wrapper.findViewById(R.id.tv_comments),
                 (TextView) wrapper.findViewById(R.id.tv_applaud),
                 (TextView) wrapper.findViewById(R.id.tv_terrible),
                 (ImageView) wrapper.findViewById(R.id.iv_applaud),
@@ -74,11 +75,11 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.ViewHolder
         holder.contents.setText(dynamic.getDSContent());
         holder.applaud.setText(String.valueOf(dynamic.getDSLike()));
         holder.terrible.setText(String.valueOf(dynamic.getDSDislike()));
-        holder.userName.setText(String.valueOf(dynamic.getUserId()));
+        holder.userName.setText(String.valueOf(dynamic.getUserName()));
         Bitmap bitmap = ImageUtils.getBitmap(mContext.getResources(), R.drawable.pic7);
         bitmap = ImageUtils.toRound(bitmap);
         holder.avator.setImageBitmap(bitmap);
-        holder.time.setText(dynamic.getDSDate());
+        holder.time.setText(dynamic.getDSDate().substring(0, dynamic.getDSDate().indexOf("T")));
         Log.i(TAG, "onBindViewHolder: dynamic: " + dynamic.toString());
     }
 
@@ -92,14 +93,13 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.ViewHolder
         private TextView userName, contents, comments, applaud, terrible, time;
         private ImageView avator, collection, iv_applaud, iv_terrible, iv_comments;
 
-        public ViewHolder(View itemView, ImageView avator, TextView userName, ImageView collection, TextView contents, TextView comments, TextView applaud, TextView terrible, ImageView iv_applaud, ImageView iv_terrible) {
+        public ViewHolder(View itemView, ImageView avator, TextView userName, ImageView collection, TextView contents, TextView applaud, TextView terrible, ImageView iv_applaud, ImageView iv_terrible) {
             super(itemView);
             cardView = (CardView) itemView;
             this.userName = userName;
             this.avator = avator;
             this.collection = collection;
             this.contents = contents;
-            this.comments = comments;
             this.applaud = applaud;
             this.terrible = terrible;
             this.iv_applaud = iv_applaud;
@@ -151,10 +151,16 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.ViewHolder
                 public void onClick(View v) {
                     try {
                         int dynamicId = getLayoutPosition() + 1;
-                        String url = "http://122.233.5.59:3000/community/" + dynamicId + "/comments";
+                        String url = "http://www.foxnickel.cn:3000/community/" + dynamicId + "/comments";
                         Log.i(TAG, "onClick: url: " + url);
                         String jsonStr = new GetJsonFromServerTask().execute(url).get();
                         Log.i(TAG, "onClick: comments: " + jsonStr);
+                        Intent intent = new Intent(mContext, CommentActvity.class);
+                        intent.putExtra("username", userName.getText());
+                        intent.putExtra("contents", contents.getText());
+                        intent.putExtra("time", time.getText());
+                        intent.putExtra("commentJsonStr", jsonStr);
+                        mContext.startActivity(intent);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {

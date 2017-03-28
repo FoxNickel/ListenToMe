@@ -66,7 +66,7 @@ public class SocialFragmet extends Fragment {
 
     private void getDataFromServer() {
         try {
-            String str = new GetJsonFromServerTask().execute("http://www.foxnickel.cn/web.json").get();
+            String str = new GetJsonFromServerTask().execute("http://www.foxnickel.cn:3000/community/dynamics").get();
             Gson gson = new Gson();
             String finalStr = formatJsonString(str);
             Dynamic[] dynamics = gson.fromJson(finalStr, Dynamic[].class);

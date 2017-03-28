@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ public class SpeechTest extends AppCompatActivity implements View.OnClickListene
     private String mResult;
     private EditText mDetailResult;
     private Result readableResult;
+    private Button mPrevious, mNext;
     private final String TAG = getClass().getSimpleName();
 
     @Override
@@ -50,6 +52,8 @@ public class SpeechTest extends AppCompatActivity implements View.OnClickListene
         mStopRecord.setOnClickListener(this);
         mRawAudio.setOnClickListener(this);
         mShowDetail.setOnClickListener(this);
+        mPrevious.setOnClickListener(this);
+        mNext.setOnClickListener(this);
     }
 
     private void back() {
@@ -75,6 +79,8 @@ public class SpeechTest extends AppCompatActivity implements View.OnClickListene
         mRawAudio = (ImageView) findViewById(R.id.raw_radio);
         mDetailResult = (EditText) findViewById(R.id.text_detail);
         mShowDetail = (TextView) findViewById(R.id.show_detail);
+        mPrevious = (Button) findViewById(R.id.bt_previous);
+        mNext = (Button) findViewById(R.id.bt_next);
     }
 
     @Override
@@ -106,6 +112,14 @@ public class SpeechTest extends AppCompatActivity implements View.OnClickListene
             case R.id.show_detail:
                 mDetailResult.setText(readableResult.toString());
                 mShowDetail.setVisibility(View.GONE);
+                break;
+            case R.id.bt_previous:
+                showTip("Previous");
+                mContent.setText("No,I'm not mi fan.");
+                break;
+            case R.id.bt_next:
+                showTip("Next");
+                mContent.setText("Yes,I'm mi fan.");
                 break;
         }
     }
