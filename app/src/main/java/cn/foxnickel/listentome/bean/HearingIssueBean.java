@@ -9,12 +9,23 @@ public class HearingIssueBean {
     private int HIId;
     private int examId;
     private int HAId;
-    private String HIContent, HIAnswer, HIAnalysis;
+    private String HIContent, HIAnalysis;
     private int HILevel;
     private int HIGrade;
     private int HIState;
 
-    public HearingIssueBean(int HIId, int examId, int HAId, String HIContent, String HIAnswer, String HIAnalysis, int HILevel, int HIGrade, int HIState) {
+    private boolean isChecked;
+    private char nowAnswer, HIAnswer;
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
+    public HearingIssueBean(int HIId, int examId, int HAId, String HIContent, char HIAnswer, String HIAnalysis, int HILevel, int HIGrade, int HIState) {
         this.HIId = HIId;
         this.examId = examId;
         this.HAId = HAId;
@@ -24,6 +35,7 @@ public class HearingIssueBean {
         this.HILevel = HILevel;
         this.HIGrade = HIGrade;
         this.HIState = HIState;
+        isChecked = false;
     }
 
     public int getHIId() {
@@ -58,11 +70,11 @@ public class HearingIssueBean {
         this.HIContent = HIContent;
     }
 
-    public String getHIAnswer() {
+    public char getHIAnswer() {
         return HIAnswer;
     }
 
-    public void setHIAnswer(String HIAnswer) {
+    public void setHIAnswer(char HIAnswer) {
         this.HIAnswer = HIAnswer;
     }
 
@@ -96,5 +108,13 @@ public class HearingIssueBean {
 
     public void setHIState(int HIState) {
         this.HIState = HIState;
+    }
+
+    public char getNowAnswer() {
+        return nowAnswer;
+    }
+
+    public void setNowAnswer(char nowAnswer) {
+        this.nowAnswer = nowAnswer;
     }
 }

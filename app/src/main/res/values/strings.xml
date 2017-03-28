@@ -38,4 +38,7 @@
     <string name="more"><![CDATA[更多>]]></string>
     <string name="middle">中级</string>
     <string name="high">高级</string>
+    <string name="listen_analysis">答案解析：</string>
+    <string name="right_answer">正确答案：</string>
+    <string name="your_answer">您的选择：</string>
 </resources>

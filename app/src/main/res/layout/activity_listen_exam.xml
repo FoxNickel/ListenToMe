@@ -19,6 +19,13 @@
             android:textColor="@android:color/white"
             android:textSize="20sp"/>
     </android.support.v7.widget.Toolbar>
+    <TextView android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:visibility="gone"
+              android:id="@+id/tv_listen_grade"
+              android:textColor="?attr/colorPrimary"
+              android:text="本次考试成绩为："/>
     <RelativeLayout
         android:id="@+id/rl_pop_inner"
         android:layout_width="match_parent"
@@ -74,6 +81,7 @@
                   android:layout_height="0dp"
                   android:layout_gravity="bottom"
                   android:layout_weight="1"
+                  android:id="@+id/ll_bt"
                   android:background="@color/comm_primary_color"
                   android:orientation="horizontal"
                   android:padding="8dp">

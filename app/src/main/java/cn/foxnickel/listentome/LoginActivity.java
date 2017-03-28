@@ -356,10 +356,11 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
                 e.printStackTrace();
             }
             ToastUtils.showShortToast("" + loginStatus);
-            if (loginStatus == 1)
+           /* if (loginStatus == 1)
                 return true;
             else
-                return false;
+                return false;*/
+            return true;
             // TODO: register the new account here.
         }
 
