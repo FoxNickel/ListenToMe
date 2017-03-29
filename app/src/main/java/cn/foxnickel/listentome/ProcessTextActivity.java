@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,15 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import cn.foxnickel.listentome.bean.WordBean;
+import cn.foxnickel.listentome.utils.GetJsonFromServerTask;
+import cn.foxnickel.listentome.utils.OkHttpManager;
 import cn.foxnickel.listentome.view.TipView;
 
 /**
@@ -32,6 +42,7 @@ public class ProcessTextActivity extends Activity {
     private LayoutInflater mInflater;
     private TipView mTipView;
     private WindowManager wm;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +56,7 @@ public class ProcessTextActivity extends Activity {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 0) {
+                mTipView.mPlayer.reset();
                 wm.removeView(mTipView);
                 finish();
             }
@@ -66,11 +78,32 @@ public class ProcessTextActivity extends Activity {
 
     private void checkText(Intent intent) {
         CharSequence text = intent.getCharSequenceExtra(Intent.EXTRA_PROCESS_TEXT);
-        Toast.makeText(ProcessTextActivity.this, text, Toast.LENGTH_LONG).show();
+        String s = null;
+        try {
+            s = new GetJsonFromServerTask().execute("http://dict-co.iciba.com/api/dictionary.php?w=" + text + "&key=B9477F75F8562815285EECB45113A0F3&type=json").get();
+            Log.e("TAG", s);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        Gson gson = new Gson();
+        java.lang.reflect.Type type = new TypeToken<WordBean>() {
+        }.getType();
+        WordBean wordBean = gson.fromJson(s, type);
         popupshow();
         mTipView.setText((String) text);
-        mTipView.setPhonetic("sdgs");
-        mTipView.addExplain("sffsdfdf");
+        for (WordBean.Symbols symbol : wordBean.symbols) {
+            mTipView.setPhonetic(symbol.ph_am);
+            mTipView.initMediaPlayer(symbol.ph_am_mp3);
+            StringBuilder stringBuilder = new StringBuilder();
+            for (WordBean.Symbols.Parts parts : symbol.parts) {
+                stringBuilder.append(parts.part + "." + parts.means + "\n");
+            }
+            mTipView.addExplain(stringBuilder.toString());
+        }
+        //TipView.setPhonetic("sdgs");
+        //mTipView.addExplain("sffsdfdf");
         new tvThread().start();
     }
 
@@ -103,4 +136,6 @@ public class ProcessTextActivity extends Activity {
         layoutParams.y = 0;
         return layoutParams;
     }
+
+
 }

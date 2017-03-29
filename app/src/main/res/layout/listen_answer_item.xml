@@ -5,12 +5,14 @@
     <TextView android:id="@+id/tv_question"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:textIsSelectable="true"
               android:textSize="16sp"
     />
     <TextView android:id="@+id/tv_choose"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_below="@id/tv_question"
+              android:textIsSelectable="true"
               android:text="@string/your_answer"
               android:textSize="16sp"/>
     <TextView android:layout_width="wrap_content"

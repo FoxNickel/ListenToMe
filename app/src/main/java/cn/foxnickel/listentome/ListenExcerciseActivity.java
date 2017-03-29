@@ -34,8 +34,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import cn.foxnickel.listentome.adapter.ListenExamAnswerAdapter;
-import cn.foxnickel.listentome.adapter.ListenExamAdater;
+import cn.foxnickel.listentome.adapter.ListenExcerciseAdater;
+import cn.foxnickel.listentome.adapter.ListenExcerciseAnswerAdapter;
 import cn.foxnickel.listentome.bean.HearingIssueBean;
 
 /**
@@ -43,17 +43,17 @@ import cn.foxnickel.listentome.bean.HearingIssueBean;
  * Desc:通过
  */
 
-public class ListenExamActivity extends AppCompatActivity {
+public class ListenExcerciseActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ListenExamAdater mExamAdater;
-    private ListenExamAnswerAdapter mAnswerAdapter;
+    private ListenExcerciseAdater mExamAdater;
+    private ListenExcerciseAnswerAdapter mAnswerAdapter;
     private ImageView mVolume;
     private Toolbar mToolbar;
     private RelativeLayout mRelativeLayout;
     private Chronometer mCountTime;
     private TextView mAnsweredNum, mGrade;
-    public static int questionIndex = 0;//记录现在在第几题
+    public static int sQuestionIndex = 0;//记录现在在第几题
     private Button mLast, mNext;
     private ArrayList<HearingIssueBean> list;
     private ArrayList<HearingIssueBean> answerList;
@@ -62,6 +62,7 @@ public class ListenExamActivity extends AppCompatActivity {
     private MediaPlayer mMediaPlayer = new MediaPlayer();
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +89,7 @@ public class ListenExamActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         list = new ArrayList<>();
         answerList = new ArrayList<>();
-        questionIndex = 0;
+        sQuestionIndex = 0;
         hearingIssueBeen = new HearingIssueBean[10][7];
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 7; j++) {
@@ -101,10 +102,10 @@ public class ListenExamActivity extends AppCompatActivity {
         hearingIssueBeen[1][2].setHIContent("sdgsdf");
         initMediaPlayer();
         mMediaPlayer.start();
-        for (int j = 0; j < hearingIssueBeen[questionIndex].length; j++) {
-            list.add(hearingIssueBeen[questionIndex][j]);
+        for (int j = 0; j < hearingIssueBeen[sQuestionIndex].length; j++) {
+            list.add(hearingIssueBeen[sQuestionIndex][j]);
         }
-        mExamAdater = new ListenExamAdater(list, this, mAnsweredNum);
+        mExamAdater = new ListenExcerciseAdater(list, this, mAnsweredNum);
         mRecyclerView.setAdapter(mExamAdater);
         Utils.init(this);
     }
@@ -137,7 +138,7 @@ public class ListenExamActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mCountTime.stop();
-                startActivity(new Intent(ListenExamActivity.this, MainActivity.class));
+                startActivity(new Intent(ListenExcerciseActivity.this, MainActivity.class));
                 finish();
             }
         });
@@ -192,17 +193,17 @@ public class ListenExamActivity extends AppCompatActivity {
 
         mMediaPlayer.seekTo(mMediaPlayer.getCurrentPosition() + 20000);
 
-        if (questionIndex == 2) {
+        if (sQuestionIndex == 2) {
             createDialog();
         } else {
-            questionIndex++;
-            if (questionIndex == 1) {
+            sQuestionIndex++;
+            if (sQuestionIndex == 1) {
                 mLast.setVisibility(View.VISIBLE);
                 mLast.setClickable(true);
             }
             list.clear();
-            for (int i = 0; i < hearingIssueBeen[questionIndex].length; i++) {
-                list.add(hearingIssueBeen[questionIndex][i]);
+            for (int i = 0; i < hearingIssueBeen[sQuestionIndex].length; i++) {
+                list.add(hearingIssueBeen[sQuestionIndex][i]);
             }
             mExamAdater.notifyDataSetChanged();
         }
@@ -211,14 +212,14 @@ public class ListenExamActivity extends AppCompatActivity {
     }
 
     private void startLastQuestion() {
-        if (questionIndex == 1) {
+        if (sQuestionIndex == 1) {
             mLast.setVisibility(View.INVISIBLE);
             mLast.setClickable(false);
         }
-        questionIndex--;
+        sQuestionIndex--;
         list.clear();
-        for (int i = 0; i < hearingIssueBeen[questionIndex].length; i++) {
-            list.add(hearingIssueBeen[questionIndex][i]);
+        for (int i = 0; i < hearingIssueBeen[sQuestionIndex].length; i++) {
+            list.add(hearingIssueBeen[sQuestionIndex][i]);
         }
         mExamAdater.notifyDataSetChanged();
 
@@ -232,7 +233,7 @@ public class ListenExamActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(ListenExamActivity.this, MainActivity.class));
+        startActivity(new Intent(ListenExcerciseActivity.this, MainActivity.class));
     }
 
     @Override
@@ -276,23 +277,16 @@ public class ListenExamActivity extends AppCompatActivity {
         mLinearLayout.setVisibility(View.GONE);
         mMediaPlayer.pause();
         mRelativeLayout.setVisibility(View.GONE);
-        mGrade.setVisibility(View.VISIBLE);
         int grade = 0, sum = 0;
         for (int i = 0; i < hearingIssueBeen.length; i++)
             for (int j = 0; j < hearingIssueBeen[i].length; j++) {
                 if (hearingIssueBeen[i][j] != null) {
                     answerList.add(hearingIssueBeen[i][j]);
                     if (hearingIssueBeen[i][j].getNowAnswer() == hearingIssueBeen[i][j].getHIAnswer()) {
-                        grade++;
                     }
-                    sum++;
                 }
             }
-        grade = (int) (grade * 1.0 / sum * 100 + 0.5);
-        mEditor.putInt("grade", grade);
-        mEditor.commit();
-        mGrade.setText(mGrade.getText().toString() + grade + "分");
-        mAnswerAdapter = new ListenExamAnswerAdapter(answerList, ListenExamActivity.this);
+        mAnswerAdapter = new ListenExcerciseAnswerAdapter(answerList, ListenExcerciseActivity.this);
         mRecyclerView.setAdapter(mAnswerAdapter);
     }
 }

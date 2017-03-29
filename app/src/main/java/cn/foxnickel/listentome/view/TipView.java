@@ -2,10 +2,15 @@ package cn.foxnickel.listentome.view;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.graphics.drawable.TransitionDrawable;
+import android.media.MediaPlayer;
+import android.os.Environment;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -17,11 +22,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.foxnickel.listentome.ListenExamActivity;
 import cn.foxnickel.listentome.R;
 import cn.foxnickel.listentome.translate.Result;
+import cn.foxnickel.listentome.utils.MyApplication;
 
 /**
  * Created by GuDong on 3/15/16 18:26.
@@ -42,7 +51,7 @@ public class TipView extends LinearLayout {
     private ImageView mIvSound;
     private ImageView mIvDone;
     private TextView mTvPoint;
-
+    public MediaPlayer mPlayer;
     Result mResult = null;
 
     private ITipViewListener mListener;
@@ -70,8 +79,7 @@ public class TipView extends LinearLayout {
         mIvDone = (ImageView) view.findViewById(R.id.iv_done);
         mContentView = view.findViewById(R.id.pop_view_content_view);
         initView();
-        setFavoriteBackground(R.drawable.ic_favorite_pink_24dp);
-
+        addListener();
     }
 
     public void error(String error) {
@@ -82,25 +90,22 @@ public class TipView extends LinearLayout {
         mTvPoint.setText(error);
     }
 
-    public void setContent(Result result, boolean isShowFavoriteButton, boolean isShowDoneMark) {
-        if (result == null) return;
-        mResult = result;
-        //  initView(result,isShowFavoriteButton,isShowDoneMark);
-        addListener(result);
 
-        setQuery(result.getQuery());
-        setPhonetic(result.getPhAm());
-
-        List<String> temp = result.getExplains();
-        if (temp.isEmpty()) {
-            temp = result.getTranslation();
-            if (temp == null) {
-                temp = new ArrayList<>();
-            }
+    public void initMediaPlayer(String mp3URL) {
+        mPlayer = new MediaPlayer();
+        try {
+            mPlayer.setDataSource(mp3URL);
+            mPlayer.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
+                @Override
+                public void onSeekComplete(MediaPlayer mediaPlayer) {
+                    mediaPlayer.start();
+                }
+            });
+            mPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
     }
-
     //设置显示动画
     public void startWithAnim() {
         ObjectAnimator translationAnim = ObjectAnimator.ofFloat(mContentView, "translationY", -700, 0);
@@ -136,47 +141,68 @@ public class TipView extends LinearLayout {
         mTvSrc.setVisibility(View.VISIBLE);
         mTvPhonetic.setVisibility(VISIBLE);
         mTvPoint.setVisibility(VISIBLE);
+        mIvFavorite.setTag(false);
     }
 
     public void setText(String text) {
         mTvSrc.setText(text);
     }
 
-    private void addListener(final Result result) {
+    private void addListener() {
         mIvFavorite.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                mListener.onClickFavorite(view, result);
+                if ((Boolean) view.getTag() == false) {
+                    setFavoriteBackground(R.drawable.ic_favorite_pink_24dp);
+                    mIvFavorite.setTag(true);
+                } else {
+                    setFavoriteBackground(R.drawable.ic_favorite_border_white_24dp);
+                    mIvFavorite.setTag(false);
+                }
             }
+
+
         });
 
         mIvSound.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mListener != null) {
-                    mListener.onClickPlaySound(v, result);
-                }
+                startSoundAnim(v);
+                mPlayer.start();
             }
         });
-        mIvDone.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mListener != null) {
-                    mListener.onClickDone(v, result);
-                }
-            }
 
-        });
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mListener != null) {
-                    mListener.onClickTipFrame(v, result);
+                    startSoundAnim(v);
                 }
             }
         });
     }
 
+    public void startSoundAnim(View view) {
+        addScaleAnim(view, 1000, null);
+    }
+
+    private void addScaleAnim(View view, long duration, final ListenExamActivity.AnimationEndListener listener) {
+        ObjectAnimator animY = ObjectAnimator.ofFloat(view, "scaleY", 1f, 0.5f, 1f, 1.2f, 1f);
+        ObjectAnimator animX = ObjectAnimator.ofFloat(view, "scaleX", 1f, 0.5f, 1f, 1.2f, 1f);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(animX, animY);
+        animatorSet.setDuration(duration);
+        animatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                if (listener != null) {
+                    listener.onAnimationEnd(animation);
+                }
+            }
+        });
+        animatorSet.start();
+    }
     public void setFavoriteBackground(@DrawableRes int drawableSrc) {
         mIvFavorite.setImageResource(drawableSrc);
     }
@@ -187,14 +213,13 @@ public class TipView extends LinearLayout {
 
     public interface ITipViewListener {
 
-        void onClickFavorite(View view, Result result);
+        void onClickFavorite(View view);
 
-        void onClickPlaySound(View view, Result result);
+        void onClickPlaySound(View view, String playSound);
 
-        void onClickDone(View view, Result result);
+        void onClickTipFrame(View view);
 
-        void onClickTipFrame(View view, Result result);
-
+        public abstract void setContent(String content);
         /**
          * set up favorite view state  base on it change background of favorite view
          *
@@ -268,4 +293,5 @@ public class TipView extends LinearLayout {
         tv.setText(word);
         return tv;
     }
+
 }

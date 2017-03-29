@@ -3,7 +3,9 @@ package cn.foxnickel.listentome.fragment.subfragment;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +32,7 @@ public class ExamFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private QuestionRecyclerAdapter mRecyclerAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private SharedPreferences mPreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,13 +41,17 @@ public class ExamFragment extends Fragment {
 
         mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.exam_recycler);
         ArrayList<ListenExamBean> list = new ArrayList<>();
-        list.add(new ListenExamBean(Constants.PATH,"sdgfsdfsdfsdfsdf","sgsdfsdfsdfsdf","78"));
+        list.add(new ListenExamBean(Constants.PATH, "2016年六月真题六级", "sgsdfsdfsdfsdf", "78"));
         list.add(new ListenExamBean(Constants.PATH,"sdgfsdfsdfsdfsdf","sgsdfsdfsdfsdf","78"));
         list.add(new ListenExamBean(Constants.PATH,"sdgfsdfsdfsdfsdf","sgsdfsdfsdfsdf","78"));
         list.add(new ListenExamBean(Constants.PATH,"sdgfsdfsdfsdfsdf","sgsdfsdfsdfsdf","78"));
         list.add(new ListenExamBean(Constants.PATH,"sdgfsdfsdfsdfsdf","sgsdfsdfsdfsdf","78"));
         mRecyclerAdapter = new QuestionRecyclerAdapter(getContext(),list);
-
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        if (mPreferences.getInt("grade", -1) != -1) {
+            list.get(0).setGrade(mPreferences.getInt("grade", 0) + "分");
+            mRecyclerAdapter.notifyItemChanged(0);
+        }
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setAdapter(mRecyclerAdapter);
         mRecyclerView.addOnItemTouchListener(new OnItemTouchListener(mRecyclerView) {

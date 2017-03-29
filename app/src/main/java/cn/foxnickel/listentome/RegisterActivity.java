@@ -1,7 +1,9 @@
 package cn.foxnickel.listentome;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -15,11 +17,14 @@ import com.blankj.utilcode.utils.ToastUtils;
 import com.blankj.utilcode.utils.Utils;
 import com.google.gson.Gson;
 
+import java.io.UnsupportedEncodingException;
+
 import cn.bmob.newsmssdk.BmobSMS;
 import cn.bmob.newsmssdk.exception.BmobException;
 import cn.bmob.newsmssdk.listener.RequestSMSCodeListener;
 import cn.bmob.newsmssdk.listener.SMSCodeListener;
 import cn.bmob.newsmssdk.listener.VerifySMSCodeListener;
+import cn.foxnickel.listentome.utils.AESUtils;
 import cn.foxnickel.listentome.utils.OkHttpManager;
 import okhttp3.Response;
 
@@ -34,7 +39,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText mPhone, mPassWord, mRePassword, mVerifyText;
     private CountDownTime mTime;
     private int smsId;
-
+    private SharedPreferences mPreferences;
+    private SharedPreferences.Editor mEditor;
+    byte[] byBuffer = new byte[200];
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +61,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         mVerifyButton.setOnClickListener(this);
         mRegisterButton.setOnClickListener(this);
         mTime = new CountDownTime(60000, 1000);
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         Utils.init(this);//使用第三方工具库前需初始化Context
     }
 
@@ -166,18 +174,39 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void verifySmsCode() {
+        mEditor = mPreferences.edit();
         String number = mPhone.getText().toString();
         String code = mVerifyText.getText().toString();
+
+
         if (!TextUtils.isEmpty(number) && !TextUtils.isEmpty(code)) {
             BmobSMS.verifySmsCode(RegisterActivity.this, number, code, new VerifySMSCodeListener() {
                 @Override
                 public void done(BmobException e) {
                     if (e == null) {
                         ToastUtils.showShortToast("验证成功");
-                        String s = "User：{" + "UserName:" + mPhone.getText().toString().trim() + " mPassword:" +
-                                mPassWord.getText().toString().trim() + " UserPhone:" + mPhone.getText().toString().trim() + "}";
-                        String s1 = new Gson().toJson(s);
-                        Response r = OkHttpManager.postJson("http://122.233.74.249:3000/register", s1);
+                        if (!mPreferences.contains("key")) {
+                            byte[] aes = AESUtils.initKey256();//加密的密匙
+                            try {
+                                mEditor.putString("key", new String(aes, "ISO-8859-1"));
+                                mEditor.apply();
+                            } catch (UnsupportedEncodingException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+
+                        OTJ o = new OTJ();
+
+                        try {
+                            byBuffer = AESUtils.encrypt(mPassWord.getText().toString().trim().getBytes(), mPreferences.getString("key", "").getBytes("ISO-8859-1"));
+
+                            o.setUserName(mPhone.getText().toString().trim());
+                            o.setUserPwd(new String(byBuffer, "ISO-8859-1"));
+                        } catch (UnsupportedEncodingException e1) {
+                            e1.printStackTrace();
+                        }
+                        String s1 = new Gson().toJson(o);
+                        Response r = OkHttpManager.postJson("http://122.233.74.249:3000/login", s1);
                         if (r.isSuccessful()) {
                             ToastUtils.showShortToast("注册成功");
                         } else {
@@ -191,6 +220,19 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         } else {
             ToastUtils.showShortToast("请输入手机号和验证码");
+        }
+
+    }
+
+    class OTJ {
+        String UserName, UserPwd;
+
+        public void setUserName(String userName) {
+            UserName = userName;
+        }
+
+        public void setUserPwd(String userPwd) {
+            UserPwd = userPwd;
         }
     }
 }
