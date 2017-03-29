@@ -29,7 +29,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.blankj.utilcode.utils.ToastUtils;
 import com.blankj.utilcode.utils.Utils;
 import com.google.gson.Gson;
 
@@ -339,7 +338,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             OTJ o = new OTJ();
             String s1 = new Gson().toJson(o);
             Log.e("TAG", "s1:" + s1);
-            Response r = OkHttpManager.postJson("http://122.233.74.249:3000/login", s1);
+            Response r = OkHttpManager.postJson("http://www.foxnickel.cn:3000/login", s1);
             JSONObject jsonObject = null;
             String respStr = null;
             try {
@@ -355,7 +354,6 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            ToastUtils.showShortToast("" + loginStatus);
            /* if (loginStatus == 1)
                 return true;
             else

@@ -27,6 +27,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/personal_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ripple"
@@ -48,12 +49,17 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="32dp"
                     android:paddingTop="20dp"
-                    android:text="用户名"
+                    android:text="GTX560"
                     android:textColor="@android:color/black"
                     android:textSize="32sp"
                     android:textStyle="bold"/>
 
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/gray"/>
 
             <LinearLayout
                 android:id="@+id/my_listen"

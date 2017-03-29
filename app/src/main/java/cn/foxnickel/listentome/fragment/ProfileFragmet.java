@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import cn.foxnickel.listentome.DataAnalysis;
 import cn.foxnickel.listentome.ListenCollectionActivity;
+import cn.foxnickel.listentome.PersonalCenter;
 import cn.foxnickel.listentome.R;
 import cn.foxnickel.listentome.SettingsActivity;
 
@@ -33,7 +34,7 @@ public class ProfileFragmet extends Fragment implements View.OnClickListener {
 
     private View mRootView;
     private Toolbar mToolbar;
-    private LinearLayout mListen, mSpeech, mCollection, mDownload, mWord, mData, mAboutUs;
+    private LinearLayout mListen, mSpeech, mCollection, mDownload, mWord, mData, mAboutUs, mPersonalInfo;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,6 +54,7 @@ public class ProfileFragmet extends Fragment implements View.OnClickListener {
         mWord = (LinearLayout) mRootView.findViewById(R.id.my_word);
         mData = (LinearLayout) mRootView.findViewById(R.id.my_data);
         mAboutUs = (LinearLayout) mRootView.findViewById(R.id.about_us);
+        mPersonalInfo = (LinearLayout) mRootView.findViewById(R.id.personal_info);
     }
 
     private void setListener() {
@@ -73,6 +75,7 @@ public class ProfileFragmet extends Fragment implements View.OnClickListener {
                 return true;
             }
         });
+        mPersonalInfo.setOnClickListener(this);
     }
 
     @Override
@@ -114,6 +117,9 @@ public class ProfileFragmet extends Fragment implements View.OnClickListener {
                 });
                 AlertDialog dialog = builder.create();
                 dialog.show();
+                break;
+            case R.id.personal_info:
+                startActivity(new Intent(getActivity(), PersonalCenter.class));
                 break;
         }
     }

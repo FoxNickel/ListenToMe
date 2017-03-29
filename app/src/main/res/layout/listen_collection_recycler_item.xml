@@ -59,4 +59,5 @@
             android:text="成绩：96分"/>
 
     </RelativeLayout>
+
 </android.support.v7.widget.CardView>
