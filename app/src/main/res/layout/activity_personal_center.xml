@@ -19,7 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                android:src="@drawable/pic9"/>
+                android:src="@drawable/pic10"/>
 
             <ImageView
                 android:id="@+id/user_pic"
@@ -27,7 +27,7 @@
                 android:layout_height="104dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="48dp"
-                android:src="@drawable/pic7"/>
+                android:src="@drawable/pic9"/>
 
             <ImageView
                 android:id="@+id/Back"

@@ -15,10 +15,12 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import cn.foxnickel.listentome.DataAnalysis;
+import cn.foxnickel.listentome.DynamicCollectionActivity;
 import cn.foxnickel.listentome.ListenCollectionActivity;
 import cn.foxnickel.listentome.PersonalCenter;
 import cn.foxnickel.listentome.R;
 import cn.foxnickel.listentome.SettingsActivity;
+import cn.foxnickel.listentome.SpeechCollectionActivity;
 
 /**
  * Created by Administrator on 2017/3/3.
@@ -86,10 +88,10 @@ public class ProfileFragmet extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(), ListenCollectionActivity.class));
                 break;
             case R.id.my_speech:
-                Toast.makeText(getActivity(), "Myspeech", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), SpeechCollectionActivity.class));
                 break;
             case R.id.my_collection:
-                Toast.makeText(getActivity(), "Mycollection", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), DynamicCollectionActivity.class));
                 break;
             case R.id.my_download:
                 Toast.makeText(getActivity(), "Mydownload", Toast.LENGTH_SHORT).show();

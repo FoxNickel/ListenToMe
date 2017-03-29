@@ -28,7 +28,7 @@ public class PersonalCenter extends AppCompatActivity implements View.OnClickLis
         mBack.setScaleY(0.5f);
         mEdit.setScaleX(0.5f);
         mEdit.setScaleY(0.5f);
-        Bitmap userPic = ImageUtils.getBitmap(getResources(), R.drawable.pic7);
+        Bitmap userPic = ImageUtils.getBitmap(getResources(), R.drawable.pic9);
         userPic = ImageUtils.toRound(userPic);
         mUserPic.setImageBitmap(userPic);
         mBack.setOnClickListener(this);
