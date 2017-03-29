@@ -21,12 +21,17 @@ public class ListenCollectionActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private ListenCollectionRecyclerAdapter mListenCollectionRecyclerAdapter;
+    List<ListenExamBean> mListenExamBeen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listen_collection);
         initToolbar();
+        mListenExamBeen = new ArrayList<>();
+        mListenExamBeen.add(new ListenExamBean(Constants.QUESTION_IMAGE_PATH, "试卷名称", "试卷描述", "成绩 96 分"));
+        mListenExamBeen.add(new ListenExamBean(Constants.QUESTION_IMAGE_PATH, "试卷名称2", "试卷描述2", "成绩 97 分"));
+        mListenExamBeen.add(new ListenExamBean(Constants.QUESTION_IMAGE_PATH, "试卷名称3", "试卷描述3", "成绩 98 分"));
         initRecyclerView();
     }
 
@@ -45,15 +50,11 @@ public class ListenCollectionActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        List<ListenExamBean> ListenExamBeanList = new ArrayList<>();
-        ListenExamBeanList.add(new ListenExamBean(Constants.QUESTION_IMAGE_PATH, "试卷名称", "试卷描述", "成绩 96 分"));
-        ListenExamBeanList.add(new ListenExamBean(Constants.QUESTION_IMAGE_PATH, "试卷名称2", "试卷描述2", "成绩 97 分"));
-        ListenExamBeanList.add(new ListenExamBean(Constants.QUESTION_IMAGE_PATH, "试卷名称3", "试卷描述3", "成绩 98 分"));
         mRecyclerView = (RecyclerView) findViewById(R.id.listen_collection_recycler);
-        mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        mListenCollectionRecyclerAdapter = new ListenCollectionRecyclerAdapter(this, ListenExamBeanList);
-        mRecyclerView.setAdapter(mListenCollectionRecyclerAdapter);
+        mListenCollectionRecyclerAdapter = new ListenCollectionRecyclerAdapter(this, mListenExamBeen);
+        mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mListenCollectionRecyclerAdapter);
         mListenCollectionRecyclerAdapter.setOnItemClickListener(new ListenCollectionRecyclerAdapter.OnItemClickListener() {
             @Override
             public void OnItemCkick(View V, int position) {
@@ -61,4 +62,5 @@ public class ListenCollectionActivity extends AppCompatActivity {
             }
         });
     }
+
 }

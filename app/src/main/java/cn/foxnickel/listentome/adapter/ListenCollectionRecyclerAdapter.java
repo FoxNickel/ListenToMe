@@ -47,6 +47,7 @@ public class ListenCollectionRecyclerAdapter extends RecyclerView.Adapter<Listen
         holder.mQuestionName.setText(ListenExamBean.getQuestionName());
         holder.mQuestionDescription.setText(ListenExamBean.getQuestionDescription());
         holder.mQuestionGrade.setText(ListenExamBean.getGrade());
+        holder.mQuestionImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.pic9));
     }
 
     @Override
