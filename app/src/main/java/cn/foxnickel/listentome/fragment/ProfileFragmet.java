@@ -3,6 +3,7 @@ package cn.foxnickel.listentome.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,8 +12,11 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.blankj.utilcode.utils.ImageUtils;
 
 import cn.foxnickel.listentome.DataAnalysis;
 import cn.foxnickel.listentome.DynamicCollectionActivity;
@@ -37,6 +41,7 @@ public class ProfileFragmet extends Fragment implements View.OnClickListener {
     private View mRootView;
     private Toolbar mToolbar;
     private LinearLayout mListen, mSpeech, mCollection, mDownload, mWord, mData, mAboutUs, mPersonalInfo;
+    private ImageView mHeadPicture;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,6 +62,10 @@ public class ProfileFragmet extends Fragment implements View.OnClickListener {
         mData = (LinearLayout) mRootView.findViewById(R.id.my_data);
         mAboutUs = (LinearLayout) mRootView.findViewById(R.id.about_us);
         mPersonalInfo = (LinearLayout) mRootView.findViewById(R.id.personal_info);
+        mHeadPicture = (ImageView) mRootView.findViewById(R.id.head_picture);
+        Bitmap headPic = ImageUtils.getBitmap(getResources(), R.drawable.pic9);
+        headPic = ImageUtils.toRound(headPic);
+        mHeadPicture.setImageBitmap(headPic);
     }
 
     private void setListener() {

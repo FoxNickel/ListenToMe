@@ -55,7 +55,7 @@ public class CommentActvity extends AppCompatActivity implements View.OnClickLis
         mComments = (EditText) findViewById(R.id.text_comment);
         mDoComment = (Button) findViewById(R.id.bt_comment);
         mUserPicture = (ImageView) findViewById(R.id.head_picture);
-        Bitmap userPic = ImageUtils.getBitmap(getResources(), R.drawable.pic7);
+        Bitmap userPic = ImageUtils.getBitmap(getResources(), R.drawable.pic9);
         userPic = ImageUtils.toRound(userPic);
         mUserPicture.setImageBitmap(userPic);
         mUsername.setText(mIntent.getStringExtra("username"));

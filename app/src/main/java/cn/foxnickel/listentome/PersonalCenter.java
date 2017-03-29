@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.blankj.utilcode.utils.ImageUtils;
+import com.blankj.utilcode.utils.ToastUtils;
 
 public class PersonalCenter extends AppCompatActivity implements View.OnClickListener {
 
@@ -32,6 +33,7 @@ public class PersonalCenter extends AppCompatActivity implements View.OnClickLis
         userPic = ImageUtils.toRound(userPic);
         mUserPic.setImageBitmap(userPic);
         mBack.setOnClickListener(this);
+        mEdit.setOnClickListener(this);
     }
 
 
@@ -40,6 +42,9 @@ public class PersonalCenter extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.Back:
                 this.finish();
+                break;
+            case R.id.edit_info:
+                ToastUtils.showShortToast("修改资料");
                 break;
         }
     }

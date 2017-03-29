@@ -37,14 +37,18 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView() {
-        Bitmap levelPic = ImageUtils.getBitmap(getResources(), R.drawable.pic7);
-        levelPic = ImageUtils.toRound(levelPic);
+        Bitmap easyPic = ImageUtils.getBitmap(getResources(), R.drawable.easy_mode);
+        easyPic = ImageUtils.toRound(easyPic);
+        Bitmap middleMode = ImageUtils.getBitmap(getResources(), R.drawable.middle_mode);
+        middleMode = ImageUtils.toRound(middleMode);
+        Bitmap hardMode = ImageUtils.getBitmap(getResources(), R.drawable.hard_mode);
+        hardMode = ImageUtils.toRound(hardMode);
         mEasyImage = (ImageView) mRootView.findViewById(R.id.easy_image);
         mMiddleImage = (ImageView) mRootView.findViewById(R.id.middle_image);
         mHardImage = (ImageView) mRootView.findViewById(R.id.hard_image);
-        mEasyImage.setImageBitmap(levelPic);
-        mMiddleImage.setImageBitmap(levelPic);
-        mHardImage.setImageBitmap(levelPic);
+        mEasyImage.setImageBitmap(easyPic);
+        mMiddleImage.setImageBitmap(middleMode);
+        mHardImage.setImageBitmap(hardMode);
     }
 
 

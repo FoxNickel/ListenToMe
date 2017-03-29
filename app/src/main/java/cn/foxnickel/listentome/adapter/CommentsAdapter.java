@@ -52,7 +52,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         String commentTime = comment.getCommDate().substring(0, comment.getCommDate().indexOf(".")).replace("T", " ");
         holder.mTime.setText(commentTime);
         holder.mCommContent.setText(comment.getCommContent());
-        Bitmap userPic = ImageUtils.getBitmap(mContext.getResources(), R.drawable.pic7);
+        Bitmap userPic = ImageUtils.getBitmap(mContext.getResources(), R.drawable.pic9);
         userPic = ImageUtils.toRound(userPic);
         holder.mUserPic.setImageBitmap(userPic);
     }

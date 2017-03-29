@@ -3,6 +3,8 @@ package cn.foxnickel.listentome;
 import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -26,11 +28,25 @@ public class DataAnalysis extends AppCompatActivity {
 
     private LineChart mLineChart;
     private BarChart mBarChart;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_analysis);
+
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//显示返回上级的箭头
+        getSupportActionBar().setDisplayShowTitleEnabled(false);//将actionbar原有的标题去掉
+        /*返回上级*/
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         initLineChart();
         initBarChart();
     }
@@ -64,7 +80,7 @@ public class DataAnalysis extends AppCompatActivity {
         xAxis.setDrawGridLines(false);//无网格
         xAxis.setDrawAxisLine(true);//显示X轴
         /*X轴数据*/
-        final String[] xValues = {"3.14", "3.15", "3.16", "3.17", "3.18", "3.19", "3.20"};
+        final String[] xValues = {"3.25", "3.26", "3.27", "3.28", "3.29", "3.30", "3.31"};
         /*给X轴设置数据*/
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
@@ -89,13 +105,13 @@ public class DataAnalysis extends AppCompatActivity {
 
         /*3.添加数据*/
         ArrayList<BarEntry> entries1 = new ArrayList<>();//Entry就是折线图上的点
-        entries1.add(new BarEntry(0, 85));
-        entries1.add(new BarEntry(1, 88));
-        entries1.add(new BarEntry(2, 75));
-        entries1.add(new BarEntry(3, 69));
-        entries1.add(new BarEntry(4, 95));
-        entries1.add(new BarEntry(5, 77));
-        entries1.add(new BarEntry(6, 88));
+        entries1.add(new BarEntry(0, 20));
+        entries1.add(new BarEntry(1, 35));
+        entries1.add(new BarEntry(2, 10));
+        entries1.add(new BarEntry(3, 40));
+        entries1.add(new BarEntry(4, 22));
+        entries1.add(new BarEntry(5, 44));
+        entries1.add(new BarEntry(6, 5));
 
         BarDataSet barDataSet = new BarDataSet(entries1, "使用时间");
 
@@ -133,7 +149,7 @@ public class DataAnalysis extends AppCompatActivity {
         xAxis.setDrawGridLines(false);//无网格
         xAxis.setDrawAxisLine(true);//显示X轴
         /*X轴数据*/
-        final String[] xValues = {"3.14", "3.15", "3.16", "3.17", "3.18", "3.19", "3.20"};
+        final String[] xValues = {"3.25", "3.26", "3.27", "3.28", "3.29", "3.30", "3.31"};
         /*给X轴设置数据*/
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
@@ -163,7 +179,7 @@ public class DataAnalysis extends AppCompatActivity {
         entries1.add(new Entry(3, 69));
         entries1.add(new Entry(4, 95));
         entries1.add(new Entry(5, 77));
-        entries1.add(new Entry(6, 88));
+        entries1.add(new Entry(6, 0));
 
         ArrayList<Entry> entries2 = new ArrayList<>();
         entries2.add(new Entry(0, 75));
@@ -172,7 +188,7 @@ public class DataAnalysis extends AppCompatActivity {
         entries2.add(new Entry(3, 79));
         entries2.add(new Entry(4, 85));
         entries2.add(new Entry(5, 97));
-        entries2.add(new Entry(6, 78));
+        entries2.add(new Entry(6, 0));
 
         /*LineDataSet是点的集合，连成线*/
         LineDataSet lineDataSet1 = new LineDataSet(entries1, "听力");
