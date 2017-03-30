@@ -44,7 +44,7 @@ public class ListenFragmet extends Fragment {
             @Override
             public void run() {
                 mBanneer = (BGABanner) mRootView.findViewById(R.id.pic_banner);
-                mBanneer.setData(R.drawable.pic1, R.drawable.pic2, R.drawable.pic3);
+                mBanneer.setData(R.drawable.cet4_2016_6_2_banner, R.drawable.cet6_2016_6_1_banner, R.drawable.cet4_2016_6_2_banner);
             }
         }.run();
 

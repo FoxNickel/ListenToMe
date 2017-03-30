@@ -2,16 +2,17 @@ package cn.foxnickel.listentome.fragment.subfragment;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import cn.foxnickel.listentome.ListenExamActivity;
+import com.blankj.utilcode.utils.ImageUtils;
+
 import cn.foxnickel.listentome.ListenExcerciseActivity;
 import cn.foxnickel.listentome.R;
 
@@ -21,8 +22,9 @@ import cn.foxnickel.listentome.R;
 public class ExerciseFragment extends Fragment implements View.OnClickListener {
 
     private View mRootView;
-    private Button mEasy, mMiddle, mHard, mStartExercise;
-    private ImageView mModeImage;
+    private ImageView mEasyImage, mMiddleImage, mHardImage;
+    private CardView mEasyCard, mMiddleCard, mHardCard;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -33,18 +35,27 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setListener() {
-        mEasy.setOnClickListener(this);
-        mMiddle.setOnClickListener(this);
-        mHard.setOnClickListener(this);
-        mStartExercise.setOnClickListener(this);
+        mEasyCard.setOnClickListener(this);
+        mMiddleCard.setOnClickListener(this);
+        mHardCard.setOnClickListener(this);
     }
 
     private void initView() {
-        mEasy = (Button) mRootView.findViewById(R.id.exercise_easy);
-        mMiddle = (Button) mRootView.findViewById(R.id.exercise_middle);
-        mHard = (Button) mRootView.findViewById(R.id.exercise_hard);
-        mModeImage = (ImageView) mRootView.findViewById(R.id.mode_image);
-        mStartExercise = (Button) mRootView.findViewById(R.id.start_exercise);
+        Bitmap easyPic = ImageUtils.getBitmap(getResources(), R.drawable.easy_mode);
+        easyPic = ImageUtils.toRound(easyPic);
+        Bitmap middleMode = ImageUtils.getBitmap(getResources(), R.drawable.middle_mode);
+        middleMode = ImageUtils.toRound(middleMode);
+        Bitmap hardMode = ImageUtils.getBitmap(getResources(), R.drawable.hard_mode);
+        hardMode = ImageUtils.toRound(hardMode);
+        mEasyImage = (ImageView) mRootView.findViewById(R.id.easy_image);
+        mMiddleImage = (ImageView) mRootView.findViewById(R.id.middle_image);
+        mHardImage = (ImageView) mRootView.findViewById(R.id.hard_image);
+        mEasyImage.setImageBitmap(easyPic);
+        mMiddleImage.setImageBitmap(middleMode);
+        mHardImage.setImageBitmap(hardMode);
+        mEasyCard = (CardView) mRootView.findViewById(R.id.easy_mode);
+        mMiddleCard = (CardView) mRootView.findViewById(R.id.middle_mode);
+        mHardCard = (CardView) mRootView.findViewById(R.id.hard_mode);
     }
 
 
@@ -52,26 +63,13 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.exercise_easy:
-                mModeImage.setImageResource(R.drawable.exercise_easy);
-                mEasy.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                mMiddle.setBackgroundColor(getResources().getColor(android.R.color.white));
-                mHard.setBackgroundColor(getResources().getColor(android.R.color.white));
+            case R.id.easy_mode:
+                startActivity(new Intent(getActivity(), ListenExcerciseActivity.class));
                 break;
-            case R.id.exercise_middle:
-                mModeImage.setImageResource(R.drawable.exercise_middle);
-                mMiddle.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                mEasy.setBackgroundColor(getResources().getColor(android.R.color.white));
-                mHard.setBackgroundColor(getResources().getColor(android.R.color.white));
+            case R.id.middle_mode:
+                startActivity(new Intent(getActivity(), ListenExcerciseActivity.class));
                 break;
-            case R.id.exercise_hard:
-                mModeImage.setImageResource(R.drawable.exercise_hard);
-                mHard.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                mMiddle.setBackgroundColor(getResources().getColor(android.R.color.white));
-                mEasy.setBackgroundColor(getResources().getColor(android.R.color.white));
-                break;
-            case R.id.start_exercise:
-                Toast.makeText(getActivity(), "开始练习", Toast.LENGTH_SHORT).show();
+            case R.id.hard_mode:
                 startActivity(new Intent(getActivity(), ListenExcerciseActivity.class));
                 break;
         }

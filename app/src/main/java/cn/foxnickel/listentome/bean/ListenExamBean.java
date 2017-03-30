@@ -8,7 +8,6 @@ package cn.foxnickel.listentome.bean;
 public class ListenExamBean {
     String mImagePath,mQuestionName,mQuestionDescription,mGrade,mResourcesPath;
 
-
     public ListenExamBean(String imagePath, String questionName, String questionDescription, String grade) {
         mImagePath = imagePath;
         mQuestionName = questionName;

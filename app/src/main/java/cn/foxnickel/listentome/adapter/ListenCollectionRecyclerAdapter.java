@@ -1,6 +1,7 @@
 package cn.foxnickel.listentome.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,8 +39,7 @@ public class ListenCollectionRecyclerAdapter extends RecyclerView.Adapter<Listen
     @Override
     public ListenCollectionRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.listen_collection_recycler_item, parent, false);
-        ListenCollectionRecyclerAdapter.ViewHolder holder = new ListenCollectionRecyclerAdapter.ViewHolder(v);
-        return holder;
+        return new ListenCollectionRecyclerAdapter.ViewHolder(v);
     }
 
     @Override
@@ -48,6 +48,7 @@ public class ListenCollectionRecyclerAdapter extends RecyclerView.Adapter<Listen
         holder.mQuestionName.setText(ListenExamBean.getQuestionName());
         holder.mQuestionDescription.setText(ListenExamBean.getQuestionDescription());
         holder.mQuestionGrade.setText(ListenExamBean.getGrade());
+        holder.mQuestionImage.setImageURI(Uri.parse(ListenExamBean.getImagePath()));
     }
 
     @Override

@@ -3,6 +3,7 @@ package cn.foxnickel.listentome.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,14 +12,20 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.blankj.utilcode.utils.ImageUtils;
+
 import cn.foxnickel.listentome.DataAnalysis;
+import cn.foxnickel.listentome.DynamicCollectionActivity;
 import cn.foxnickel.listentome.ListenCollectionActivity;
+import cn.foxnickel.listentome.PersonalCenter;
 import cn.foxnickel.listentome.MyWordActivity;
 import cn.foxnickel.listentome.R;
 import cn.foxnickel.listentome.SettingsActivity;
+import cn.foxnickel.listentome.SpeechCollectionActivity;
 
 /**
  * Created by Administrator on 2017/3/3.
@@ -34,7 +41,8 @@ public class ProfileFragmet extends Fragment implements View.OnClickListener {
 
     private View mRootView;
     private Toolbar mToolbar;
-    private LinearLayout mListen, mSpeech, mCollection, mDownload, mWord, mData, mAboutUs;
+    private LinearLayout mListen, mSpeech, mCollection, mDownload, mWord, mData, mAboutUs, mPersonalInfo;
+    private ImageView mHeadPicture;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,6 +62,11 @@ public class ProfileFragmet extends Fragment implements View.OnClickListener {
         mWord = (LinearLayout) mRootView.findViewById(R.id.my_word);
         mData = (LinearLayout) mRootView.findViewById(R.id.my_data);
         mAboutUs = (LinearLayout) mRootView.findViewById(R.id.about_us);
+        mPersonalInfo = (LinearLayout) mRootView.findViewById(R.id.personal_info);
+        mHeadPicture = (ImageView) mRootView.findViewById(R.id.head_picture);
+        Bitmap headPic = ImageUtils.getBitmap(getResources(), R.drawable.pic9);
+        headPic = ImageUtils.toRound(headPic);
+        mHeadPicture.setImageBitmap(headPic);
     }
 
     private void setListener() {
@@ -74,6 +87,7 @@ public class ProfileFragmet extends Fragment implements View.OnClickListener {
                 return true;
             }
         });
+        mPersonalInfo.setOnClickListener(this);
     }
 
     @Override
@@ -84,10 +98,10 @@ public class ProfileFragmet extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(), ListenCollectionActivity.class));
                 break;
             case R.id.my_speech:
-                Toast.makeText(getActivity(), "Myspeech", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), SpeechCollectionActivity.class));
                 break;
             case R.id.my_collection:
-                Toast.makeText(getActivity(), "Mycollection", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), DynamicCollectionActivity.class));
                 break;
             case R.id.my_download:
                 Toast.makeText(getActivity(), "Mydownload", Toast.LENGTH_SHORT).show();
@@ -115,6 +129,9 @@ public class ProfileFragmet extends Fragment implements View.OnClickListener {
                 });
                 AlertDialog dialog = builder.create();
                 dialog.show();
+                break;
+            case R.id.personal_info:
+                startActivity(new Intent(getActivity(), PersonalCenter.class));
                 break;
         }
     }

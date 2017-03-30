@@ -7,4 +7,10 @@
         <item>"小莫----UI"</item>
         <item>"小黄----PM"</item>
     </string-array>
+
+    <string-array name="contact_us">
+        <item>"电话:18100171234"</item>
+        <item>"邮箱:ListenToMeHelper@hdu.com"</item>
+    </string-array>
+
 </resources>

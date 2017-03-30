@@ -76,7 +76,7 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.ViewHolder
         holder.applaud.setText(String.valueOf(dynamic.getDSLike()));
         holder.terrible.setText(String.valueOf(dynamic.getDSDislike()));
         holder.userName.setText(String.valueOf(dynamic.getUserName()));
-        Bitmap bitmap = ImageUtils.getBitmap(mContext.getResources(), R.drawable.pic7);
+        Bitmap bitmap = ImageUtils.getBitmap(mContext.getResources(), R.drawable.pic9);
         bitmap = ImageUtils.toRound(bitmap);
         holder.avator.setImageBitmap(bitmap);
         holder.time.setText(dynamic.getDSDate().substring(0, dynamic.getDSDate().indexOf("T")));

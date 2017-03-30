@@ -1,15 +1,12 @@
-package cn.foxnickel.listentome.fragment;
+package cn.foxnickel.listentome;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 
@@ -17,49 +14,46 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import cn.foxnickel.listentome.R;
 import cn.foxnickel.listentome.adapter.SocialAdapter;
 import cn.foxnickel.listentome.bean.Dynamic;
 import cn.foxnickel.listentome.utils.GetJsonFromServerTask;
-import cn.foxnickel.listentome.utils.OkHttpManager;
 
-/**
- * Created by Administrator on 2017/3/3.
- */
+public class DynamicCollectionActivity extends AppCompatActivity {
 
-public class SocialFragmet extends Fragment {
-    private View mRootView;
     private Toolbar mToolbar;
-    private SocialAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
-    private OkHttpManager mOkHttpManager = new OkHttpManager();
+    private SocialAdapter mSocialAdapter;
+    private List<Dynamic> mDynamicList;
     private final String TAG = getClass().getSimpleName();
-    List<Dynamic> mDynamicList;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
+        setContentView(R.layout.activity_dynamic_collection);
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.fragment_social, container, false);
-
-        initView();
-        getDataFromServer();
-
-        mAdapter = new SocialAdapter(mDynamicList, getActivity());
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new SocialAdapter.OnItemClickListener() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//显示返回上级的箭头
+        getSupportActionBar().setDisplayShowTitleEnabled(false);//将actionbar原有的标题去掉
+        /*返回上级*/
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
-                Log.e("TAG","position "+position);
+            public void onClick(View v) {
+                finish();
             }
         });
-        return mRootView;
+
+        initRecycler();
+    }
+
+    private void initRecycler() {
+        getDataFromServer();
+        mRecyclerView = (RecyclerView) findViewById(R.id.dynamic_recycler);
+        mLayoutManager = new LinearLayoutManager(this);
+        mSocialAdapter = new SocialAdapter(mDynamicList, this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mSocialAdapter);
     }
 
     private void getDataFromServer() {
@@ -77,14 +71,6 @@ public class SocialFragmet extends Fragment {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-    }
-
-    private void initView() {
-        mToolbar = (Toolbar) mRootView.findViewById(R.id.toolbar);
-        mToolbar.inflateMenu(R.menu.action_search);
-        mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.rv_social);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
     }
 
     private String formatJsonString(String string) {

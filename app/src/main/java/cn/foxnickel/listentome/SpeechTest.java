@@ -114,11 +114,9 @@ public class SpeechTest extends AppCompatActivity implements View.OnClickListene
                 mShowDetail.setVisibility(View.GONE);
                 break;
             case R.id.bt_previous:
-                showTip("Previous");
                 mContent.setText("No,I'm not mi fan.");
                 break;
             case R.id.bt_next:
-                showTip("Next");
                 mContent.setText("Yes,I'm mi fan.");
                 break;
         }
