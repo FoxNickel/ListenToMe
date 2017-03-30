@@ -4,16 +4,20 @@ import android.os.Bundle;
 
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
+import java.util.concurrent.ExecutionException;
+
 import cn.foxnickel.listentome.fragment.ListenFragmet;
 import cn.foxnickel.listentome.fragment.ProfileFragmet;
 import cn.foxnickel.listentome.fragment.SocialFragmet;
 import cn.foxnickel.listentome.fragment.SpeechFragmet;
+import cn.foxnickel.listentome.utils.GetJsonFromServerTask;
 
 public class MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener{
 
@@ -30,6 +34,15 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         initBottomNavBar();
         initTab();
         mBottomNavigationBar.setTabSelectedListener(this);
+        String s = null;
+        try {
+            s = new GetJsonFromServerTask().execute("http://www.foxnickel.cn:3000/1/Info").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        Log.e("TAG", "User message " + s);
     }
 
 
@@ -120,9 +133,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     public void finish() {
         mBackClickTimes++;
         if (mBackClickTimes == 1) {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.content_main, mListenFragmet);
-            transaction.commit();
             Toast.makeText(this, "再按一次即可退出", Toast.LENGTH_LONG).show();
         } else if (mBackClickTimes == 2) {
             super.finish();

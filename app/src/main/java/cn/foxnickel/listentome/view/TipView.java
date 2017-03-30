@@ -2,13 +2,18 @@ package cn.foxnickel.listentome.view;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaPlayer;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,10 +22,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
+import cn.foxnickel.listentome.ListenExamActivity;
 import cn.foxnickel.listentome.R;
+import cn.foxnickel.listentome.dao.ListenToMeDataBaseHelper;
 import cn.foxnickel.listentome.translate.Result;
 
 /**
@@ -42,13 +48,15 @@ public class TipView extends LinearLayout {
     private ImageView mIvSound;
     private ImageView mIvDone;
     private TextView mTvPoint;
-
+    public MediaPlayer mPlayer;
     Result mResult = null;
-
+    private ListenToMeDataBaseHelper mDataBaseHelper;
     private ITipViewListener mListener;
+    private String wordExplain, wordAudio;
 
     public TipView(Context context) {
         this(context, null);
+        mDataBaseHelper = new ListenToMeDataBaseHelper(context, "ListenToMeDB.db", null, 1);
     }
 
     public TipView(Context context, AttributeSet attrs) {
@@ -59,6 +67,7 @@ public class TipView extends LinearLayout {
         super(context, attrs, defStyleAttr);
         TipView view = (TipView) View.inflate(context, R.layout.pop_view, this);
         rootView = view;
+        mDataBaseHelper = new ListenToMeDataBaseHelper(context, "ListenToMeDB.db", null, 1);
         mRlInner = (RelativeLayout) view.findViewById(R.id.rl_pop_inner);
         mTvSrc = (TextView) view.findViewById(R.id.tv_pop_src);
         mTvPoint = (TextView) view.findViewById(R.id.tv_point);
@@ -70,8 +79,7 @@ public class TipView extends LinearLayout {
         mIvDone = (ImageView) view.findViewById(R.id.iv_done);
         mContentView = view.findViewById(R.id.pop_view_content_view);
         initView();
-        setFavoriteBackground(R.drawable.ic_favorite_pink_24dp);
-
+        addListener();
     }
 
     public void error(String error) {
@@ -82,23 +90,22 @@ public class TipView extends LinearLayout {
         mTvPoint.setText(error);
     }
 
-    public void setContent(Result result, boolean isShowFavoriteButton, boolean isShowDoneMark) {
-        if (result == null) return;
-        mResult = result;
-        //  initView(result,isShowFavoriteButton,isShowDoneMark);
-        addListener(result);
 
-        setQuery(result.getQuery());
-        setPhonetic(result.getPhAm());
-
-        List<String> temp = result.getExplains();
-        if (temp.isEmpty()) {
-            temp = result.getTranslation();
-            if (temp == null) {
-                temp = new ArrayList<>();
-            }
+    public void initMediaPlayer(String mp3URL) {
+        wordAudio = mp3URL;
+        mPlayer = new MediaPlayer();
+        try {
+            mPlayer.setDataSource(mp3URL);
+            mPlayer.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
+                @Override
+                public void onSeekComplete(MediaPlayer mediaPlayer) {
+                    mediaPlayer.start();
+                }
+            });
+            mPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
     }
 
     //设置显示动画
@@ -126,6 +133,7 @@ public class TipView extends LinearLayout {
 
     //为每个释义设置内容
     public void addExplain(String explains) {
+        wordExplain = explains;
         mLlDst.addView(ViewUtil.getWordsView(getContext(), explains, android.R.color.white, false));
     }
 
@@ -136,49 +144,90 @@ public class TipView extends LinearLayout {
         mTvSrc.setVisibility(View.VISIBLE);
         mTvPhonetic.setVisibility(VISIBLE);
         mTvPoint.setVisibility(VISIBLE);
+        mIvFavorite.setTag(false);
     }
 
     public void setText(String text) {
         mTvSrc.setText(text);
     }
 
-    private void addListener(final Result result) {
+    public String getText() {
+        return mTvSrc.getText().toString().trim();
+    }
+
+    private void addListener() {
         mIvFavorite.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                mListener.onClickFavorite(view, result);
+                if ((Boolean) view.getTag() == false) {
+                    setFavoriteBackground(R.drawable.ic_favorite_pink_24dp, true);
+                    SQLiteDatabase db = mDataBaseHelper.getWritableDatabase();
+                    db.execSQL("insert into Word(WordName,WordPhoneticText" +
+                                    ",WordExplain,WordPhoneticAudio) values(?,?,?,?)",
+                            new String[]{mTvSrc.getText().toString().trim(), mTvPhonetic.getText().toString().trim(),
+                                    wordExplain, wordAudio});
+                    Cursor cursor = db.rawQuery("select WordId from Word where WordName=?", new String[]{mTvSrc.getText().toString().trim()});
+                    cursor.moveToNext();
+                    int wordId = cursor.getInt(cursor.getColumnIndex("WordId"));
+                    db.execSQL("insert into WordCollection(UserId,WordId,WorkMark" +
+                                    ") values(?,?,?)",
+                            new String[]{"1", wordId + "", "0"});
+                    cursor.close();
+                } else {
+                    setFavoriteBackground(R.drawable.ic_favorite_border_white_24dp, false);
+                    SQLiteDatabase db = mDataBaseHelper.getWritableDatabase();
+                    db.execSQL("delete from WordCollection where WordId=" +
+                            "(select WordId from Word where WordName=?)", new String[]{mTvSrc.getText().toString().trim()});
+                    db.execSQL("delete from Word where WordName=?", new String[]{mTvSrc.getText().toString().trim()});
+                }
             }
+
+
         });
 
         mIvSound.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mListener != null) {
-                    mListener.onClickPlaySound(v, result);
-                }
+                startSoundAnim(v);
+                mPlayer.start();
             }
         });
-        mIvDone.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mListener != null) {
-                    mListener.onClickDone(v, result);
-                }
-            }
 
-        });
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mListener != null) {
-                    mListener.onClickTipFrame(v, result);
+                    startSoundAnim(v);
                 }
             }
         });
     }
 
-    public void setFavoriteBackground(@DrawableRes int drawableSrc) {
+    public void startSoundAnim(View view) {
+        addScaleAnim(view, 1000, null);
+    }
+
+    private void addScaleAnim(View view, long duration, final ListenExamActivity.AnimationEndListener listener) {
+        ObjectAnimator animY = ObjectAnimator.ofFloat(view, "scaleY", 1f, 0.5f, 1f, 1.2f, 1f);
+        ObjectAnimator animX = ObjectAnimator.ofFloat(view, "scaleX", 1f, 0.5f, 1f, 1.2f, 1f);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(animX, animY);
+        animatorSet.setDuration(duration);
+        animatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                if (listener != null) {
+                    listener.onAnimationEnd(animation);
+                }
+            }
+        });
+        animatorSet.start();
+    }
+
+    public void setFavoriteBackground(@DrawableRes int drawableSrc, Boolean b) {
         mIvFavorite.setImageResource(drawableSrc);
+        mIvFavorite.setTag(b);
     }
 
     public void setListener(ITipViewListener mListener) {
@@ -187,13 +236,13 @@ public class TipView extends LinearLayout {
 
     public interface ITipViewListener {
 
-        void onClickFavorite(View view, Result result);
+        void onClickFavorite(View view);
 
-        void onClickPlaySound(View view, Result result);
+        void onClickPlaySound(View view, String playSound);
 
-        void onClickDone(View view, Result result);
+        void onClickTipFrame(View view);
 
-        void onClickTipFrame(View view, Result result);
+        public abstract void setContent(String content);
 
         /**
          * set up favorite view state  base on it change background of favorite view
@@ -268,4 +317,5 @@ public class TipView extends LinearLayout {
         tv.setText(word);
         return tv;
     }
+
 }

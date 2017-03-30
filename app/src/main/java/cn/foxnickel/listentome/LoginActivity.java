@@ -333,8 +333,6 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            String s = "{UserName:" + "'GTX560'," + " UserPwd:" +
-                    mPassword + "}";
             OTJ o = new OTJ();
             String s1 = new Gson().toJson(o);
             Log.e("TAG", "s1:" + s1);
@@ -354,11 +352,12 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             } catch (IOException e) {
                 e.printStackTrace();
             }
-           /* if (loginStatus == 1)
+            Log.e("TAG", "respstr:" + respStr);
+            if (loginStatus == 1)
                 return true;
             else
-                return false;*/
-            return true;
+                return false;
+
             // TODO: register the new account here.
         }
 

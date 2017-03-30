@@ -13,7 +13,7 @@ import java.util.List;
 
 
 public class ListenPagerAdapter extends FragmentPagerAdapter {
-
+    
     private final int PAGER_COUNT = 2;
     private Context mContext;
     private List<Fragment> mFragmentList;

@@ -20,11 +20,11 @@ import cn.foxnickel.listentome.bean.HearingIssueBean;
  * @author Night
  * @since 2017-03-27
  */
-public class ListenAnswerAdapter extends RecyclerView.Adapter<ListenAnswerAdapter.ViewHolder> {
+public class ListenExamAnswerAdapter extends RecyclerView.Adapter<ListenExamAnswerAdapter.ViewHolder> {
     private final Context context;
     private List<HearingIssueBean> items;
 
-    public ListenAnswerAdapter(List<HearingIssueBean> items, Context context) {
+    public ListenExamAnswerAdapter(List<HearingIssueBean> items, Context context) {
         this.items = items;
         this.context = context;
     }

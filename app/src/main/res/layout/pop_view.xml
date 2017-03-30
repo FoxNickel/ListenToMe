@@ -127,4 +127,3 @@
         android:layout_height="2dp"
         android:background="@drawable/shadow_below"/>
 </LinearLayout>
-

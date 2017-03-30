@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Copyright (C) 2015 GuDong <gudong.name@gmail.com>
+  ~
+  ~  This file is part of GdTranslate
+  ~
+  ~  GdTranslate is free software: you can redistribute it and/or modify
+  ~  it under the terms of the GNU General Public License as published by
+  ~  the Free Software Foundation, either version 3 of the License, or
+  ~  (at your option) any later version.
+  ~
+  ~  GdTranslate is distributed in the hope that it will be useful,
+  ~  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~  GNU General Public License for more details.
+  ~
+  ~  You should have received a copy of the GNU General Public License
+  ~  along with GdTranslate.  If not, see <http://www.gnu.org/licenses/>.
+  ~
+  -->
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_word_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:background="?attr/selectableItemBackground"
+    android:paddingBottom="@dimen/md_content_padding_top"
+    android:paddingLeft="16dp"
+    android:paddingTop="@dimen/md_content_padding_top">
+
+
+    <ImageView
+        android:id="@+id/iv_over_flow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp"
+        android:background="@drawable/selector_over_flow"
+        android:clickable="true"
+        android:padding="8dp"
+        app:srcCompat="@drawable/ic_more_vert_black_24dp"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_word_Name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/iv_over_flow"
+        android:animateLayoutChanges="true">
+
+        <TextView
+            android:id="@+id/tv_pop_src"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:ellipsize="end"
+            android:gravity="left"
+            android:maxLength="26"
+            android:maxLines="1"
+            android:textAppearance="?attr/textAppearanceListItem"
+            tools:text="words"/>
+
+        <TextView
+            android:id="@+id/tv_pop_phonetic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_pop_src"
+            android:layout_marginLeft="6dp"
+            android:layout_toRightOf="@+id/tv_pop_src"
+            tools:text="[wɑ:t]"/>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_sound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_toRightOf="@+id/tv_pop_phonetic"
+            app:srcCompat="@drawable/ic_volume_up_black_24dp"/>
+
+        <LinearLayout
+            android:id="@+id/ll_pop_dst"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_pop_src"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            android:visibility="visible"/>
+    </RelativeLayout>
+
+    <ImageView android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/iv_bookmark"
+               android:src="@drawable/bookmark"
+               android:layout_toLeftOf="@id/iv_over_flow"/>
+    <TextView android:id="@+id/tv_explain"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/rl_word_Name"
+              android:layout_toStartOf="@id/iv_bookmark"
+              android:layout_alignParentLeft="true"
+              android:text="explain"
+              android:textSize="16sp"/>
+</RelativeLayout>
