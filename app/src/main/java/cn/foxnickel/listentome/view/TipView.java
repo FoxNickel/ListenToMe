@@ -5,15 +5,15 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.graphics.drawable.TransitionDrawable;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
-import android.os.Environment;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
-import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,15 +22,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import cn.foxnickel.listentome.ListenExamActivity;
 import cn.foxnickel.listentome.R;
+import cn.foxnickel.listentome.dao.ListenToMeDataBaseHelper;
 import cn.foxnickel.listentome.translate.Result;
-import cn.foxnickel.listentome.utils.MyApplication;
 
 /**
  * Created by GuDong on 3/15/16 18:26.
@@ -53,11 +50,13 @@ public class TipView extends LinearLayout {
     private TextView mTvPoint;
     public MediaPlayer mPlayer;
     Result mResult = null;
-
+    private ListenToMeDataBaseHelper mDataBaseHelper;
     private ITipViewListener mListener;
+    private String wordExplain, wordAudio;
 
     public TipView(Context context) {
         this(context, null);
+        mDataBaseHelper = new ListenToMeDataBaseHelper(context, "ListenToMeDB.db", null, 1);
     }
 
     public TipView(Context context, AttributeSet attrs) {
@@ -68,6 +67,7 @@ public class TipView extends LinearLayout {
         super(context, attrs, defStyleAttr);
         TipView view = (TipView) View.inflate(context, R.layout.pop_view, this);
         rootView = view;
+        mDataBaseHelper = new ListenToMeDataBaseHelper(context, "ListenToMeDB.db", null, 1);
         mRlInner = (RelativeLayout) view.findViewById(R.id.rl_pop_inner);
         mTvSrc = (TextView) view.findViewById(R.id.tv_pop_src);
         mTvPoint = (TextView) view.findViewById(R.id.tv_point);
@@ -92,6 +92,7 @@ public class TipView extends LinearLayout {
 
 
     public void initMediaPlayer(String mp3URL) {
+        wordAudio = mp3URL;
         mPlayer = new MediaPlayer();
         try {
             mPlayer.setDataSource(mp3URL);
@@ -106,6 +107,7 @@ public class TipView extends LinearLayout {
             e.printStackTrace();
         }
     }
+
     //设置显示动画
     public void startWithAnim() {
         ObjectAnimator translationAnim = ObjectAnimator.ofFloat(mContentView, "translationY", -700, 0);
@@ -131,6 +133,7 @@ public class TipView extends LinearLayout {
 
     //为每个释义设置内容
     public void addExplain(String explains) {
+        wordExplain = explains;
         mLlDst.addView(ViewUtil.getWordsView(getContext(), explains, android.R.color.white, false));
     }
 
@@ -148,16 +151,34 @@ public class TipView extends LinearLayout {
         mTvSrc.setText(text);
     }
 
+    public String getText() {
+        return mTvSrc.getText().toString().trim();
+    }
+
     private void addListener() {
         mIvFavorite.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 if ((Boolean) view.getTag() == false) {
-                    setFavoriteBackground(R.drawable.ic_favorite_pink_24dp);
-                    mIvFavorite.setTag(true);
+                    setFavoriteBackground(R.drawable.ic_favorite_pink_24dp, true);
+                    SQLiteDatabase db = mDataBaseHelper.getWritableDatabase();
+                    db.execSQL("insert into Word(WordName,WordPhoneticText" +
+                                    ",WordExplain,WordPhoneticAudio) values(?,?,?,?)",
+                            new String[]{mTvSrc.getText().toString().trim(), mTvPhonetic.getText().toString().trim(),
+                                    wordExplain, wordAudio});
+                    Cursor cursor = db.rawQuery("select WordId from Word where WordName=?", new String[]{mTvSrc.getText().toString().trim()});
+                    cursor.moveToNext();
+                    int wordId = cursor.getInt(cursor.getColumnIndex("WordId"));
+                    db.execSQL("insert into WordCollection(UserId,WordId,WorkMark" +
+                                    ") values(?,?,?)",
+                            new String[]{"1", wordId + "", "0"});
+                    cursor.close();
                 } else {
-                    setFavoriteBackground(R.drawable.ic_favorite_border_white_24dp);
-                    mIvFavorite.setTag(false);
+                    setFavoriteBackground(R.drawable.ic_favorite_border_white_24dp, false);
+                    SQLiteDatabase db = mDataBaseHelper.getWritableDatabase();
+                    db.execSQL("delete from WordCollection where WordId=" +
+                            "(select WordId from Word where WordName=?)", new String[]{mTvSrc.getText().toString().trim()});
+                    db.execSQL("delete from Word where WordName=?", new String[]{mTvSrc.getText().toString().trim()});
                 }
             }
 
@@ -203,8 +224,10 @@ public class TipView extends LinearLayout {
         });
         animatorSet.start();
     }
-    public void setFavoriteBackground(@DrawableRes int drawableSrc) {
+
+    public void setFavoriteBackground(@DrawableRes int drawableSrc, Boolean b) {
         mIvFavorite.setImageResource(drawableSrc);
+        mIvFavorite.setTag(b);
     }
 
     public void setListener(ITipViewListener mListener) {
@@ -220,6 +243,7 @@ public class TipView extends LinearLayout {
         void onClickTipFrame(View view);
 
         public abstract void setContent(String content);
+
         /**
          * set up favorite view state  base on it change background of favorite view
          *

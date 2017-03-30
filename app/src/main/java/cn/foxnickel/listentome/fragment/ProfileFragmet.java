@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import cn.foxnickel.listentome.DataAnalysis;
 import cn.foxnickel.listentome.ListenCollectionActivity;
+import cn.foxnickel.listentome.MyWordActivity;
 import cn.foxnickel.listentome.R;
 import cn.foxnickel.listentome.SettingsActivity;
 
@@ -92,7 +93,7 @@ public class ProfileFragmet extends Fragment implements View.OnClickListener {
                 Toast.makeText(getActivity(), "Mydownload", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.my_word:
-                Toast.makeText(getActivity(), "Myword", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), MyWordActivity.class));
                 break;
             case R.id.my_data:
                 startActivity(new Intent(getActivity(), DataAnalysis.class));

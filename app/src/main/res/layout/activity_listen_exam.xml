@@ -67,7 +67,7 @@
                    android:layout_height="16dp"
                    android:layout_marginLeft="48dp"
                    android:layout_toRightOf="@id/ct_count_time"
-                   android:src="@drawable/ic_volume_up_white_24dp"/>
+                   app:srcCompat="@drawable/ic_volume_up_white_24dp"/>
     </RelativeLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_question"

@@ -89,6 +89,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ListenExcerciseActivity"/>
+        <activity android:name=".MyWordActivity"/>
     </application>
 
 </manifest>

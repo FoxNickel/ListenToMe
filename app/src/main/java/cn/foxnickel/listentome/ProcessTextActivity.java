@@ -3,6 +3,8 @@ package cn.foxnickel.listentome;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import cn.foxnickel.listentome.bean.WordBean;
+import cn.foxnickel.listentome.dao.ListenToMeDataBaseHelper;
 import cn.foxnickel.listentome.utils.GetJsonFromServerTask;
 import cn.foxnickel.listentome.utils.OkHttpManager;
 import cn.foxnickel.listentome.view.TipView;
@@ -42,6 +45,7 @@ public class ProcessTextActivity extends Activity {
     private LayoutInflater mInflater;
     private TipView mTipView;
     private WindowManager wm;
+    private ListenToMeDataBaseHelper mDataBaseHelper;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -102,8 +106,15 @@ public class ProcessTextActivity extends Activity {
             }
             mTipView.addExplain(stringBuilder.toString());
         }
-        //TipView.setPhonetic("sdgs");
-        //mTipView.addExplain("sffsdfdf");
+        mDataBaseHelper = new ListenToMeDataBaseHelper(this, "ListenToMeDB.db", null, 1);
+        SQLiteDatabase db = mDataBaseHelper.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select WordId from Word where WordName=?", new String[]{mTipView.getText()});
+        if (!cursor.moveToNext())
+            mTipView.setFavoriteBackground(R.drawable.ic_favorite_border_white_24dp, false);
+        else {
+            mTipView.setFavoriteBackground(R.drawable.ic_favorite_pink_24dp, true);
+        }
+        cursor.close();
         new tvThread().start();
     }
 
