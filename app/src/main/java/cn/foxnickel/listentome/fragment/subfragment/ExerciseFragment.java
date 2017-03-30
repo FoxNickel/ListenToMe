@@ -1,6 +1,7 @@
 package cn.foxnickel.listentome.fragment.subfragment;
 
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 
 import com.blankj.utilcode.utils.ImageUtils;
 
+import cn.foxnickel.listentome.ListenExcerciseActivity;
 import cn.foxnickel.listentome.R;
 
 /**
@@ -33,7 +35,9 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setListener() {
-
+        mEasyCard.setOnClickListener(this);
+        mMiddleCard.setOnClickListener(this);
+        mHardCard.setOnClickListener(this);
     }
 
     private void initView() {
@@ -49,6 +53,9 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
         mEasyImage.setImageBitmap(easyPic);
         mMiddleImage.setImageBitmap(middleMode);
         mHardImage.setImageBitmap(hardMode);
+        mEasyCard = (CardView) mRootView.findViewById(R.id.easy_mode);
+        mMiddleCard = (CardView) mRootView.findViewById(R.id.middle_mode);
+        mHardCard = (CardView) mRootView.findViewById(R.id.hard_mode);
     }
 
 
@@ -56,7 +63,15 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-
+            case R.id.easy_mode:
+                startActivity(new Intent(getActivity(), ListenExcerciseActivity.class));
+                break;
+            case R.id.middle_mode:
+                startActivity(new Intent(getActivity(), ListenExcerciseActivity.class));
+                break;
+            case R.id.hard_mode:
+                startActivity(new Intent(getActivity(), ListenExcerciseActivity.class));
+                break;
         }
     }
 }

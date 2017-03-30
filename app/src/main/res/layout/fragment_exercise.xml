@@ -1,153 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/easy_mode"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/ripple">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <RelativeLayout
+        <android.support.v7.widget.CardView
+            android:id="@+id/easy_mode"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/ripple">
 
-            <ImageView
-                android:id="@+id/easy_image"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="48dp"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/pic7"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/easy_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@id/easy_image"
-                android:layout_marginLeft="48dp"
-                android:layout_toRightOf="@id/easy_image"
-                android:text="简单练习"
-                android:textColor="@android:color/black"
-                android:textSize="24sp"/>
+                <ImageView
+                    android:id="@+id/easy_image"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="48dp"
+                    android:layout_marginStart="48dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/pic7"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/easy_text"
-                android:layout_marginLeft="48dp"
-                android:layout_marginTop="8dp"
-                android:layout_toRightOf="@id/easy_image"
-                android:text="初学者的狂欢"
-                android:textSize="20sp"/>
+                <TextView
+                    android:id="@+id/easy_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/easy_image"
+                    android:layout_marginLeft="48dp"
+                    android:layout_toRightOf="@id/easy_image"
+                    android:text="简单练习"
+                    android:textColor="@android:color/black"
+                    android:textSize="24sp"/>
 
-        </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/easy_text"
+                    android:layout_marginLeft="48dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_toRightOf="@id/easy_image"
+                    android:text="初学者的狂欢"
+                    android:textSize="20sp"/>
 
-    </android.support.v7.widget.CardView>
+            </RelativeLayout>
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/middle_mode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/ripple">
+        </android.support.v7.widget.CardView>
 
-        <RelativeLayout
+        <android.support.v7.widget.CardView
+            android:id="@+id/middle_mode"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/ripple">
 
-            <ImageView
-                android:id="@+id/middle_image"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="48dp"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/pic7"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/middle_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@id/middle_image"
-                android:layout_marginLeft="48dp"
-                android:layout_toRightOf="@id/middle_image"
-                android:text="中级练习"
-                android:textColor="@android:color/black"
-                android:textSize="24sp"/>
+                <ImageView
+                    android:id="@+id/middle_image"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="48dp"
+                    android:layout_marginStart="48dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/pic7"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/middle_text"
-                android:layout_marginLeft="48dp"
-                android:layout_marginTop="8dp"
-                android:layout_toRightOf="@id/middle_image"
-                android:text="进阶模式"
-                android:textSize="20sp"/>
+                <TextView
+                    android:id="@+id/middle_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/middle_image"
+                    android:layout_marginLeft="48dp"
+                    android:layout_toRightOf="@id/middle_image"
+                    android:text="中级练习"
+                    android:textColor="@android:color/black"
+                    android:textSize="24sp"/>
 
-        </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/middle_text"
+                    android:layout_marginLeft="48dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_toRightOf="@id/middle_image"
+                    android:text="进阶模式"
+                    android:textSize="20sp"/>
 
-    </android.support.v7.widget.CardView>
+            </RelativeLayout>
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/hard_mode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/ripple">
+        </android.support.v7.widget.CardView>
 
-        <RelativeLayout
+        <android.support.v7.widget.CardView
+            android:id="@+id/hard_mode"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/ripple">
 
-            <ImageView
-                android:id="@+id/hard_image"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="48dp"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/pic7"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/hard_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@id/hard_image"
-                android:layout_marginLeft="48dp"
-                android:layout_toRightOf="@id/hard_image"
-                android:text="高级练习"
-                android:textColor="@android:color/black"
-                android:textSize="24sp"/>
+                <ImageView
+                    android:id="@+id/hard_image"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="48dp"
+                    android:layout_marginStart="48dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/pic7"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/hard_text"
-                android:layout_marginLeft="48dp"
-                android:layout_marginTop="8dp"
-                android:layout_toRightOf="@id/hard_image"
-                android:text="疯狂模式"
-                android:textSize="20sp"/>
+                <TextView
+                    android:id="@+id/hard_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/hard_image"
+                    android:layout_marginLeft="48dp"
+                    android:layout_toRightOf="@id/hard_image"
+                    android:text="高级练习"
+                    android:textColor="@android:color/black"
+                    android:textSize="24sp"/>
 
-        </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/hard_text"
+                    android:layout_marginLeft="48dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_toRightOf="@id/hard_image"
+                    android:text="疯狂模式"
+                    android:textSize="20sp"/>
 
-    </android.support.v7.widget.CardView>
+            </RelativeLayout>
 
-</LinearLayout>
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+</ScrollView>

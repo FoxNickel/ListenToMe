@@ -1,8 +1,6 @@
 package cn.foxnickel.listentome.fragment.subfragment;
 
 
-import android.app.ListActivity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -10,14 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import cn.foxnickel.listentome.ListenExamActivity;
-import cn.foxnickel.listentome.OnItemTouchListener;
 import cn.foxnickel.listentome.R;
 import cn.foxnickel.listentome.adapter.QuestionRecyclerAdapter;
 import cn.foxnickel.listentome.bean.ListenExamBean;
@@ -41,11 +36,10 @@ public class ExamFragment extends Fragment {
 
         mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.exam_recycler);
         ArrayList<ListenExamBean> list = new ArrayList<>();
-        list.add(new ListenExamBean(Constants.PATH, "2016年六月真题六级", "sgsdfsdfsdfsdf", "78"));
-        list.add(new ListenExamBean(Constants.PATH,"sdgfsdfsdfsdfsdf","sgsdfsdfsdfsdf","78"));
-        list.add(new ListenExamBean(Constants.PATH,"sdgfsdfsdfsdfsdf","sgsdfsdfsdfsdf","78"));
-        list.add(new ListenExamBean(Constants.PATH,"sdgfsdfsdfsdfsdf","sgsdfsdfsdfsdf","78"));
-        list.add(new ListenExamBean(Constants.PATH,"sdgfsdfsdfsdfsdf","sgsdfsdfsdfsdf","78"));
+        list.add(new ListenExamBean(Constants.QUESTION_IMAGE_PATH_CET4_2013_6_2, "大学英语四级", "2013年六月英语四级听力真题", "0"));
+        list.add(new ListenExamBean(Constants.QUESTION_IMAGE_PATH_CET4_2016_6_1, "大学英语四级", "2016年六月英语四级听力真题", "0"));
+        list.add(new ListenExamBean(Constants.QUESTION_IMAGE_PATH_CET6_2016_6_1, "大学英语六级", "2016年六月英语六级听力真题", "0"));
+        list.add(new ListenExamBean(Constants.QUESTION_IMAGE_PATH_CET6_2013_6_1, "大学英语六级", "2013年六月英语六级听力真题", "0"));
         mRecyclerAdapter = new QuestionRecyclerAdapter(getContext(),list);
         mPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         if (mPreferences.getInt("grade", -1) != -1) {
@@ -54,10 +48,10 @@ public class ExamFragment extends Fragment {
         }
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setAdapter(mRecyclerAdapter);
-        mRecyclerView.addOnItemTouchListener(new OnItemTouchListener(mRecyclerView) {
+        mRecyclerAdapter.setOnItemClickListener(new QuestionRecyclerAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(RecyclerView.ViewHolder vh) {
-                startActivity(new Intent(getActivity(), ListenExamActivity.class));
+            public void onItemClick(View view, int position) {
+
             }
         });
         mRecyclerView.setLayoutManager(mLayoutManager);

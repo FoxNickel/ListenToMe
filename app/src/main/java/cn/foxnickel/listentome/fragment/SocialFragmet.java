@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.blankj.utilcode.utils.ToastUtils;
 import com.google.gson.Gson;
 
 import java.util.Arrays;
@@ -57,7 +56,6 @@ public class SocialFragmet extends Fragment {
         mAdapter.setOnItemClickListener(new SocialAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                ToastUtils.showShortToast("sgfsdgs");
                 Log.e("TAG","position "+position);
             }
         });

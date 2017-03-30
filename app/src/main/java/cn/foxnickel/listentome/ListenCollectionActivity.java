@@ -29,9 +29,7 @@ public class ListenCollectionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_listen_collection);
         initToolbar();
         mListenExamBeen = new ArrayList<>();
-        mListenExamBeen.add(new ListenExamBean(Constants.QUESTION_IMAGE_PATH, "试卷名称", "试卷描述", "成绩 96 分"));
-        mListenExamBeen.add(new ListenExamBean(Constants.QUESTION_IMAGE_PATH, "试卷名称2", "试卷描述2", "成绩 97 分"));
-        mListenExamBeen.add(new ListenExamBean(Constants.QUESTION_IMAGE_PATH, "试卷名称3", "试卷描述3", "成绩 98 分"));
+        mListenExamBeen.add(new ListenExamBean(Constants.QUESTION_IMAGE_PATH_CET4_2013_6_2, "大学英语四级", "2013年六月英语四级听力真题", "成绩 86 分"));
         initRecyclerView();
     }
 
