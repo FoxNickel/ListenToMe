@@ -9,6 +9,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
@@ -27,6 +30,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import cn.foxnickel.listentome.ListenExamActivity;
+import cn.foxnickel.listentome.MyWordActivity;
 import cn.foxnickel.listentome.R;
 import cn.foxnickel.listentome.bean.ListenExamBean;
 import cn.foxnickel.listentome.bean.Word;
@@ -40,6 +44,7 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder> {
     private final Context context;
     private List<Word> items;
     private MediaPlayer mPlayer;
+    private SQLiteOpenHelper mDataBaseHelper;
 
     public WordAdapter(List<Word> items, Context context) {
         this.items = items;
@@ -55,20 +60,21 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder> {
                 (TextView) v.findViewById(R.id.tv_pop_phonetic),
                 (TextView) v.findViewById(R.id.tv_explain),
                 (ImageView) v.findViewById(R.id.iv_sound),
-                (ImageView) v.findViewById(R.id.iv_over_flow)
+                (ImageView) v.findViewById(R.id.iv_over_flow),
+                (ImageView) v.findViewById(R.id.iv_bookmark)
         );
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final Word item = items.get(position);
-        holder.wordName.setText(item.getWordName());
-        holder.wordPhonetic.setText(item.getWordPhoetic());
-        holder.wordExplain.setText(item.getWordExplain());
+        final Word word = items.get(position);
+        holder.wordName.setText(word.getWordName());
+        holder.wordPhonetic.setText(word.getWordPhoetic());
+        holder.wordExplain.setText(word.getWordExplain());
         holder.wordAudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                initMediaPlayer(item.getWordAudio());
+                initMediaPlayer(word.getWordAudio());
                 startSoundAnim(view);
                 mPlayer.start();
                 new tvThread().start();
@@ -82,11 +88,23 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder> {
                 p.getMenuInflater().inflate(R.menu.wordmenu, p.getMenu());
                 p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
+                        //SQLiteDatabase db = mDataBaseHelper.getWritableDatabase();
                         switch (item.getItemId()) {
                             case R.id.delete:
-
+                               /* db.execSQL("delete from WordCollection where WordId=" +
+                                        "(select WordId from Word where WordName=?)", new String[]{word.getWordName()});
+                                db.execSQL("delete from Word where WordName=?", new String[]{word.getWordName()});
+                             */
+                               
+                                MyWordActivity.mList.remove(position);
+                                MyWordActivity.mWordAdapter.notifyDataSetChanged();
                                 break;
                             case R.id.marker:
+                                /*  db.execSQL("update WordWorkMark=? from WordCollection where WordWorkMark=?",new String[]{"0",word.getWordName()});
+                              db.execSQL("update WordWorkMark=? from WordCollection where WordId=" +
+                                        "(select WordId from Word where WordName=?)",new String[]{"1",word.getWordName()});
+                             */
+                                holder.bookMark.setVisibility(View.VISIBLE);
                                 break;
 
                         }
@@ -106,7 +124,7 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder> {
             MenuPopupHelper mPopup = (MenuPopupHelper) mFieldPopup.get(popupMenu);
             mPopup.setForceShowIcon(true);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -181,9 +199,9 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View rootView;
         public TextView wordName, wordPhonetic, wordExplain;
-        public ImageView wordAudio, overflow;
+        public ImageView wordAudio, overflow, bookMark;
 
-        public ViewHolder(View rootView, TextView wordName, TextView wordPhonetic, TextView wordExplain, ImageView wordAudio, ImageView overflow) {
+        public ViewHolder(View rootView, TextView wordName, TextView wordPhonetic, TextView wordExplain, ImageView wordAudio, ImageView overflow, ImageView bookMark) {
             super(rootView);
             this.rootView = rootView;
             this.wordName = wordName;
@@ -191,6 +209,7 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder> {
             this.wordExplain = wordExplain;
             this.wordAudio = wordAudio;
             this.overflow = overflow;
+            this.bookMark = bookMark;
             clickEvents();
         }
 

@@ -16,13 +16,28 @@ public class HearingIssueBean {
 
     private boolean isChecked;
     private char nowAnswer, HIAnswer;
-
+    private int length;
     public boolean isChecked() {
         return isChecked;
     }
 
     public void setChecked(boolean checked) {
         isChecked = checked;
+    }
+
+    public HearingIssueBean(int HIId, int examId, int HAId, String HIContent, char HIAnswer, String HIAnalysis, int HILevel, int HIGrade, int HIState, int length) {
+        this.HIId = HIId;
+        this.examId = examId;
+        this.HAId = HAId;
+        this.HIContent = HIContent;
+        this.HIAnalysis = HIAnalysis;
+        this.HILevel = HILevel;
+        this.HIGrade = HIGrade;
+        this.HIState = HIState;
+        this.isChecked = isChecked;
+        this.nowAnswer = nowAnswer;
+        this.HIAnswer = HIAnswer;
+        this.length = length;
     }
 
     public HearingIssueBean(int HIId, int examId, int HAId, String HIContent, char HIAnswer, String HIAnalysis, int HILevel, int HIGrade, int HIState) {
@@ -36,6 +51,7 @@ public class HearingIssueBean {
         this.HIGrade = HIGrade;
         this.HIState = HIState;
         isChecked = false;
+        length = 0;
     }
 
     public int getHIId() {
@@ -116,5 +132,13 @@ public class HearingIssueBean {
 
     public void setNowAnswer(char nowAnswer) {
         this.nowAnswer = nowAnswer;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
     }
 }
