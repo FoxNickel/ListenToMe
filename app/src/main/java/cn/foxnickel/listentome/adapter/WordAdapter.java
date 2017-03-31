@@ -35,6 +35,7 @@ import cn.foxnickel.listentome.R;
 import cn.foxnickel.listentome.bean.ListenExamBean;
 import cn.foxnickel.listentome.bean.Word;
 import cn.foxnickel.listentome.bean.WordBean;
+import cn.foxnickel.listentome.dao.ListenToMeDataBaseHelper;
 
 /**
  * @author Night
@@ -49,6 +50,8 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder> {
     public WordAdapter(List<Word> items, Context context) {
         this.items = items;
         this.context = context;
+        mDataBaseHelper = new ListenToMeDataBaseHelper(context, "ListenToMeDB.db", null, 1);
+        mDataBaseHelper.getWritableDatabase();
     }
 
     @Override
@@ -88,22 +91,19 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder> {
                 p.getMenuInflater().inflate(R.menu.wordmenu, p.getMenu());
                 p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
-                        //SQLiteDatabase db = mDataBaseHelper.getWritableDatabase();
+                        SQLiteDatabase db = mDataBaseHelper.getWritableDatabase();
                         switch (item.getItemId()) {
                             case R.id.delete:
-                               /* db.execSQL("delete from WordCollection where WordId=" +
+                                db.execSQL("delete from WordCollection where WordId=" +
                                         "(select WordId from Word where WordName=?)", new String[]{word.getWordName()});
                                 db.execSQL("delete from Word where WordName=?", new String[]{word.getWordName()});
-                             */
-                               
                                 MyWordActivity.mList.remove(position);
                                 MyWordActivity.mWordAdapter.notifyDataSetChanged();
                                 break;
                             case R.id.marker:
-                                /*  db.execSQL("update WordWorkMark=? from WordCollection where WordWorkMark=?",new String[]{"0",word.getWordName()});
+                                db.execSQL("update WordWorkMark=? from WordCollection where WordWorkMark=?", new String[]{"0", word.getWordName()});
                               db.execSQL("update WordWorkMark=? from WordCollection where WordId=" +
                                         "(select WordId from Word where WordName=?)",new String[]{"1",word.getWordName()});
-                             */
                                 holder.bookMark.setVisibility(View.VISIBLE);
                                 break;
 
