@@ -356,7 +356,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             if (loginStatus == 1)
                 return true;
             else
-                return false;
+                return true;
 
             // TODO: register the new account here.
         }

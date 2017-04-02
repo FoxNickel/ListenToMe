@@ -27,10 +27,9 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import cn.foxnickel.listentome.ListenExamActivity;
+import cn.foxnickel.listentome.MyWordActivity;
 import cn.foxnickel.listentome.R;
-import cn.foxnickel.listentome.bean.ListenExamBean;
 import cn.foxnickel.listentome.bean.Word;
-import cn.foxnickel.listentome.bean.WordBean;
 
 /**
  * @author Night
@@ -55,7 +54,8 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder> {
                 (TextView) v.findViewById(R.id.tv_pop_phonetic),
                 (TextView) v.findViewById(R.id.tv_explain),
                 (ImageView) v.findViewById(R.id.iv_sound),
-                (ImageView) v.findViewById(R.id.iv_over_flow)
+                (ImageView) v.findViewById(R.id.iv_over_flow),
+                (ImageView) v.findViewById(R.id.iv_bookmark)
         );
     }
 
@@ -84,9 +84,11 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder> {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.delete:
-
+                                MyWordActivity.mList.remove(position);
+                                MyWordActivity.mWordAdapter.notifyDataSetChanged();
                                 break;
                             case R.id.marker:
+                                holder.bookMark.setVisibility(View.VISIBLE);
                                 break;
 
                         }
@@ -181,9 +183,9 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View rootView;
         public TextView wordName, wordPhonetic, wordExplain;
-        public ImageView wordAudio, overflow;
+        public ImageView wordAudio, overflow, bookMark;
 
-        public ViewHolder(View rootView, TextView wordName, TextView wordPhonetic, TextView wordExplain, ImageView wordAudio, ImageView overflow) {
+        public ViewHolder(View rootView, TextView wordName, TextView wordPhonetic, TextView wordExplain, ImageView wordAudio, ImageView overflow, ImageView bookmark) {
             super(rootView);
             this.rootView = rootView;
             this.wordName = wordName;
@@ -191,6 +193,7 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder> {
             this.wordExplain = wordExplain;
             this.wordAudio = wordAudio;
             this.overflow = overflow;
+            this.bookMark = bookmark;
             clickEvents();
         }
 

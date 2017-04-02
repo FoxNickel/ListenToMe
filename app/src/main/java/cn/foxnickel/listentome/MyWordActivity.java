@@ -23,9 +23,9 @@ import cn.foxnickel.listentome.dao.ListenToMeDataBaseHelper;
 
 public class MyWordActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
-    private List<Word> mList;
+    public static List<Word> mList;
     private RecyclerView.LayoutManager mLayoutManager;
-    private WordAdapter mWordAdapter;
+    public static WordAdapter mWordAdapter;
     private ListenToMeDataBaseHelper mDataBaseHelper;
 
     @Override

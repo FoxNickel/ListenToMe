@@ -1,6 +1,7 @@
 package cn.foxnickel.listentome;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,7 +30,8 @@ public class ListenCollectionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_listen_collection);
         initToolbar();
         mListenExamBeen = new ArrayList<>();
-        mListenExamBeen.add(new ListenExamBean(Constants.QUESTION_IMAGE_PATH_CET4_2013_6_2, "大学英语四级", "2013年六月英语四级听力真题", "成绩 86 分"));
+        int score = PreferenceManager.getDefaultSharedPreferences(this).getInt("grade", 0);
+        mListenExamBeen.add(new ListenExamBean(Constants.QUESTION_IMAGE_PATH_CET4_2013_6_2, "大学英语四级", "2013年六月英语四级听力真题", "成绩 " + score + " 分"));
         initRecyclerView();
     }
 

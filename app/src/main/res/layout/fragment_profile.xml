@@ -142,7 +142,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:id="@+id/my_download"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -167,7 +167,7 @@
                     android:textSize="24sp"
                     android:typeface="serif"/>
 
-            </LinearLayout>
+            </LinearLayout>-->
 
             <LinearLayout
                 android:id="@+id/my_word"

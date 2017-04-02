@@ -14,15 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.blankj.utilcode.utils.ImageUtils;
 
 import cn.foxnickel.listentome.DataAnalysis;
 import cn.foxnickel.listentome.DynamicCollectionActivity;
 import cn.foxnickel.listentome.ListenCollectionActivity;
-import cn.foxnickel.listentome.PersonalCenter;
 import cn.foxnickel.listentome.MyWordActivity;
+import cn.foxnickel.listentome.PersonalCenter;
 import cn.foxnickel.listentome.R;
 import cn.foxnickel.listentome.SettingsActivity;
 import cn.foxnickel.listentome.SpeechCollectionActivity;
@@ -58,7 +57,7 @@ public class ProfileFragmet extends Fragment implements View.OnClickListener {
         mListen = (LinearLayout) mRootView.findViewById(R.id.my_listen);
         mSpeech = (LinearLayout) mRootView.findViewById(R.id.my_speech);
         mCollection = (LinearLayout) mRootView.findViewById(R.id.my_collection);
-        mDownload = (LinearLayout) mRootView.findViewById(R.id.my_download);
+        //mDownload = (LinearLayout) mRootView.findViewById(R.id.my_download);
         mWord = (LinearLayout) mRootView.findViewById(R.id.my_word);
         mData = (LinearLayout) mRootView.findViewById(R.id.my_data);
         mAboutUs = (LinearLayout) mRootView.findViewById(R.id.about_us);
@@ -73,7 +72,7 @@ public class ProfileFragmet extends Fragment implements View.OnClickListener {
         mListen.setOnClickListener(this);
         mSpeech.setOnClickListener(this);
         mCollection.setOnClickListener(this);
-        mDownload.setOnClickListener(this);
+        //mDownload.setOnClickListener(this);
         mWord.setOnClickListener(this);
         mData.setOnClickListener(this);
         mAboutUs.setOnClickListener(this);
@@ -103,9 +102,9 @@ public class ProfileFragmet extends Fragment implements View.OnClickListener {
             case R.id.my_collection:
                 startActivity(new Intent(getActivity(), DynamicCollectionActivity.class));
                 break;
-            case R.id.my_download:
+            /*case R.id.my_download:
                 Toast.makeText(getActivity(), "Mydownload", Toast.LENGTH_SHORT).show();
-                break;
+                break;*/
             case R.id.my_word:
                 startActivity(new Intent(getActivity(), MyWordActivity.class));
                 break;

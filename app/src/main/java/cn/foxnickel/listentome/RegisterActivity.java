@@ -89,7 +89,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private void submit() {
 
-        BmobSMS.requestSMSCode(RegisterActivity.this, "15885383520", "仅测试", new RequestSMSCodeListener() {
+        BmobSMS.requestSMSCode(RegisterActivity.this, mPhone.getText().toString().trim(), "你听我说", new RequestSMSCodeListener() {
             @Override
             public void done(Integer smsId, BmobException e) {
                 if (e == null) {

@@ -96,6 +96,7 @@
                android:layout_height="wrap_content"
                android:id="@+id/iv_bookmark"
                android:src="@drawable/bookmark"
+               android:visibility="gone"
                android:layout_toLeftOf="@id/iv_over_flow"/>
     <TextView android:id="@+id/tv_explain"
               android:layout_width="wrap_content"

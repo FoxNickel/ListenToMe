@@ -106,7 +106,8 @@ public class CommentActvity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_comment:
-                ToastUtils.showShortToast("发表评论");
+                ToastUtils.showShortToast("发表成功");
+                mComments.setText("");
                 break;
             case R.id.text_comment:
                 ToastUtils.showShortToast(mComments.getText());
