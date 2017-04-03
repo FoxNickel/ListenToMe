@@ -74,6 +74,10 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder> {
         holder.wordName.setText(word.getWordName());
         holder.wordPhonetic.setText(word.getWordPhoetic());
         holder.wordExplain.setText(word.getWordExplain());
+        if (word.getIsMark() == 1)
+            holder.bookMark.setVisibility(View.VISIBLE);
+        else
+            holder.bookMark.setVisibility(View.GONE);
         holder.wordAudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,10 +105,39 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder> {
                                 MyWordActivity.mWordAdapter.notifyDataSetChanged();
                                 break;
                             case R.id.marker:
-                                db.execSQL("update WordWorkMark=? from WordCollection where WordWorkMark=?", new String[]{"0", word.getWordName()});
-                              db.execSQL("update WordWorkMark=? from WordCollection where WordId=" +
-                                        "(select WordId from Word where WordName=?)",new String[]{"1",word.getWordName()});
-                                holder.bookMark.setVisibility(View.VISIBLE);
+                                if (holder.bookMark.getVisibility() == View.GONE) {
+                                    db.execSQL("update WordCollection set WorkMark=?  where WorkMark=?", new String[]{"0", "1"});
+                                    db.execSQL("update WordCollection set WorkMark=? where WordId=" +
+                                            "(select WordId from Word where WordName=?)", new String[]{"1", word.getWordName()});
+                                    MyWordActivity.mList.clear();
+                                    mDataBaseHelper = new ListenToMeDataBaseHelper(context, "ListenToMeDB.db", null, 1);
+                                    Cursor cursor = db.rawQuery("select WordName from Word where WordId=" +
+                                            "(select WordId from WordCollection where WorkMark=?)", new String[]{"1"});
+                                    String markWordName = null;
+                                    if (cursor.moveToFirst()) {
+                                        markWordName = cursor.getString(cursor.getColumnIndex("WordName"));
+                                    }
+                                    cursor = db.rawQuery("select * from Word ", null);
+                                    if (cursor.moveToFirst()) {
+                                        do {
+                                            String wordName = cursor.getString(cursor.getColumnIndex("WordName"));
+                                            String wordPhonetic = cursor.getString(cursor.getColumnIndex("WordPhoneticText"));
+                                            String wordExplain = cursor.getString(cursor.getColumnIndex("WordExplain"));
+                                            String wordAudio = cursor.getString(cursor.getColumnIndex("WordPhoneticAudio"));
+                                            Word w = new Word(wordName, wordPhonetic, wordAudio, wordExplain);
+                                            if (wordName.equals(markWordName)) {
+                                                w.setIsMark(1);
+                                            }
+                                            MyWordActivity.mList.add(w);
+                                        } while (cursor.moveToNext());
+                                    }
+                                    cursor.close();
+                                    MyWordActivity.mWordAdapter.notifyDataSetChanged();
+                                } else {
+                                    db.execSQL("update WordCollection set WorkMark=?  where WorkMark=?", new String[]{"0", "1"});
+                                    holder.bookMark.setVisibility(View.GONE);
+                                }
+
                                 break;
 
                         }

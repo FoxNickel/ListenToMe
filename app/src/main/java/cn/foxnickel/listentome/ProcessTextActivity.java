@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.CheckedTextView;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ import java.util.concurrent.ExecutionException;
 
 import cn.foxnickel.listentome.bean.WordBean;
 import cn.foxnickel.listentome.dao.ListenToMeDataBaseHelper;
+import cn.foxnickel.listentome.translate.Result;
 import cn.foxnickel.listentome.utils.GetJsonFromServerTask;
 import cn.foxnickel.listentome.utils.OkHttpManager;
 import cn.foxnickel.listentome.view.TipView;
@@ -46,6 +48,7 @@ public class ProcessTextActivity extends Activity {
     private TipView mTipView;
     private WindowManager wm;
     private ListenToMeDataBaseHelper mDataBaseHelper;
+    private tvThread mTvThread;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,10 +85,12 @@ public class ProcessTextActivity extends Activity {
 
     private void checkText(Intent intent) {
         CharSequence text = intent.getCharSequenceExtra(Intent.EXTRA_PROCESS_TEXT);
+        String s1;
+        s1 = (String) text;
         String s = null;
         try {
-            s = new GetJsonFromServerTask().execute("http://dict-co.iciba.com/api/dictionary.php?w=" + text + "&key=B9477F75F8562815285EECB45113A0F3&type=json").get();
-            Log.e("TAG", s);
+            s = new GetJsonFromServerTask().execute("http://dict-co.iciba.com/api/dictionary.php?w=" + s1.toLowerCase() + "&key=B9477F75F8562815285EECB45113A0F3&type=json").get();
+            Log.e("TAG", "content is " + s);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -115,19 +120,35 @@ public class ProcessTextActivity extends Activity {
             mTipView.setFavoriteBackground(R.drawable.ic_favorite_pink_24dp, true);
         }
         cursor.close();
-        new tvThread().start();
+        mTvThread = new tvThread();
+        mTvThread.start();
     }
 
     private void popupshow() {
         wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
         mTipView = new TipView(ProcessTextActivity.this);
         wm.addView(mTipView, getPopViewParams());
+        mTipView.setListener(new TipView.ITipViewListener() {
+
+            @Override
+            public void removeTipView() {
+                wm.removeView(mTipView);
+                mTvThread.interrupt();
+                ProcessTextActivity.this.finish();
+
+            }
+
+            @Override
+            public void onRemove() {
+
+            }
+        });
         mTipView.startWithAnim();
     }
 
     private WindowManager.LayoutParams getPopViewParams() {
         int w = WindowManager.LayoutParams.MATCH_PARENT;
-        int h = WindowManager.LayoutParams.WRAP_CONTENT;
+        int h = WindowManager.LayoutParams.MATCH_PARENT;
 
         int flags = 0;
         int type;
@@ -148,5 +169,10 @@ public class ProcessTextActivity extends Activity {
         return layoutParams;
     }
 
-
+    @Override
+    public void finish() {
+        if (!isFinishing()) {
+            super.finish();
+        }
+    }
 }
