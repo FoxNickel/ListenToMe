@@ -10,12 +10,14 @@ public class Word {
     public String wordPhoetic;
     public String wordAudio;
     public String wordExplain;
+    public int isMark;
 
     public Word(String wordName, String wordPhoetic, String wordAudio, String wordExplain) {
         this.wordName = wordName;
         this.wordPhoetic = wordPhoetic;
         this.wordAudio = wordAudio;
         this.wordExplain = wordExplain;
+        isMark = 0;
     }
 
     public String getWordName() {
@@ -48,5 +50,13 @@ public class Word {
 
     public void setWordExplain(String wordExplain) {
         this.wordExplain = wordExplain;
+    }
+
+    public int getIsMark() {
+        return isMark;
+    }
+
+    public void setIsMark(int isMark) {
+        this.isMark = isMark;
     }
 }

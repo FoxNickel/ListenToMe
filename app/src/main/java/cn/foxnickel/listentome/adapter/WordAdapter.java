@@ -9,6 +9,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
@@ -29,7 +32,10 @@ import java.util.List;
 import cn.foxnickel.listentome.ListenExamActivity;
 import cn.foxnickel.listentome.MyWordActivity;
 import cn.foxnickel.listentome.R;
+import cn.foxnickel.listentome.bean.ListenExamBean;
 import cn.foxnickel.listentome.bean.Word;
+import cn.foxnickel.listentome.bean.WordBean;
+import cn.foxnickel.listentome.dao.ListenToMeDataBaseHelper;
 
 /**
  * @author Night
@@ -39,10 +45,13 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder> {
     private final Context context;
     private List<Word> items;
     private MediaPlayer mPlayer;
+    private SQLiteOpenHelper mDataBaseHelper;
 
     public WordAdapter(List<Word> items, Context context) {
         this.items = items;
         this.context = context;
+        mDataBaseHelper = new ListenToMeDataBaseHelper(context, "ListenToMeDB.db", null, 1);
+        mDataBaseHelper.getWritableDatabase();
     }
 
     @Override
@@ -61,14 +70,18 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final Word item = items.get(position);
-        holder.wordName.setText(item.getWordName());
-        holder.wordPhonetic.setText(item.getWordPhoetic());
-        holder.wordExplain.setText(item.getWordExplain());
+        final Word word = items.get(position);
+        holder.wordName.setText(word.getWordName());
+        holder.wordPhonetic.setText(word.getWordPhoetic());
+        holder.wordExplain.setText(word.getWordExplain());
+        if (word.getIsMark() == 1)
+            holder.bookMark.setVisibility(View.VISIBLE);
+        else
+            holder.bookMark.setVisibility(View.GONE);
         holder.wordAudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                initMediaPlayer(item.getWordAudio());
+                initMediaPlayer(word.getWordAudio());
                 startSoundAnim(view);
                 mPlayer.start();
                 new tvThread().start();
@@ -82,13 +95,49 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder> {
                 p.getMenuInflater().inflate(R.menu.wordmenu, p.getMenu());
                 p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
+                        SQLiteDatabase db = mDataBaseHelper.getWritableDatabase();
                         switch (item.getItemId()) {
                             case R.id.delete:
+                                db.execSQL("delete from WordCollection where WordId=" +
+                                        "(select WordId from Word where WordName=?)", new String[]{word.getWordName()});
+                                db.execSQL("delete from Word where WordName=?", new String[]{word.getWordName()});
                                 MyWordActivity.mList.remove(position);
                                 MyWordActivity.mWordAdapter.notifyDataSetChanged();
                                 break;
                             case R.id.marker:
-                                holder.bookMark.setVisibility(View.VISIBLE);
+                                if (holder.bookMark.getVisibility() == View.GONE) {
+                                    db.execSQL("update WordCollection set WorkMark=?  where WorkMark=?", new String[]{"0", "1"});
+                                    db.execSQL("update WordCollection set WorkMark=? where WordId=" +
+                                            "(select WordId from Word where WordName=?)", new String[]{"1", word.getWordName()});
+                                    MyWordActivity.mList.clear();
+                                    mDataBaseHelper = new ListenToMeDataBaseHelper(context, "ListenToMeDB.db", null, 1);
+                                    Cursor cursor = db.rawQuery("select WordName from Word where WordId=" +
+                                            "(select WordId from WordCollection where WorkMark=?)", new String[]{"1"});
+                                    String markWordName = null;
+                                    if (cursor.moveToFirst()) {
+                                        markWordName = cursor.getString(cursor.getColumnIndex("WordName"));
+                                    }
+                                    cursor = db.rawQuery("select * from Word ", null);
+                                    if (cursor.moveToFirst()) {
+                                        do {
+                                            String wordName = cursor.getString(cursor.getColumnIndex("WordName"));
+                                            String wordPhonetic = cursor.getString(cursor.getColumnIndex("WordPhoneticText"));
+                                            String wordExplain = cursor.getString(cursor.getColumnIndex("WordExplain"));
+                                            String wordAudio = cursor.getString(cursor.getColumnIndex("WordPhoneticAudio"));
+                                            Word w = new Word(wordName, wordPhonetic, wordAudio, wordExplain);
+                                            if (wordName.equals(markWordName)) {
+                                                w.setIsMark(1);
+                                            }
+                                            MyWordActivity.mList.add(w);
+                                        } while (cursor.moveToNext());
+                                    }
+                                    cursor.close();
+                                    MyWordActivity.mWordAdapter.notifyDataSetChanged();
+                                } else {
+                                    db.execSQL("update WordCollection set WorkMark=?  where WorkMark=?", new String[]{"0", "1"});
+                                    holder.bookMark.setVisibility(View.GONE);
+                                }
+
                                 break;
 
                         }
@@ -108,7 +157,7 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder> {
             MenuPopupHelper mPopup = (MenuPopupHelper) mFieldPopup.get(popupMenu);
             mPopup.setForceShowIcon(true);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -185,7 +234,7 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder> {
         public TextView wordName, wordPhonetic, wordExplain;
         public ImageView wordAudio, overflow, bookMark;
 
-        public ViewHolder(View rootView, TextView wordName, TextView wordPhonetic, TextView wordExplain, ImageView wordAudio, ImageView overflow, ImageView bookmark) {
+        public ViewHolder(View rootView, TextView wordName, TextView wordPhonetic, TextView wordExplain, ImageView wordAudio, ImageView overflow, ImageView bookMark) {
             super(rootView);
             this.rootView = rootView;
             this.wordName = wordName;
@@ -193,7 +242,7 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder> {
             this.wordExplain = wordExplain;
             this.wordAudio = wordAudio;
             this.overflow = overflow;
-            this.bookMark = bookmark;
+            this.bookMark = bookMark;
             clickEvents();
         }
 

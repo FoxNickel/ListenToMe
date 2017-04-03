@@ -235,24 +235,7 @@ public class TipView extends LinearLayout {
     }
 
     public interface ITipViewListener {
-
-        void onClickFavorite(View view);
-
-        void onClickPlaySound(View view, String playSound);
-
-        void onClickTipFrame(View view);
-
-        public abstract void setContent(String content);
-
-        /**
-         * set up favorite view state  base on it change background of favorite view
-         *
-         * @param mIvFavorite
-         * @param result
-         */
-        void onInitFavorite(ImageView mIvFavorite, Result result);
-
-        void removeTipView(Result result);
+        void removeTipView();
 
         void onRemove();
     }
@@ -297,7 +280,7 @@ public class TipView extends LinearLayout {
                 //就隐藏掉
                 if ((Math.abs(upX - downX)) > 300) {
                     rootView.offsetLeftAndRight(mRlInner.getRight());
-                    mListener.removeTipView(mResult);
+                    mListener.removeTipView();
                     mListener.onRemove();
                 } else {
                     rootView.scrollTo(0, 0);

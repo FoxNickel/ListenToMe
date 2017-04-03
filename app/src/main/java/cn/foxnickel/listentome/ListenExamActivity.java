@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -62,6 +63,7 @@ public class ListenExamActivity extends AppCompatActivity {
     private MediaPlayer mMediaPlayer = new MediaPlayer();
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,19 +91,151 @@ public class ListenExamActivity extends AppCompatActivity {
         list = new ArrayList<>();
         answerList = new ArrayList<>();
         questionIndex = 0;
-        hearingIssueBeen = new HearingIssueBean[10][7];
-        for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 7; j++) {
-                hearingIssueBeen[i][j] = new HearingIssueBean(0, 0, 0, " Questions 1 to 4 are based on the conversation you have just heard.\n" +
-                        "1. A)Project organizer\n" +
-                        "   B)Public relations officer.\n" +
-                        "   C)Marketing manager.\n" +
-                        "   D)Market research consultant.", 'D', "Market research consultant", 1, 2, 2);
-            }
-        hearingIssueBeen[1][2].setHIContent("sdgsdf");
+        hearingIssueBeen = new HearingIssueBean[10][10];
+        hearingIssueBeen[0][0] = new HearingIssueBean(0, 0, 0, " Section A\n" +
+                "　　Directions:In this section, you will hear two long conversations. At" +
+                " the end of each conversation, you will hear four questions. Both the " +
+                "conversation and the questions will be spoken only once. After you hear a " +
+                "question, you must choose the best answer from the four choices marked A),B),C)and D)." +
+                " Then mark the corresponding letter on Answer Sheet 1 with a single line through the centre.\n" +
+                "Questions 1 to 4 are based on the conversation you have just heard.\n" +
+                "　1.A) It tries to predict the possible trends of global climate change.\n" +
+                "　　B) It studies the impacts of global climate change on people’s lives.\n" +
+                "　　C) It links the science of climate change to economic and policy issues.\n" +
+                "　　D) It focuses on the efforts countries can make to deal with global warming.", 'A', "It links the science of climate change to economic and policy issues.", 1, 2, 2, 1);
+        hearingIssueBeen[1][0] = new HearingIssueBean(0, 0, 0,
+                "  2.A) It will take a long time before a consensus is reached on its impact.\n" +
+                        "　　B) It would be more costly to deal with its consequences than to avoid it.\n" +
+                        "　　C) It is the most pressing issue confronting all countries.\n" +
+                        "　　D) It is bound to cause endless disputes among nations.", 'B', "It would be more costly to deal with its consequences than to avoid it.", 1, 2, 2, 1);
+        hearingIssueBeen[2][0] = new HearingIssueBean(0, 0, 0,
+                "  3.A) The transition to low-carbon energy systems.\n" +
+                        "　　B) The cooperation among world major powers.\n" +
+                        "　　C) The signing of a global agreement.\n" +
+                        "　　D) The raising of people’s awareness.", 'A', "The transition to low-carbon energy systems.", 1, 2, 2, 1);
+        hearingIssueBeen[3][0] = new HearingIssueBean(0, 0, 0,
+                "  4.A) Carry out more research on it.\n" +
+                        "　　B) Plan well in advance.\n" +
+                        "　　C) Cut down energy consumption.\n" +
+                        "　　D) Adopt new technology.", 'C', "Plan well in advance.", 1, 2, 2, 1);
+
+        hearingIssueBeen[4][0] = new HearingIssueBean(0, 0, 0,
+                "　Questions 5 to 8 are based on the conversation you have just heard.\n" +
+                        "  5.A) When luck plays a role.\n" +
+                        "　　B) What determines success.\n" +
+                        "　　C) Whether practice makes perfect.\n" +
+                        "　　D) How important natural talent is.", 'B', "What determines success.", 1, 2, 2, 3);
+        hearingIssueBeen[4][1] = new HearingIssueBean(0, 0, 0,
+                "　6.A) It knocks at your door only once in a while.\n" +
+                        "　  B) It is something that no one can possibly create.\n" +
+                        "　　C) It comes naturally out of one’s self-confidence.\n" +
+                        "　　D) It means being good at seizing opportunities.", 'D', "It means being good at seizing opportunities. ", 1, 2, 2);
+        hearingIssueBeen[4][2] = new HearingIssueBean(0, 0, 0,
+                "　7.A) Luck rarely contributes to a person’s success.\n" +
+                        "　　B) One must have natural talent to be successful.\n" +
+                        "　　C) One should always be ready to seize opportunities.\n" +
+                        "　　D) Practice is essential to becoming good at something.", 'D', " Practice is essential to becoming good at something.", 1, 2, 2);
+        hearingIssueBeen[5][0] = new HearingIssueBean(0, 0, 0,
+                "Section B\n" +
+                        "Directions: In this section, you will hear two passages. At the end of " +
+                        "each passage, you will hear three or four questions. Both the passage and " +
+                        "the questions will be spoken only once. After you hear a question, you must " +
+                        "choose the best answer from the four choices marked A), B), C) and D). Then " +
+                        "mark the corresponding letter on Answer Sheet 1 with a single line through " +
+                        "the centre.\nQuestions 9 to 12 are based on the passage you have just heard.\n" +
+                        "  9.A) The stump of a giant tree.\n" +
+                        "　　B) A huge piece of rock.\n" +
+                        "　　C) The peak of a mountain.\n" +
+                        "　　D) A tall chimney.", 'D', "To stump of a giant tree. ", 1, 2, 2, 4);
+        hearingIssueBeen[5][1] = new HearingIssueBean(0, 0, 0,
+                " 10.A) Human activity.\n" +
+                        "　　B) Wind and water.\n" +
+                        "　　C) Chemical processes.\n" +
+                        "　　D) Fire and fury.", 'B', "Wind and water. ", 1, 2, 2);
+        hearingIssueBeen[5][2] = new HearingIssueBean(0, 0, 0,
+                "　11.A) It is a historical monument.\n" +
+                        "　　B) It was built in ancient times.\n" +
+                        "　　C) It is Indians’ sacred place for worship.\n" +
+                        "　　D) It was created by supernatural powers.", 'D', "It was created by supernatural powers. ", 1, 2, 2);
+        hearingIssueBeen[5][3] = new HearingIssueBean(0, 0, 0,
+                "　12.A) By sheltering them in a cave.\n" +
+                        "　　B) By killing the attacking bears.\n" +
+                        "　　C) By lifting them well above the ground.\n" +
+                        "　　D) By taking them to the top of a mountain.", 'C', "By lifting them well above the ground.", 1, 2, 2);
+        hearingIssueBeen[6][0] = new HearingIssueBean(0, 0, 0,
+                "Questions 13 to 15 are based on the passage you have just heard.\n" +
+                        " 13.A)They will buy something from the convenience stores.\n" +
+                        "　　B) They will take advantage of the time to rest a while.\n" +
+                        "　　C) They will have their vehicles washed or serviced.\n" +
+                        "　　D) They will pick up some souvenirs or gift items.", 'A', "They will buy something from the convenience stores.", 1, 2, 2, 3);
+        hearingIssueBeen[6][1] = new HearingIssueBean(0, 0, 0,
+                "　14.A) They can bring only temporary pleasures.\n" +
+                        "　　B) They are meant for the extremely wealthy.\n" +
+                        "　　C) They should be done away with altogether.\n" +
+                        "　　D) They may eventually drive one to bankruptcy.", 'A', "They can bring only temporary pleasures.", 1, 2, 2);
+        hearingIssueBeen[6][2] = new HearingIssueBean(0, 0, 0,
+                " 15.A) A good way to socialize is to have daily lunch with one’s colleagues.\n" +
+                        "　　B) Retirement savings should come first in one’s family budgeting.\n" +
+                        "　　C) A vacation will be affordable if one saves 20 dollars a week.\n" +
+                        "　　D) Small daily savings can make a big difference in one’s life.", 'D', "Small daily savings an make a big difference in one's life.", 1, 2, 2);
+        hearingIssueBeen[7][0] = new HearingIssueBean(0, 0, 0,
+                "Section C\n" +
+                        "Directions:In this section, you will hear three recordings of lectures or talks followed by three or four questions. The recordings will be played only once. After you hear a question, you must choose the best answer from the four choices marked A), B), C) and D). Then mark the corresponding letter on Answer Sheet 1 with a single line through the centre.\n" +
+                        "Questions 16 to 18 are based on the recording you have just heard.\n" +
+                        " 16.A) They should be done away with.\n" +
+                        "　　B) They are necessary in our lives.\n" +
+                        "　　C) They enrich our experience.\n" +
+                        "　　D) They are harmful to health.", 'D', "They are necessary in our lives.", 1, 2, 2, 3);
+        hearingIssueBeen[7][1] = new HearingIssueBean(0, 0, 0,
+                " 17.A) They feel stressed out even without any challenges in life.\n" +
+                        "　　B) They feel too overwhelmed to deal with life’s problems.\n" +
+                        "　　C) They are anxious to free themselves from life’s troubles.\n" +
+                        "　　D) They are exhausted even without doing any heavy work.", 'D', "They feel too overwhelmed to deal with life's problem.", 1, 2, 2);
+        hearingIssueBeen[7][2] = new HearingIssueBean(0, 0, 0,
+                " 18.A) They expand our mind.\n" +
+                        "　　B) They prolong our lives.\n" +
+                        "　　C) They narrow our focus.\n" +
+                        "　　D) They lessen our burdens.", 'D', "", 1, 2, 2);
+        hearingIssueBeen[8][0] = new HearingIssueBean(0, 0, 0,
+                "Questions 19 to 22 are based on the conversation you have just heard.\n" +
+                        " 19.A) It is not easily breakable.\n" +
+                        "　　B) It came from a 3D printer.\n" +
+                        "　　C) It represents the latest style.\n" +
+                        "　　D) It was made by a fashion designer.", 'B', "It came from a 3D printer.", 1, 2, 2, 4);
+        hearingIssueBeen[8][1] = new HearingIssueBean(0, 0, 0,
+                " 20.A) When she had just graduated from her college.\n" +
+                        "　　B) When she attended a conference in New York\n" +
+                        "　　C) When she was studying at a fashion design school.\n" +
+                        "　　D) When she attended a fashion show nine months ago.", 'C', "When she was studying at a fashion design school.", 1, 2, 2);
+        hearingIssueBeen[8][2] = new HearingIssueBean(0, 0, 0,
+                " 21.A) It was difficult to print.\n" +
+                        "　　B) It was hard to come by.\n" +
+                        "　　C) It was hard and breakable.\n" +
+                        "　　D) It was extremely expensive.", 'C', "It was hard and breakable.", 1, 2, 2);
+        hearingIssueBeen[8][3] = new HearingIssueBean(0, 0, 0,
+                " 22.A)It is the latest model of a 3D printer.\n" +
+                        "　　B)It is a plastic widely used in 3D printing.\n" +
+                        "　　C)It gives fashion designers room for imagination.\n" +
+                        "　　D)It marks a breakthrough in printing material. ", 'D', "It marks a breakthrough in printing material.", 1, 2, 2);
+        hearingIssueBeen[9][0] = new HearingIssueBean(0, 0, 0,
+                "　Questions 23 to 25 are based on the recording you have just heard.\n" +
+                        " 23.A)They arise from the advances in technology.\n" +
+                        "　　B)They have not been examined in detail so far.\n" +
+                        "　　C)They are easy to solve with modern technology.\n" +
+                        "　　D)They can’t be solved without government support.", 'A', "They arise from the advances in technology.", 1, 2, 2, 3);
+        hearingIssueBeen[9][1] = new HearingIssueBean(0, 0, 0,
+                " 24.A)It is attractive to entrepreneurs.\n" +
+                        "　　B)It demands huge investment.\n" +
+                        "　　C)It focuses on new products.\n" +
+                        "　　D)It is intensely competitive.", 'D', "It is intensively competitive.", 1, 2, 2);
+        hearingIssueBeen[9][2] = new HearingIssueBean(0, 0, 0,
+                "　25.A)Cooperation with big companies.\n" +
+                        "　　B)Recruiting more qualified staff.\n" +
+                        "　　C)In-service training of IT personnel.\n" +
+                        "　　D)Sharing of costs with each other.", 'D', "Sharing of costs with each other.", 1, 2, 2);
         initMediaPlayer();
         mMediaPlayer.start();
-        for (int j = 0; j < hearingIssueBeen[questionIndex].length; j++) {
+        for (int j = 0; j < hearingIssueBeen[questionIndex][0].getLength(); j++) {
             list.add(hearingIssueBeen[questionIndex][j]);
         }
         mExamAdater = new ListenExamAdater(list, this, mAnsweredNum);
@@ -192,7 +326,7 @@ public class ListenExamActivity extends AppCompatActivity {
 
         mMediaPlayer.seekTo(mMediaPlayer.getCurrentPosition() + 20000);
 
-        if (questionIndex == 2) {
+        if (questionIndex == hearingIssueBeen.length - 1) {
             createDialog();
         } else {
             questionIndex++;
@@ -201,7 +335,7 @@ public class ListenExamActivity extends AppCompatActivity {
                 mLast.setClickable(true);
             }
             list.clear();
-            for (int i = 0; i < hearingIssueBeen[questionIndex].length; i++) {
+            for (int i = 0; i < hearingIssueBeen[questionIndex][0].getLength(); i++) {
                 list.add(hearingIssueBeen[questionIndex][i]);
             }
             mExamAdater.notifyDataSetChanged();
@@ -217,7 +351,7 @@ public class ListenExamActivity extends AppCompatActivity {
         }
         questionIndex--;
         list.clear();
-        for (int i = 0; i < hearingIssueBeen[questionIndex].length; i++) {
+        for (int i = 0; i < hearingIssueBeen[questionIndex][0].getLength(); i++) {
             list.add(hearingIssueBeen[questionIndex][i]);
         }
         mExamAdater.notifyDataSetChanged();

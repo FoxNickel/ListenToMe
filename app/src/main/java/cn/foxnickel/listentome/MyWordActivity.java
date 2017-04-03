@@ -22,11 +22,12 @@ import cn.foxnickel.listentome.dao.ListenToMeDataBaseHelper;
  */
 
 public class MyWordActivity extends AppCompatActivity {
-    private RecyclerView mRecyclerView;
+    public RecyclerView mRecyclerView;
     public static List<Word> mList;
     private RecyclerView.LayoutManager mLayoutManager;
     public static WordAdapter mWordAdapter;
     private ListenToMeDataBaseHelper mDataBaseHelper;
+    private int markIndex;
 
     @Override
 
@@ -38,20 +39,40 @@ public class MyWordActivity extends AppCompatActivity {
         mList = new ArrayList<>();
         mDataBaseHelper = new ListenToMeDataBaseHelper(this, "ListenToMeDB.db", null, 1);
         SQLiteDatabase db = mDataBaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("select * from Word ", null);
+        Cursor cursor = db.rawQuery("select WordName from Word where WordId=" +
+                "(select WordId from WordCollection where WorkMark=?)", new String[]{"1"});
+        String markWordName = null;
+        if (cursor.moveToFirst()) {
+            markWordName = cursor.getString(cursor.getColumnIndex("WordName"));
+        }
+        cursor = db.rawQuery("select * from Word ", null);
+        int index = 0;
         if (cursor.moveToFirst()) {
             do {
                 String wordName = cursor.getString(cursor.getColumnIndex("WordName"));
                 String wordPhonetic = cursor.getString(cursor.getColumnIndex("WordPhoneticText"));
                 String wordExplain = cursor.getString(cursor.getColumnIndex("WordExplain"));
                 String wordAudio = cursor.getString(cursor.getColumnIndex("WordPhoneticAudio"));
-                mList.add(new Word(wordName, wordPhonetic, wordAudio, wordExplain));
+                Word w = new Word(wordName, wordPhonetic, wordAudio, wordExplain);
+                if (wordName.equals(markWordName)) {
+                    w.setIsMark(1);
+                    markIndex = index;
+                }
+                mList.add(w);
+                index++;
             } while (cursor.moveToNext());
         }
-
+        cursor.close();
         mWordAdapter = new WordAdapter(mList, this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mRecyclerView.setAdapter(mWordAdapter);
+
+        MoveToPosition((LinearLayoutManager) mLayoutManager, markIndex);
+    }
+
+    public static void MoveToPosition(LinearLayoutManager manager, int n) {
+        manager.scrollToPositionWithOffset(n, 0);
+        manager.setStackFromEnd(true);
     }
 }
