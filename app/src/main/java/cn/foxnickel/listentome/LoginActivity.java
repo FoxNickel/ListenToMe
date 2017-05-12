@@ -90,7 +90,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 
             }
         });
-        mDataBaseHelper = new ListenToMeDataBaseHelper(this, "ListenToMeDB.db", null, 1);
+        mDataBaseHelper = new ListenToMeDataBaseHelper(this, "ListenToMeDB.db", null, 2);
         mDataBaseHelper.getWritableDatabase();
         boolean isRemember = mPreferences.getBoolean("remember_pwd", false);
         if (isRemember) {

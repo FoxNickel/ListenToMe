@@ -41,6 +41,14 @@ public class ListenToMeDataBaseHelper extends SQLiteOpenHelper {
             "WordPhoneticAudio text" +
             ")";
 
+    private final String CREATE_TABLE_DYNAMIC = "create table dynamic (" +
+            "dsid integer, " +
+            "userid integer, " +
+            "dscontent text, " +
+            "dslike integer, " +
+            "dsdate text, " +
+            "username text)";
+
     public ListenToMeDataBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
@@ -56,6 +64,6 @@ public class ListenToMeDataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
+        sqLiteDatabase.execSQL(CREATE_TABLE_DYNAMIC);
     }
 }
